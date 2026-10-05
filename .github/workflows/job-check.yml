@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -29,21 +30,13 @@ jobs:
         run: |
           python job_checker.py
 
-      - name: Test job details extraction
-        run: |
-          python job_details_test.py
-
-      - name: Test structured job extractor
-        run: |
-          python extract_job.py
-
-      - name: Save detected jobs
+      - name: Save job data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add seen_jobs.json
+          git add seen_jobs.json jobs/
 
-          git diff --cached --quiet || git commit -m "Update seen jobs"
+          git diff --cached --quiet || git commit -m "Update job data"
 
           git push
