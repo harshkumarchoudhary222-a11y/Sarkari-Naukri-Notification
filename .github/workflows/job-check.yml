@@ -25,7 +25,7 @@ jobs:
         run: |
           pip install requests beautifulsoup4
 
-           - name: Run job checker
+      - name: Run job checker
         run: |
           python job_checker.py
 
