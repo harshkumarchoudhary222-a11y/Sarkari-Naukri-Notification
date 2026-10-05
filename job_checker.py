@@ -1,213 +1,295 @@
 import json
 import os
-import requests
-from bs4 import BeautifulSoup
-from urllib.parse import urljoin
+import re
+from datetime import datetime, timezone
 
-SOURCE_URL = "https://sarkariresult.com.cm/latest-jobs/"
+from extract_job import extract_job
+
+
+# --------------------------------------------------
+# SETTINGS
+# --------------------------------------------------
+
 SEEN_FILE = "seen_jobs.json"
+JOBS_FOLDER = "jobs"
 
-HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/120.0 Safari/537.36"
-    )
-}
 
+# --------------------------------------------------
+# LOAD PREVIOUSLY SEEN JOBS
+# --------------------------------------------------
 
 def load_seen_jobs():
+
     if not os.path.exists(SEEN_FILE):
         return set()
 
     try:
-        with open(SEEN_FILE, "r", encoding="utf-8") as f:
-            return set(json.load(f))
+
+        with open(
+            SEEN_FILE,
+            "r",
+            encoding="utf-8"
+        ) as file:
+
+            return set(
+                json.load(file)
+            )
+
     except Exception:
+
         return set()
 
 
+# --------------------------------------------------
+# SAVE PREVIOUSLY SEEN JOBS
+# --------------------------------------------------
+
 def save_seen_jobs(seen_jobs):
-    with open(SEEN_FILE, "w", encoding="utf-8") as f:
+
+    with open(
+        SEEN_FILE,
+        "w",
+        encoding="utf-8"
+    ) as file:
+
         json.dump(
             sorted(seen_jobs),
-            f,
+            file,
             indent=2,
             ensure_ascii=False
         )
 
 
-def get_page(url):
-    response = requests.get(
-        url,
-        headers=HEADERS,
-        timeout=30
+# --------------------------------------------------
+# CREATE SAFE FILE NAME
+# --------------------------------------------------
+
+def make_filename(title):
+
+    filename = title.lower()
+
+    filename = re.sub(
+        r"[^a-z0-9]+",
+        "-",
+        filename
     )
 
-    response.raise_for_status()
+    filename = filename.strip("-")
 
-    return BeautifulSoup(response.text, "html.parser")
+    if not filename:
 
+        filename = "job"
+
+    return filename[:100] + ".json"
+
+
+# --------------------------------------------------
+# SAVE JOB DATA
+# --------------------------------------------------
+
+def save_job(job):
+
+    os.makedirs(
+        JOBS_FOLDER,
+        exist_ok=True
+    )
+
+    title = job.get(
+        "title",
+        "job"
+    )
+
+    filename = make_filename(
+        title
+    )
+
+    filepath = os.path.join(
+        JOBS_FOLDER,
+        filename
+    )
+
+    # Add processing timestamp
+    job["processed_at"] = (
+        datetime.now(
+            timezone.utc
+        ).isoformat()
+    )
+
+    with open(
+        filepath,
+        "w",
+        encoding="utf-8"
+    ) as file:
+
+        json.dump(
+            job,
+            file,
+            indent=2,
+            ensure_ascii=False
+        )
+
+    return filepath
+
+
+# --------------------------------------------------
+# GET LATEST JOBS
+# --------------------------------------------------
 
 def get_latest_jobs():
-    soup = get_page(SOURCE_URL)
 
-    jobs = []
-    seen_urls = set()
+    # Import the existing detection function
+    from job_checker_source import get_latest_jobs_source
 
-    # The Latest Jobs page contains the actual job/article links.
-    for link in soup.find_all("a", href=True):
-
-        title = link.get_text(" ", strip=True)
-        url = urljoin(SOURCE_URL, link["href"])
-
-        if not title:
-            continue
-
-        if "sarkariresult.com.cm" not in url:
-            continue
-
-        # Ignore navigation and social links.
-        ignored_words = [
-            "Home",
-            "Latest Job",
-            "Admit Card",
-            "Result",
-            "Admission",
-            "Syllabus",
-            "Answer Key",
-            "Contact Us",
-            "Privacy Policy",
-            "Disclaimer",
-            "Follow Now",
-            "Click Here",
-        ]
-
-        if title in ignored_words:
-            continue
-
-        # Job/article titles normally contain these words.
-        job_words = [
-            "Online Form",
-            "Recruitment",
-            "Vacancy",
-            "Bharti",
-            "Apprentice",
-            "Teacher",
-            "Constable",
-            "Engineer",
-            "Officer",
-            "Assistant",
-            "Technician",
-            "Clerk",
-            "Post",
-        ]
-
-        if not any(word.lower() in title.lower() for word in job_words):
-            continue
-
-        if url in seen_urls:
-            continue
-
-        seen_urls.add(url)
-
-        jobs.append({
-            "title": title,
-            "url": url
-        })
-
-    return jobs
+    return get_latest_jobs_source()
 
 
-def extract_job_details(job):
-    soup = get_page(job["url"])
-
-    # Get page text
-    text = soup.get_text(
-        "\n",
-        strip=True
-    )
-
-    # Clean excessive blank lines
-    lines = []
-
-    for line in text.splitlines():
-        line = line.strip()
-
-        if line:
-            lines.append(line)
-
-    clean_text = "\n".join(lines)
-
-    job["page_text"] = clean_text
-
-    return job
-
+# --------------------------------------------------
+# MAIN
+# --------------------------------------------------
 
 def main():
 
-    print("===================================")
-    print("SARKARI NAUKRI JOB CHECKER")
-    print("===================================")
+    print("=" * 60)
+    print("SARKARI NAUKRI AUTOMATION")
+    print("=" * 60)
 
     seen_jobs = load_seen_jobs()
 
-    print("\nChecking SarkariResult...")
+    print(
+        f"\nPreviously seen jobs: "
+        f"{len(seen_jobs)}"
+    )
 
+    print(
+        "\nChecking for new jobs..."
+    )
+
+    # We use the source detector here.
     jobs = get_latest_jobs()
 
-    print(f"Found {len(jobs)} relevant job links.")
+    print(
+        f"Found {len(jobs)} relevant links."
+    )
 
-    new_jobs = []
-
-    for job in jobs:
-
-        if job["url"] not in seen_jobs:
-
-            new_jobs.append(job)
-
-            seen_jobs.add(job["url"])
+    new_jobs = [
+        job
+        for job in jobs
+        if job["url"] not in seen_jobs
+    ]
 
     if not new_jobs:
 
-        print("\nNo new jobs found.")
+        print(
+            "\nNo new jobs found."
+        )
 
-        save_seen_jobs(seen_jobs)
+        print(
+            "\nFinished."
+        )
 
-        print("\nFinished.")
         return
 
-    print(f"\nNEW JOBS FOUND: {len(new_jobs)}")
+    print(
+        f"\nNEW JOBS FOUND: "
+        f"{len(new_jobs)}"
+    )
 
-    for job in new_jobs:
+    successful_jobs = []
 
-        print("\n===================================")
-        print("JOB TITLE:")
-        print(job["title"])
+    for number, job in enumerate(
+        new_jobs,
+        start=1
+    ):
 
-        print("\nJOB URL:")
-        print(job["url"])
+        print("\n" + "=" * 60)
+
+        print(
+            f"PROCESSING JOB "
+            f"{number}/{len(new_jobs)}"
+        )
+
+        print(
+            "\nTitle:"
+        )
+
+        print(
+            job["title"]
+        )
+
+        print(
+            "\nURL:"
+        )
+
+        print(
+            job["url"]
+        )
 
         try:
 
-            detailed_job = extract_job_details(job)
+            print(
+                "\nExtracting job details..."
+            )
 
-            print("\nJOB PAGE SUCCESSFULLY OPENED")
+            data = extract_job(
+                job["url"]
+            )
 
-            print("\nPAGE TEXT PREVIEW:")
-            print(detailed_job["page_text"][:3000])
+            filepath = save_job(
+                data
+            )
+
+            print(
+                "\nSUCCESS"
+            )
+
+            print(
+                "Saved:"
+            )
+
+            print(
+                filepath
+            )
+
+            # Only mark as seen AFTER
+            # successful extraction.
+            successful_jobs.append(
+                job["url"]
+            )
 
         except Exception as error:
 
-            print("\nERROR READING JOB PAGE:")
-            print(error)
+            print(
+                "\nERROR:"
+            )
 
-    save_seen_jobs(seen_jobs)
+            print(
+                str(error)
+            )
 
-    print("\n===================================")
-    print("Finished.")
-    print("===================================")
+            print(
+                "\nThis job will be "
+                "retried next time."
+            )
+
+    # Update seen list only for
+    # successfully processed jobs.
+    seen_jobs.update(
+        successful_jobs
+    )
+
+    save_seen_jobs(
+        seen_jobs
+    )
+
+    print("\n" + "=" * 60)
+
+    print(
+        "AUTOMATION FINISHED"
+    )
+
+    print("=" * 60)
 
 
 if __name__ == "__main__":
+
     main()
