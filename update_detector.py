@@ -85,6 +85,29 @@ def compare_jobs(old, new):
                     "new": after or "Not mentioned"
                 })
 
+    old_events = old.get("event_statuses", {}) or {}
+    new_events = new.get("event_statuses", {}) or {}
+
+    event_labels = {
+        "admit_card_status": "Admit card status",
+        "exam_city_status": "Exam city/intimation status",
+        "answer_key_status": "Answer key status",
+        "result_status": "Result status"
+    }
+
+    for field, label in event_labels.items():
+        before = old_events.get(field, "")
+        after = new_events.get(field, "")
+
+        if normalize(before) != normalize(after):
+            if meaningful(before) or meaningful(after):
+                changes.append({
+                    "field": f"event_statuses.{field}",
+                    "label": label,
+                    "old": before or "Not mentioned",
+                    "new": after or "Not mentioned"
+                })
+
     old_selection = normalize(old.get("selection_process", []))
     new_selection = normalize(new.get("selection_process", []))
 
@@ -129,7 +152,11 @@ def classify_change(changes):
         for field in [
             "important_dates.exam_date",
             "important_dates.admit_card",
-            "important_dates.result"
+            "important_dates.result",
+            "event_statuses.admit_card_status",
+            "event_statuses.exam_city_status",
+            "event_statuses.answer_key_status",
+            "event_statuses.result_status"
         ]
     ):
         return "HIGH_PRIORITY"
