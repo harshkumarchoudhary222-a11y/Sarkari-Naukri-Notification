@@ -10,7 +10,8 @@ permissions:
 
 jobs:
   check-jobs:
-    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    runs-on: ubuntu-22.04
 
     steps:
 
