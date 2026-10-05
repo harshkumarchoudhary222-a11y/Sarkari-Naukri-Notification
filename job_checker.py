@@ -141,7 +141,7 @@ def process_existing_job(job, saved):
 
     if not update["has_material_update"]:
         print("No material update.")
-        return True
+        return False
 
     print(
         "MATERIAL UPDATE:",
@@ -216,28 +216,16 @@ def main():
                 process_new_job(job)
                 new_count += 1
             else:
-                before_history = len(
-                    saved_jobs[job["url"]]["data"].get(
-                        "change_history",
-                        []
-                    )
-                )
-
-                process_existing_job(
+                changed = process_existing_job(
                     job,
                     saved_jobs[job["url"]]
                 )
 
-                # Reload the file to determine whether history changed.
-                refreshed = load_saved_jobs().get(job["url"])
-                after_history = (
-                    len(refreshed["data"].get("change_history", []))
-                    if refreshed
-                    else before_history
-                )
-
-                if after_history > before_history:
+                if changed:
                     update_count += 1
+                    refreshed = load_saved_jobs().get(job["url"])
+                    if refreshed:
+                        saved_jobs[job["url"]] = refreshed
                 else:
                     unchanged_count += 1
 
