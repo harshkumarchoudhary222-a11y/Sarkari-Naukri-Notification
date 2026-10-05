@@ -315,6 +315,39 @@ def extract_qualification(lines, tables):
     return "Not specified"
 
 
+
+def extract_event_statuses(lines):
+    text = clean(" ".join(lines)).lower()
+
+    statuses = {}
+
+    patterns = {
+        "admit_card_status": [
+            r"admit\s+card[^.]{0,80}\b(released|out|available|issued|download)"
+        ],
+        "exam_city_status": [
+            r"(exam|examination)\s+city[^.]{0,80}\b(released|out|available|issued|intimation)"
+        ],
+        "answer_key_status": [
+            r"answer\s+key[^.]{0,80}\b(released|out|available|issued)"
+        ],
+        "result_status": [
+            r"\bresult\b[^.]{0,80}\b(declared|released|out|available)"
+        ]
+    }
+
+    for field, alternatives in patterns.items():
+        value = ""
+        for pattern in alternatives:
+            match = re.search(pattern, text, re.IGNORECASE)
+            if match:
+                value = clean(match.group(0))
+                break
+
+        statuses[field] = value or "Not mentioned"
+
+    return statuses
+
 def extract_selection(lines):
     keywords = [
         "selection process", "mode of selection", "selection procedure",
@@ -404,6 +437,7 @@ def extract_job(url):
     age = extract_age(lines)
     salary = extract_salary(lines, tables)
     links = extract_links(soup, url)
+    event_statuses = extract_event_statuses(lines)
 
     return {
         "title": title or "Not specified",
@@ -417,6 +451,7 @@ def extract_job(url):
         "application_fee": fee or "Not specified",
         "important_dates": dates,
         "selection_process": extract_selection(lines),
+        "event_statuses": event_statuses,
         "apply_link": links["apply_link"] or "Not found",
         "notification_link": links["notification_link"] or "Not found",
         "official_website": links["official_website"] or "Not found",
