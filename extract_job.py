@@ -5,10 +5,6 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
 
-# --------------------------------------------------
-# BASIC SETTINGS
-# --------------------------------------------------
-
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -19,153 +15,90 @@ HEADERS = {
 }
 
 
-# --------------------------------------------------
-# HELPER FUNCTIONS
-# --------------------------------------------------
-
 def clean(text):
-    """Remove unnecessary spaces."""
-
     if not text:
         return ""
-
     return re.sub(r"\s+", " ", text).strip()
 
 
 def get_page(url):
-    """Download a webpage."""
-
-    response = requests.get(
-        url,
-        headers=HEADERS,
-        timeout=30
-    )
-
+    response = requests.get(url, headers=HEADERS, timeout=30)
     response.raise_for_status()
-
-    return BeautifulSoup(
-        response.text,
-        "html.parser"
-    )
+    return BeautifulSoup(response.text, "html.parser")
 
 
 def extract_tables(soup):
-    """Find tables on the webpage."""
-
     tables = []
-
     for table in soup.find_all("table"):
-
         rows = []
-
         for tr in table.find_all("tr"):
-
-            cells = tr.find_all(
-                ["th", "td"]
-            )
-
-            row = []
-
-            for cell in cells:
-
-                text = clean(
-                    cell.get_text(
-                        " ",
-                        strip=True
-                    )
-                )
-
-                if text:
-                    row.append(text)
-
+            cells = tr.find_all(["th", "td"])
+            row = [clean(cell.get_text(" ", strip=True)) for cell in cells]
+            row = [cell for cell in row if cell]
             if row:
                 rows.append(row)
-
         if rows:
             tables.append(rows)
-
     return tables
 
 
-# --------------------------------------------------
-# VACANCY INFORMATION
-# --------------------------------------------------
+def table_text(table):
+    return clean(" ".join(" ".join(row) for row in table))
+
+
+def looks_like_category_table(table):
+    text = table_text(table).lower()
+    category_patterns = [
+        "ur", "general", "obc", "ews", "sc", "st",
+        "pwbd", "pwd", "ex-servicemen", "category"
+    ]
+    matches = sum(word in text for word in category_patterns)
+    return matches >= 3 and any(
+        word in text for word in ["post", "vacancy", "vacancies", "seat"]
+    )
+
 
 def extract_vacancies(tables):
-
     total_posts = ""
     post_wise = []
     category_wise = []
 
     for table in tables:
+        text = table_text(table).lower()
 
-        table_text = " ".join(
-            " ".join(row)
-            for row in table
-        ).lower()
+        has_vacancy_header = (
+            "post name" in text
+            or "name of post" in text
+            or "post" in text
+        ) and any(
+            word in text
+            for word in [
+                "no. of post", "no of post", "total post",
+                "vacancy", "vacancies", "number of post"
+            ]
+        )
 
-        # Look for the main vacancy table
-        if (
-            "post name" in table_text
-            and (
-                "no. of post" in table_text
-                or "total post" in table_text
-            )
-        ):
-
+        if has_vacancy_header:
             post_wise.append(table)
 
-            # Find total number
             for row in table:
+                row_text = " ".join(row)
+                numbers = re.findall(
+                    r"(?<![A-Za-z])\d[\d,]*(?![A-Za-z])",
+                    row_text
+                )
 
-                for cell in row:
-
-                    numbers = re.findall(
-                        r"\b\d[\d,]*\b",
-                        cell
-                    )
-
-                    for number in numbers:
-
-                        value = number.replace(
-                            ",",
-                            ""
-                        )
-
-                        if value.isdigit():
-
-                            if int(value) > 0:
-
-                                total_posts = number
-
-                                break
-
-                    if total_posts:
+                for number in numbers:
+                    value = number.replace(",", "")
+                    if value.isdigit() and int(value) > 0:
+                        if not total_posts:
+                            total_posts = number
                         break
 
                 if total_posts:
                     break
 
-        # Look for category-wise tables
-        category_words = [
-            "ur",
-            "obc",
-            "ews",
-            "sc",
-            "st"
-        ]
-
-        matches = sum(
-            1
-            for word in category_words
-            if word in table_text
-        )
-
-        if (
-            matches >= 3
-            and "post" in table_text
-        ):
-
+        if looks_like_category_table(table):
             category_wise.append(table)
 
     return {
@@ -175,436 +108,330 @@ def extract_vacancies(tables):
     }
 
 
-# --------------------------------------------------
-# IMPORTANT DATES
-# --------------------------------------------------
+def extract_labeled_value(lines, labels):
+    for index, line in enumerate(lines):
+        lower = line.lower()
 
-def extract_dates(lines):
+        for label in labels:
+            if label.lower() in lower:
+                remainder = re.sub(
+                    rf"^{re.escape(label)}\s*[:\-]?\s*",
+                    "",
+                    line,
+                    flags=re.IGNORECASE
+                )
 
-    dates = {}
+                if remainder and remainder.lower() != label.lower():
+                    return clean(remainder)
 
-    full_text = clean(
-        " ".join(lines)
-    )
-
-    patterns = {
-
-        "application_start": (
-            r"Online Apply Start Date\s*:\s*"
-            r"(.{1,50}?)"
-            r"(?=\s+Online Apply Last Date)"
-        ),
-
-        "application_last_date": (
-            r"Online Apply Last Date\s*:\s*"
-            r"(.{1,50}?)"
-            r"(?=\s+Last Date For Fee Payment)"
-        ),
-
-        "fee_payment_last_date": (
-            r"Last Date For Fee Payment\s*:\s*"
-            r"(.{1,50}?)"
-            r"(?=\s+Correction Date)"
-        ),
-
-        "correction_date": (
-            r"Correction Date\s*:\s*"
-            r"(.{1,50}?)"
-            r"(?=\s+Exam Date)"
-        ),
-
-        "exam_date": (
-            r"Exam Date\s*:\s*"
-            r"(.{1,80}?)"
-            r"(?=\s+Admit Card)"
-        ),
-
-        "admit_card": (
-            r"Admit Card\s*:\s*"
-            r"(.{1,50}?)"
-            r"(?=\s+Result Declared Date)"
-        ),
-
-        "result": (
-            r"Result Declared Date\s*:\s*"
-            r"(.{1,80}?)"
-            r"(?=\s+Candidates are advised)"
-        )
-    }
-
-    for key, pattern in patterns.items():
-
-        match = re.search(
-            pattern,
-            full_text,
-            re.IGNORECASE
-        )
-
-        if match:
-
-            dates[key] = clean(
-                match.group(1)
-            )
-
-        else:
-
-            dates[key] = ""
-
-    return dates
-
-
-# --------------------------------------------------
-# APPLICATION FEE
-# --------------------------------------------------
-
-def extract_fee(lines):
-
-    full_text = clean(
-        " ".join(lines)
-    )
-
-    pattern = (
-        r"Application Fee\s*"
-        r"(.*?)"
-        r"SSC 10\+2 CHSL Notification"
-    )
-
-    match = re.search(
-        pattern,
-        full_text,
-        re.IGNORECASE
-    )
-
-    if match:
-
-        return clean(
-            match.group(1)
-        )
+                if index + 1 < len(lines):
+                    next_line = clean(lines[index + 1])
+                    if next_line:
+                        return next_line
 
     return ""
 
 
-# --------------------------------------------------
-# AGE
-# --------------------------------------------------
+def extract_dates(lines):
+    full_text = clean(" ".join(lines))
 
-def extract_age(lines):
+    patterns = {
+        "application_start": [
+            r"(?:online\s+apply\s+)?start\s+date\s*[:\-]\s*(.{1,60}?)(?=\s+(?:online\s+apply\s+)?last\s+date|\s+closing\s+date|$)",
+            r"application\s+start\s+date\s*[:\-]\s*(.{1,60})"
+        ],
+        "application_last_date": [
+            r"(?:online\s+apply\s+)?last\s+date\s*[:\-]\s*(.{1,80}?)(?=\s+(?:last\s+date\s+for\s+fee|fee\s+payment|correction|exam\s+date)|$)",
+            r"closing\s+date\s*[:\-]\s*(.{1,80})"
+        ],
+        "fee_payment_last_date": [
+            r"last\s+date\s+for\s+fee\s+payment\s*[:\-]\s*(.{1,80}?)(?=\s+correction|\s+exam\s+date|$)"
+        ],
+        "correction_date": [
+            r"correction\s+(?:date|window)\s*[:\-]\s*(.{1,80}?)(?=\s+exam\s+date|$)"
+        ],
+        "exam_date": [
+            r"exam\s+date\s*[:\-]\s*(.{1,100}?)(?=\s+admit\s+card|\s+result|$)",
+            r"date\s+of\s+(?:computer\s+based\s+)?examination\s*[:\-]\s*(.{1,100})"
+        ],
+        "admit_card": [
+            r"admit\s+card\s*(?:date)?\s*[:\-]\s*(.{1,80})"
+        ],
+        "result": [
+            r"result(?:\s+declared\s+date)?\s*[:\-]\s*(.{1,100})"
+        ]
+    }
 
-    full_text = clean(
-        " ".join(lines)
+    dates = {}
+    for key, alternatives in patterns.items():
+        value = ""
+        for pattern in alternatives:
+            match = re.search(pattern, full_text, re.IGNORECASE)
+            if match:
+                value = clean(match.group(1))
+                break
+        dates[key] = value
+
+    if not dates["application_start"]:
+        dates["application_start"] = extract_labeled_value(
+            lines,
+            ["Online Apply Start Date", "Application Start Date", "Start Date"]
+        )
+
+    if not dates["application_last_date"]:
+        dates["application_last_date"] = extract_labeled_value(
+            lines,
+            ["Online Apply Last Date", "Application Last Date", "Last Date", "Closing Date"]
+        )
+
+    return dates
+
+
+def extract_fee(lines):
+    value = extract_labeled_value(
+        lines,
+        ["Application Fee", "Exam Fee", "Application/Exam Fee", "Fee Details"]
     )
 
+    if value:
+        return value
+
+    full_text = clean(" ".join(lines))
+    matches = re.findall(
+        r"(?:fee|fees)[^.]{0,180}?(?:₹|Rs\.?|INR)\s*[\d,]+[^.]*",
+        full_text,
+        re.IGNORECASE
+    )
+
+    return clean(matches[0]) if matches else ""
+
+
+def extract_age(lines):
+    full_text = clean(" ".join(lines))
+
     minimum = re.search(
-        r"Minimum Age\s*:\s*(\d+)",
+        r"(?:minimum|lower)\s+age\s*[:\-]?\s*(\d+)\s*(?:years?)?",
         full_text,
         re.IGNORECASE
     )
 
     maximum = re.search(
-        r"Maximum Age\s*:\s*(\d+)",
+        r"(?:maximum|upper)\s+age\s*[:\-]?\s*(\d+)\s*(?:years?)?",
         full_text,
         re.IGNORECASE
     )
 
-    result = ""
+    if minimum or maximum:
+        parts = []
+        if minimum:
+            parts.append("Minimum: " + minimum.group(1) + " years")
+        if maximum:
+            parts.append("Maximum: " + maximum.group(1) + " years")
+        return " | ".join(parts)
 
-    if minimum:
-
-        result += (
-            "Minimum: "
-            + minimum.group(1)
-            + " years"
-        )
-
-    if maximum:
-
-        if result:
-            result += " | "
-
-        result += (
-            "Maximum: "
-            + maximum.group(1)
-            + " years"
-        )
-
-    return result
+    return extract_labeled_value(
+        lines,
+        ["Age Limit", "Age", "Age Criteria", "Age Limit as on"]
+    )
 
 
-# --------------------------------------------------
-# LINKS
-# --------------------------------------------------
+def extract_salary(lines, tables):
+    value = extract_labeled_value(
+        lines,
+        [
+            "Salary", "Pay Scale", "Pay Level", "Pay Matrix",
+            "Salary/Pay", "Remuneration", "Stipend"
+        ]
+    )
+
+    if value:
+        return value
+
+    for table in tables:
+        text = table_text(table)
+        if re.search(
+            r"(salary|pay\s*scale|pay\s*level|pay\s*matrix|remuneration|stipend)",
+            text,
+            re.IGNORECASE
+        ):
+            return text
+
+    return ""
+
+
+def extract_organization(title, lines):
+    value = extract_labeled_value(
+        lines,
+        ["Organization", "Organisation", "Recruiting Authority", "Department"]
+    )
+
+    if value:
+        return value
+
+    known = [
+        ("staff selection commission", "Staff Selection Commission (SSC)"),
+        ("ssc", "Staff Selection Commission (SSC)"),
+        ("railway", "Indian Railways"),
+        ("rrb", "Railway Recruitment Board (RRB)"),
+        ("upsc", "Union Public Service Commission (UPSC)"),
+        ("bpsc", "Bihar Public Service Commission (BPSC)"),
+        ("isro", "Indian Space Research Organisation (ISRO)"),
+        ("drdo", "Defence Research and Development Organisation (DRDO)"),
+        ("lic", "Life Insurance Corporation of India (LIC)"),
+        ("india post", "India Post"),
+        ("post office", "India Post")
+    ]
+
+    combined = (title + " " + " ".join(lines[:80])).lower()
+
+    for keyword, name in known:
+        if keyword in combined:
+            return name
+
+    return "Not specified"
+
+
+def extract_qualification(lines, tables):
+    value = extract_labeled_value(
+        lines,
+        [
+            "Educational Qualification",
+            "Education Qualification",
+            "Qualification",
+            "Eligibility Criteria",
+            "Eligibility",
+            "Essential Qualification"
+        ]
+    )
+
+    if value:
+        return value
+
+    for table in tables:
+        text = table_text(table)
+        if "qualification" in text.lower() or "eligibility" in text.lower():
+            return text
+
+    return "Not specified"
+
+
+def extract_selection(lines):
+    keywords = [
+        "selection process", "mode of selection", "selection procedure",
+        "written examination", "computer based test", "cbt",
+        "skill test", "typing test", "interview", "physical test",
+        "document verification"
+    ]
+
+    found = []
+    for line in lines:
+        lower = line.lower()
+        if any(keyword in lower for keyword in keywords):
+            if line not in found:
+                found.append(line)
+
+    return found
+
 
 def extract_links(soup, page_url):
-
     result = {
         "apply_link": "",
         "notification_link": "",
         "official_website": ""
     }
 
-    for link in soup.find_all(
-        "a",
-        href=True
-    ):
+    candidates = []
 
-        text = clean(
-            link.get_text(
-                " ",
-                strip=True
-            )
-        )
+    for link in soup.find_all("a", href=True):
+        text = clean(link.get_text(" ", strip=True))
+        href = urljoin(page_url, link["href"])
 
-        href = urljoin(
-            page_url,
-            link["href"]
-        )
+        if href.startswith(("http://", "https://")):
+            candidates.append((text.lower(), href))
 
-        text_lower = text.lower()
+    for text, href in candidates:
+        combined = text + " " + href.lower()
 
-        # Apply link
         if (
-            "apply online" in text_lower
-            or "registration" in text_lower
+            not result["apply_link"]
+            and any(word in combined for word in [
+                "apply online", "online application", "registration", "apply now"
+            ])
+            and "sarkariresult.com.cm" not in href.lower()
         ):
+            result["apply_link"] = href
 
-            if (
-                "sarkariresult.com.cm"
-                not in href.lower()
-            ):
-
-                if not result["apply_link"]:
-
-                    result["apply_link"] = href
-
-        # Notification link
         if (
-            "official notification"
-            in text_lower
-            or "download official notification"
-            in text_lower
+            not result["notification_link"]
+            and any(word in combined for word in [
+                "official notification", "download notification",
+                "notification pdf", "advertisement", "detailed notification"
+            ])
         ):
+            result["notification_link"] = href
 
-            if not result["notification_link"]:
-
-                result["notification_link"] = href
-
-        # Official website
         if (
-            "official website"
-            in text_lower
-            or "official site"
-            in text_lower
+            not result["official_website"]
+            and any(word in text for word in [
+                "official website", "official site", "department website"
+            ])
         ):
-
-            if not result["official_website"]:
-
-                result["official_website"] = href
+            result["official_website"] = href
 
     return result
 
 
-# --------------------------------------------------
-# MAIN EXTRACTION
-# --------------------------------------------------
-
 def extract_job(url):
-
     soup = get_page(url)
 
-    # Remove unnecessary elements
-    for tag in soup.find_all(
-        ["script", "style", "noscript"]
-    ):
-
+    for tag in soup.find_all(["script", "style", "noscript"]):
         tag.decompose()
 
-    # Page title
     h1 = soup.find("h1")
+    title = clean(h1.get_text(" ", strip=True)) if h1 else ""
 
-    title = ""
-
-    if h1:
-
-        title = clean(
-            h1.get_text(
-                " ",
-                strip=True
-            )
-        )
-
-    # All visible text
-    page_text = soup.get_text(
-        "\n",
-        strip=True
-    )
-
+    page_text = soup.get_text("\n", strip=True)
     lines = [
         clean(line)
         for line in page_text.splitlines()
         if clean(line)
     ]
 
-    tables = extract_tables(
-        soup
-    )
+    tables = extract_tables(soup)
+    vacancies = extract_vacancies(tables)
+    dates = extract_dates(lines)
+    fee = extract_fee(lines)
+    age = extract_age(lines)
+    salary = extract_salary(lines, tables)
+    links = extract_links(soup, url)
 
-    vacancies = extract_vacancies(
-        tables
-    )
-
-    dates = extract_dates(
-        lines
-    )
-
-    fee = extract_fee(
-        lines
-    )
-
-    age = extract_age(
-        lines
-    )
-
-    links = extract_links(
-        soup,
-        url
-    )
-
-    # Organization
-    organization = "Not specified"
-
-    if "ssc" in title.lower():
-
-        organization = (
-            "Staff Selection Commission (SSC)"
-        )
-
-    # Qualification
-    qualification = "Not specified"
-
-    for table in tables:
-
-        table_text = " ".join(
-            " ".join(row)
-            for row in table
-        )
-
-        if (
-            "eligibility criteria"
-            in table_text.lower()
-        ):
-
-            qualification = table_text
-
-            break
-
-    # Selection
-    selection = []
-
-    for line in lines:
-
-        if (
-            "Tier-I Exam"
-            in line
-            or "Tier-II Exam"
-            in line
-        ):
-
-            if line not in selection:
-
-                selection.append(line)
-
-    job = {
-
-        "title": title,
-
-        "organization": organization,
-
-        "total_vacancies":
-            vacancies["total_posts"]
-            or "Not specified",
-
-        "post_wise_vacancies":
-            vacancies["post_wise"],
-
-        "category_wise_vacancies":
-            vacancies["category_wise"],
-
-        "qualification":
-            qualification,
-
-        "age_limit":
-            age
-            or "Not specified",
-
-        "salary":
-            "Not specified",
-
-        "application_fee":
-            fee
-            or "Not specified",
-
-        "important_dates":
-            dates,
-
-        "selection_process":
-            selection,
-
-        "apply_link":
-            links["apply_link"]
-            or "Not found",
-
-        "notification_link":
-            links["notification_link"]
-            or "Not found",
-
-        "official_website":
-            links["official_website"]
-            or "Not found",
-
-        "source_url":
-            url
+    return {
+        "title": title or "Not specified",
+        "organization": extract_organization(title, lines),
+        "total_vacancies": vacancies["total_posts"] or "Not specified",
+        "post_wise_vacancies": vacancies["post_wise"],
+        "category_wise_vacancies": vacancies["category_wise"],
+        "qualification": extract_qualification(lines, tables),
+        "age_limit": age or "Not specified",
+        "salary": salary or "Not specified",
+        "application_fee": fee or "Not specified",
+        "important_dates": dates,
+        "selection_process": extract_selection(lines),
+        "apply_link": links["apply_link"] or "Not found",
+        "notification_link": links["notification_link"] or "Not found",
+        "official_website": links["official_website"] or "Not found",
+        "source_url": url
     }
 
-    return job
-
-
-# --------------------------------------------------
-# TEST
-# --------------------------------------------------
 
 if __name__ == "__main__":
+    TEST_URL = "https://sarkariresult.com.cm/ssc-chsl-sep-2026/"
 
-    TEST_URL = (
-        "https://sarkariresult.com.cm/"
-        "ssc-chsl-sep-2026/"
-    )
+    print("Creating clean job data...")
+    job = extract_job(TEST_URL)
 
-    print(
-        "Creating clean job data..."
-    )
+    with open("test_job_data.json", "w", encoding="utf-8") as file:
+        json.dump(job, file, indent=2, ensure_ascii=False)
 
-    job = extract_job(
-        TEST_URL
-    )
-
-    # Save clean JSON
-    with open(
-        "test_job_data.json",
-        "w",
-        encoding="utf-8"
-    ) as file:
-
-        json.dump(
-            job,
-            file,
-            indent=2,
-            ensure_ascii=False
-        )
-
-    print(
-        "Clean job data created."
-    )
-
-    print(
-        "Saved as: test_job_data.json"
-    )
+    print("Clean job data created.")
+    print("Saved as: test_job_data.json")
