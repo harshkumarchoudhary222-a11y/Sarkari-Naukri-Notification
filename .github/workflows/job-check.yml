@@ -25,15 +25,18 @@ jobs:
         run: |
           pip install requests beautifulsoup4
 
-      - name: Run job checker
+           - name: Run job checker
         run: |
           python job_checker.py
+
       - name: Test job details extraction
         run: |
           python job_details_test.py
-       - name: Test structured job extractor
+
+      - name: Test structured job extractor
         run: |
           python extract_job.py
+
       - name: Save detected jobs
         run: |
           git config user.name "github-actions[bot]"
