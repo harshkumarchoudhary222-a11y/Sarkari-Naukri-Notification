@@ -1,5 +1,6 @@
 import re
 import requests
+import time
 from urllib.parse import urlparse
 
 
@@ -64,7 +65,7 @@ def fetch_text(url):
         response = requests.get(
             url,
             headers=HEADERS,
-            timeout=25,
+            timeout=(4, 8),
             allow_redirects=True
         )
         response.raise_for_status()
@@ -131,7 +132,18 @@ def verify_job(job):
         )
         return result
 
-    for url in official_candidates:
+    # Keep verification bounded so one slow government website cannot
+    # hold the whole GitHub Actions run for many minutes.
+    verification_started = time.monotonic()
+    max_verification_seconds = 15
+
+    for url in official_candidates[:2]:
+        if time.monotonic() - verification_started >= max_verification_seconds:
+            result["verification_notes"].append(
+                "Verification time limit reached; remaining official links were skipped."
+            )
+            break
+
         final_url, html = fetch_text(url)
 
         if not final_url:
