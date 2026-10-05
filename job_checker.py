@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 
 from extract_job import extract_job
 from job_checker_source import get_latest_jobs_source
+from official_verifier import verify_job
 
 
 SEEN_FILE = "seen_jobs.json"
@@ -166,6 +167,13 @@ def main():
             data = extract_job(
                 job["url"]
             )
+
+            print("\nVerifying official source...")
+            verification = verify_job(data)
+            data["verification"] = verification
+
+            print("Verification status:")
+            print(verification["verification_status"])
 
             filepath = save_job(data)
 
