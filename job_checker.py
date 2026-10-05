@@ -1,111 +1,202 @@
+import json
 import os
-import requests
+import re
+from datetime import datetime, timezone
 
-from bs4 import BeautifulSoup
-from urllib.parse import urljoin
-
-
-SOURCE_URL = (
-    "https://sarkariresult.com.cm/"
-    "latest-jobs/"
-)
+from extract_job import extract_job
+from job_checker_source import get_latest_jobs_source
 
 
-HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 "
-        "(KHTML, like Gecko) "
-        "Chrome/120.0 Safari/537.36"
+SEEN_FILE = "seen_jobs.json"
+JOBS_FOLDER = "jobs"
+
+
+def load_seen_jobs():
+
+    if not os.path.exists(SEEN_FILE):
+        return set()
+
+    try:
+
+        with open(
+            SEEN_FILE,
+            "r",
+            encoding="utf-8"
+        ) as file:
+
+            return set(json.load(file))
+
+    except Exception:
+
+        return set()
+
+
+def save_seen_jobs(seen_jobs):
+
+    with open(
+        SEEN_FILE,
+        "w",
+        encoding="utf-8"
+    ) as file:
+
+        json.dump(
+            sorted(seen_jobs),
+            file,
+            indent=2,
+            ensure_ascii=False
+        )
+
+
+def make_filename(title):
+
+    filename = title.lower()
+
+    filename = re.sub(
+        r"[^a-z0-9]+",
+        "-",
+        filename
     )
-}
+
+    filename = filename.strip("-")
+
+    if not filename:
+
+        filename = "job"
+
+    return filename[:100] + ".json"
 
 
-def get_latest_jobs_source():
+def save_job(job):
 
-    response = requests.get(
-        SOURCE_URL,
-        headers=HEADERS,
-        timeout=30
+    os.makedirs(
+        JOBS_FOLDER,
+        exist_ok=True
     )
 
-    response.raise_for_status()
-
-    soup = BeautifulSoup(
-        response.text,
-        "html.parser"
+    filename = make_filename(
+        job.get("title", "job")
     )
 
-    jobs = []
+    filepath = os.path.join(
+        JOBS_FOLDER,
+        filename
+    )
 
-    seen_urls = set()
+    job["processed_at"] = (
+        datetime.now(
+            timezone.utc
+        ).isoformat()
+    )
 
-    # Words that commonly appear
-    # in genuine recruitment titles.
-    job_words = [
+    with open(
+        filepath,
+        "w",
+        encoding="utf-8"
+    ) as file:
 
-        "Online Form",
-        "Recruitment",
-        "Vacancy",
-        "Bharti",
-        "Apprentice",
-        "Teacher",
-        "Constable",
-        "Engineer",
-        "Officer",
-        "Assistant",
-        "Technician",
-        "Clerk",
-        "Post",
-        "Selection"
+        json.dump(
+            job,
+            file,
+            indent=2,
+            ensure_ascii=False
+        )
+
+    return filepath
+
+
+def main():
+
+    print("=" * 60)
+    print("SARKARI NAUKRI AUTOMATION")
+    print("=" * 60)
+
+    seen_jobs = load_seen_jobs()
+
+    print(
+        f"\nPreviously seen jobs: {len(seen_jobs)}"
+    )
+
+    print("\nChecking for new jobs...")
+
+    jobs = get_latest_jobs_source()
+
+    print(
+        f"Found {len(jobs)} relevant links."
+    )
+
+    new_jobs = [
+        job
+        for job in jobs
+        if job["url"] not in seen_jobs
     ]
 
-    for link in soup.find_all(
-        "a",
-        href=True
+    if not new_jobs:
+
+        print("\nNo new jobs found.")
+        print("\nFinished.")
+        return
+
+    print(
+        f"\nNEW JOBS FOUND: {len(new_jobs)}"
+    )
+
+    successful_jobs = []
+
+    for number, job in enumerate(
+        new_jobs,
+        start=1
     ):
 
-        title = link.get_text(
-            " ",
-            strip=True
+        print("\n" + "=" * 60)
+
+        print(
+            f"PROCESSING JOB {number}/{len(new_jobs)}"
         )
 
-        url = urljoin(
-            SOURCE_URL,
-            link["href"]
-        )
+        print("\nTitle:")
+        print(job["title"])
 
-        if not title:
-            continue
+        print("\nURL:")
+        print(job["url"])
 
-        if (
-            "sarkariresult.com.cm"
-            not in url
-        ):
-            continue
+        try:
 
-        # Ignore very short/navigation text.
-        if len(title) < 15:
-            continue
+            print("\nExtracting job details...")
 
-        # Keep likely recruitment articles.
-        if not any(
-            word.lower()
-            in title.lower()
-            for word in job_words
-        ):
-            continue
+            data = extract_job(
+                job["url"]
+            )
 
-        if url in seen_urls:
-            continue
+            filepath = save_job(data)
 
-        seen_urls.add(url)
+            print("\nSUCCESS")
+            print(f"Saved: {filepath}")
 
-        jobs.append(
-            {
-                "title": title,
-                "url": url
-            }
-        )
+            successful_jobs.append(
+                job["url"]
+            )
 
-    return jobs
+        except Exception as error:
+
+            print("\nERROR:")
+            print(str(error))
+
+            print(
+                "\nThis job will be retried next time."
+            )
+
+    seen_jobs.update(
+        successful_jobs
+    )
+
+    save_seen_jobs(
+        seen_jobs
+    )
+
+    print("\n" + "=" * 60)
+    print("AUTOMATION FINISHED")
+    print("=" * 60)
+
+
+if __name__ == "__main__":
+    main()
