@@ -28,7 +28,9 @@ jobs:
       - name: Run job checker
         run: |
           python job_checker.py
-
+      - name: Test job details extraction
+        run: |
+          python job_details_test.py
       - name: Save detected jobs
         run: |
           git config user.name "github-actions[bot]"
