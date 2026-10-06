@@ -182,13 +182,20 @@ def handle_document(message: dict, state: dict) -> bool:
         return False
 
     if state.get("pending_quiz"):
-        send_message(
-            chat_id,
-            "⚠️ A quiz is already waiting for confirmation.\n\n"
-            "Please confirm or cancel it before sending another file.",
-            with_stop_button=False,
-        )
-        return False
+        old_pending = state["pending_quiz"]
+        old_key = old_pending.get("message_key")
+
+        # If an earlier scheduled runner left a stale confirmation behind,
+        # allow the newest upload from the authorized admin to replace it.
+        if old_key != key:
+            state["processed_messages"].append(old_key)
+            state["pending_quiz"] = None
+            save_state(state)
+            send_message(
+                chat_id,
+                "♻️ Previous pending quiz replaced with the new file.",
+                with_stop_button=False,
+            )
 
     state["pending_quiz"] = {
         "message_key": key,
