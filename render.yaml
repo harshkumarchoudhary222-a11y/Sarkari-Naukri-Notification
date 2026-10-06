@@ -1,0 +1,23 @@
+services:
+  - type: worker
+    name: telegram-quiz-bot
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: python quiz_bot.py
+    autoDeploy: true
+    envVars:
+      - key: QUIZ_TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: QUIZ_TELEGRAM_CHAT_ID
+        value: "@upsc_ssc_bpsc_bank"
+      - key: QUIZ_ADMIN_USER_ID
+        sync: false
+      - key: QUIZ_STATE_FILE
+        value: "/data/bot_state.json"
+      - key: QUIZ_DOWNLOAD_DIR
+        value: "/data/runtime"
+    disk:
+      name: quiz-bot-data
+      mountPath: /data
+      sizeGB: 1
