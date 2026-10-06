@@ -1,6 +1,12 @@
 {
-  "offset": 752628008,
-  "processed_messages": [],
+  "offset": 752628034,
+  "processed_messages": [
+    "7625086140:74",
+    "7625086140:77",
+    "7625086140:78",
+    "7625086140:80",
+    "7625086140:94"
+  ],
   "pending_updates": [],
   "pending_quiz": null
 }
