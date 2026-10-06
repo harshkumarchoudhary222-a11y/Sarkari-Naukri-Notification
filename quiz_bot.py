@@ -294,11 +294,24 @@ def handle_update(update: dict, state: dict) -> bool:
 
     sender = message.get("from", {})
     if str(sender.get("id")) == ADMIN_USER_ID:
-        send_message(
-            message["chat"]["id"],
-            "📄 Send me a .txt file containing your quiz questions.\n\n"
-            "You will get a confirmation button before anything is published.",
-        )
+        text = str(message.get("text", "")).strip()
+
+        if text.lower().split()[0] == "/start" if text else False:
+            send_message(
+                message["chat"]["id"],
+                "👋 Welcome to your Telegram Quiz Bot!\n\n"
+                "📄 Send me a .txt file containing your quiz questions.\n"
+                "✅ I will ask for confirmation before publishing.\n"
+                "🛑 You can stop a running quiz with the Stop button.\n\n"
+                "Send /start anytime to see these instructions again.",
+                with_stop_button=False,
+            )
+        else:
+            send_message(
+                message["chat"]["id"],
+                "📄 Send me a .txt file containing your quiz questions.\n\n"
+                "You will get a confirmation button before anything is published.",
+            )
     return False
 
 
