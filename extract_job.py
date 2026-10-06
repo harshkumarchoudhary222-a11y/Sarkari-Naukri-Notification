@@ -283,10 +283,11 @@ def extract_organization(title, lines):
         ("post office", "India Post")
     ]
 
+    title_lower = title.lower()
     combined = (title + " " + " ".join(lines[:80])).lower()
 
     for keyword, name in known:
-        if keyword in combined:
+        if re.search(r"(?<![a-z])" + re.escape(keyword) + r"(?![a-z])", combined):
             return name
 
     return "Not specified"
