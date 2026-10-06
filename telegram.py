@@ -82,7 +82,7 @@ def build_new_job_message(job):
         "⏳ <b>अंतिम तिथि का इंतजार न करें, आवेदन चल रहे हैं ✅</b>",
         "",
         f"🔥🔥 <b>{title}</b>",
-        f"➡️ Start Date : {start_date}",
+        f"➡️ Application Starts From : {start_date}",
         f"➡️ Last Date : {last_date}",
         f"➡️ Eligibility : {eligibility}",
         f"➡️ Total : {total} Posts",
