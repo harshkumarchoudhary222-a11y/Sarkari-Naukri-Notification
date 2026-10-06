@@ -38,15 +38,21 @@ def api(method: str, **kwargs) -> dict:
 
 def load_state() -> dict:
     if not STATE_FILE.exists():
-        return {"offset": 0, "processed_messages": []}
+        return {
+            "offset": 0,
+            "processed_messages": [],
+            "pending_updates": [],
+        }
+
     state = json.loads(STATE_FILE.read_text(encoding="utf-8"))
     state.setdefault("processed_messages", [])
+    state.setdefault("pending_updates", [])
     return state
 
 
 def save_state(state: dict) -> None:
-    # Keep the deduplication list small while retaining recent uploads.
     state["processed_messages"] = state.get("processed_messages", [])[-200:]
+    state["pending_updates"] = state.get("pending_updates", [])[-50:]
     STATE_FILE.write_text(
         json.dumps(state, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
@@ -88,12 +94,6 @@ def handle_document(message: dict, state: dict) -> bool:
         print(f"Skipping already processed message: {key}")
         return False
 
-    # Mark this Telegram message as processed before doing the work.
-    # This prevents the same upload from being published twice if another
-    # workflow run sees the same update.
-    state["processed_messages"].append(key)
-    save_state(state)
-
     if str(sender.get("id")) != ADMIN_USER_ID:
         send_message(chat_id, "⛔ This bot is private.", with_stop_button=False)
         return False
@@ -109,21 +109,41 @@ def handle_document(message: dict, state: dict) -> bool:
         path = download_document(document["file_id"], filename)
         questions = parse_quiz_file(path)
 
-        send_message(chat_id, f"⏳ Publishing {len(questions)} quiz poll(s)...")
+        send_message(
+            chat_id,
+            f"⏳ Publishing {len(questions)} quiz poll(s)...",
+        )
 
-        for question in questions:
+        for index, question in enumerate(questions, start=1):
             send_quiz_poll(question)
+
+            stopped, _ = check_for_stop(state)
+            if stopped:
+                state["processed_messages"].append(key)
+                save_state(state)
+                send_message(
+                    chat_id,
+                    f"🛑 Publishing stopped after {index} of {len(questions)} question(s).\n\n"
+                    "This upload will not resume automatically. Send a new file when you are ready.",
+                    with_stop_button=False,
+                )
+                return True
+
+        state["processed_messages"].append(key)
+        save_state(state)
 
         send_message(
             chat_id,
             f"✅ Published {len(questions)} quiz poll(s) to the channel.\n\n"
             "The bot session has finished automatically.",
+            with_stop_button=False,
         )
     except Exception as exc:
         send_message(
             chat_id,
             "❌ Quiz file could not be published.\n\n"
             f"Error: {exc}",
+            with_stop_button=False,
         )
 
     return True
@@ -183,13 +203,75 @@ def handle_update(update: dict, state: dict) -> bool:
     return False
 
 
+def check_for_stop(state: dict) -> tuple[bool, int | None]:
+    """
+    Check Telegram between quiz polls so the Stop button can interrupt
+    a running batch. Non-callback updates are queued for the next session
+    instead of being discarded.
+    """
+    offset = int(state.get("offset", 0))
+
+    data = api(
+        "getUpdates",
+        json={
+            "offset": offset,
+            "timeout": 0,
+            "allowed_updates": ["message", "callback_query"],
+        },
+    )
+
+    updates = data.get("result", [])
+    if not updates:
+        return False, offset
+
+    stopped = False
+
+    for update in updates:
+        offset = max(offset, update["update_id"] + 1)
+
+        callback = update.get("callback_query")
+        if callback and callback.get("data") == "stop_bot":
+            sender = callback.get("from", {})
+            if str(sender.get("id")) == ADMIN_USER_ID:
+                api(
+                    "answerCallbackQuery",
+                    json={
+                        "callback_query_id": callback.get("id"),
+                        "text": "Stopping after the current question...",
+                    },
+                )
+                stopped = True
+                continue
+
+        # Do not lose uploads/messages that arrive while a quiz is publishing.
+        state["pending_updates"].append(update)
+
+    state["offset"] = offset
+    save_state(state)
+    return stopped, offset
+
+
 def main() -> None:
     state = load_state()
     offset = int(state.get("offset", 0))
 
     api("deleteWebhook", json={"drop_pending_updates": False})
 
+    # Process updates that were queued while another quiz was publishing.
+    pending = state.get("pending_updates", [])
+    state["pending_updates"] = []
+    save_state(state)
+
+    for update in pending:
+        offset = max(offset, update["update_id"] + 1)
+        state["offset"] = offset
+        save_state(state)
+
+        if handle_update(update, state):
+            return
+
     deadline = time.time() + 280
+
     while time.time() < deadline:
         data = api(
             "getUpdates",
