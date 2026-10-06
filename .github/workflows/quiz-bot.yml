@@ -15,7 +15,7 @@ concurrency:
 jobs:
   receive-and-publish:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 6
 
     env:
       QUIZ_TELEGRAM_BOT_TOKEN: ${{ secrets.QUIZ_TELEGRAM_BOT_TOKEN }}
