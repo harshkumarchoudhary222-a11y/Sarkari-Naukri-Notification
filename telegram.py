@@ -62,6 +62,7 @@ def build_new_job_message(job):
         "",
         f"🎓 <b>Qualification:</b> {_escape(_value(job.get('qualification')))}",
         f"🎂 <b>Age Limit:</b> {_escape(_value(job.get('age_limit')))}",
+        f"↕️ <b>Age Relaxation:</b> {_escape(_value(job.get('age_relaxation')))}",
         f"💰 <b>Salary/Pay:</b> {_escape(_value(job.get('salary')))}",
         f"💳 <b>Application Fee:</b> {_escape(_value(job.get('application_fee')))}",
         "",
