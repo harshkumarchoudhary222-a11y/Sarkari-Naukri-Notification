@@ -116,6 +116,13 @@ def build_new_job_message(job):
         "📌 Detailed recruitment information is available in the full post.",
         "",
         "📢 <b>Join Us:</b> @sarkari_naukri_notification",
+        "",
+        "━━━━━━━━━━━━━━━━━━",
+        "📚 <b>DAILY EXAM QUIZ</b>",
+        "SSC • UPSC • BPSC • BANKING",
+        "📝 PYQs + Practice Questions",
+        "👉 Join Now: @upsc_ssc_bpsc_bank",
+        "━━━━━━━━━━━━━━━━━━",
     ]
 
     return "\n".join(part for part in parts if part != "")
