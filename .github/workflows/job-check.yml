@@ -2,6 +2,12 @@ name: Sarkari Naukri Job Checker
 
 on:
   workflow_dispatch:
+    inputs:
+      test_telegram:
+        description: "Send a Telegram connection test instead of scanning jobs"
+        required: false
+        default: false
+        type: boolean
   schedule:
     - cron: "0 */2 * * *"
 
@@ -12,6 +18,10 @@ jobs:
   check-jobs:
     timeout-minutes: 20
     runs-on: ubuntu-24.04
+
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
     steps:
 
@@ -27,7 +37,13 @@ jobs:
         run: |
           pip install requests beautifulsoup4
 
+      - name: Test Telegram connection
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.test_telegram == true }}
+        run: |
+          python telegram_test.py
+
       - name: Run job checker
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.test_telegram != true }}
         run: |
           python job_checker.py
 
