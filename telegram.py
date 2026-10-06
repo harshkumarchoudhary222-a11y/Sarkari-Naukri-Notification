@@ -93,7 +93,7 @@ def build_new_job_message(job):
 
     parts += [
         "",
-        _link("Apply Online", job.get("apply_link")),
+        _link("Apply Here", job.get("apply_link")),
         _link("Official Notification", job.get("notification_link")),
         _link("Official Website", job.get("official_website")),
         _link("Source / Reference", job.get("source_url")),
