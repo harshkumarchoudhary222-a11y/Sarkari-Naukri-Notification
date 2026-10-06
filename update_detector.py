@@ -15,6 +15,7 @@ TRACKED_FIELDS = {
     "total_vacancies": "Vacancy",
     "qualification": "Qualification",
     "age_limit": "Age limit",
+    "age_relaxation": "Age relaxation",
     "salary": "Salary / pay scale",
     "application_fee": "Application fee",
     "apply_link": "Apply link",
