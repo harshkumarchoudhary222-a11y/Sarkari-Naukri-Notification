@@ -141,7 +141,8 @@ def extract_vacancies(tables):
 def extract_labeled_value(lines, labels):
     heading_only = {
         "education qualification", "educational qualification", "qualification",
-        "eligibility", "eligibility criteria", "essential qualification",
+        "eligibility", "eligibility criteria", "essential qualification", "post name", "name of post", "post-wise vacancy",
+        "vacancy details", "details of post", "details of vacancies",
         "start date", "online apply start date", "application start date",
         "last date", "online apply last date", "application last date",
         "closing date", "exam date", "admit card", "result"
@@ -397,7 +398,10 @@ def extract_qualification(lines, tables):
                 "qualification",
                 "eligibility",
                 "eligibility criteria",
-            }:
+                "post name",
+                "name of post",
+                "vacancy details",
+            } and not text.strip().lower().endswith("qualification"):
                 return text
 
     return "Not specified"
