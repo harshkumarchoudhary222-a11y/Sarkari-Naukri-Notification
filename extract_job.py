@@ -528,7 +528,7 @@ def extract_links(soup, page_url):
         if href.startswith(("http://", "https://")):
             candidates.append((text.lower(), href))
 
-    for text, href in candidates:
+    for index, (text, href) in enumerate(candidates):
         combined = text + " " + href.lower()
 
         if (
@@ -556,6 +556,23 @@ def extract_links(soup, page_url):
             ])
         ):
             result["official_website"] = href
+
+        # SarkariResult often uses a generic "Click Here" anchor under a
+        # heading such as "Check Official Notification". Look at nearby
+        # anchors in the page order and use a PDF/document URL when it is
+        # clearly associated with that section.
+        if not result["notification_link"] and text.strip().lower() in {"click here", "click here to download"}:
+            nearby = " ".join(
+                item[0].lower() for item in candidates[max(0, index - 3):index]
+            )
+            href_lower = href.lower()
+            if (
+                "official notification" in nearby
+                or "notification" in href_lower
+                or href_lower.endswith(".pdf")
+                or ".pdf?" in href_lower
+            ):
+                result["notification_link"] = href
 
     return result
 
