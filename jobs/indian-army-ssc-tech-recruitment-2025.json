@@ -40,6 +40,7 @@
   ],
   "qualification": "Indian Army SSC Tech Recruitment 2025 : Education Qualification",
   "age_limit": "Minimum: 20 years | Maximum: 27 years",
+  "age_relaxation": "provides age relaxation for the",
   "salary": "A stipend of",
   "application_fee": "No application fee",
   "important_dates": {
@@ -112,8 +113,8 @@
       ],
       [
         [
-          "Latest Posts SSC CHSL 10+2 Online Form 2026 (2536 Posts) MPESB MP Police Constable Online Form 2026 (7500 Posts) RRB NTPC 10+2 UG Online Form 2026 Uttarakhand TET Answer Key 2026 – Out SSC CGL Tier-I Admit Card 2026",
-          "Related Posts Delhi High Court Higher Judicial Service HJS Mains Admit Card 2026 Railway RRB Technician Admit Card 2026 IBPS Clerk (CSA) 16th Pre Admit Card 2026 RRB Section Controller Exam City Details 2026 SSC Junior Engineer JE Exam Date 2026"
+          "Latest Posts MPESB MP Police Constable Online Form 2026 (7500 Posts) – Last Date Today IBPS Hindi Officer Online Form 2026 – Last Date Today UPSC Engineering Services Pre Online Form 2027 – Last Date Today Rajasthan State Eligibility Test SET Answer Key 2026 IB MTS Final Result 2026 – Out",
+          "Related Posts Rajasthan State Eligibility Test SET Answer Key 2026 RRB Ministerial & Isolated Category Result 2026 – Out RPSC APO Marks 2026 RPSC Veterinary Officer 2025 Merit List, Marks Uttarakhand TET Answer Key 2026 – Out"
         ]
       ]
     ],
@@ -137,8 +138,8 @@
     "event_statuses": {
       "admit_card_status": "Not mentioned",
       "exam_city_status": "Not mentioned",
-      "answer_key_status": "answer key 2026 – out",
-      "result_status": "Not mentioned"
+      "answer_key_status": "answer key 2026 ib mts final result 2026 – out",
+      "result_status": "result 2026 – out"
     },
     "apply_link": "https://164.100.158.23/registration.htm",
     "notification_link": "Not found",
@@ -156,11 +157,145 @@
         "No known official-domain link was found on the source page."
       ]
     },
-    "processed_at": "2026-10-05T22:03:10.659291+00:00"
-  },
-  "change_history": [
-    {
-      "detected_at": "2026-10-06T06:03:46.125979+00:00",
+    "previous_version": {
+      "title": "Indian Army SSC Tech Recruitment 2025",
+      "organization": "Staff Selection Commission (SSC)",
+      "total_vacancies": "6",
+      "post_wise_vacancies": [
+        [
+          [
+            "Post Name",
+            "No. Of Post"
+          ],
+          [
+            "SSC 65th Men Various Post",
+            "350"
+          ],
+          [
+            "SSC 36th Women Various Post",
+            "29"
+          ],
+          [
+            "For Widows of Defence Personnel Only",
+            "SSC (W) Tech- 1, SSC (W) (Non Tech) (Non UPSC)- 1"
+          ]
+        ]
+      ],
+      "category_wise_vacancies": [
+        [
+          [
+            "How To Fill Indian Army SSC Tech Online Form 2025"
+          ],
+          [
+            "Interested candidates who wish to apply for the Indian Army post can submit their application online before the 05 February 2025. Use the click here link provided below under important link section to apply directly. Alternatively, visit the official website of Indian Army to complete the application process online. Make sure to complete the application before the deadline 05 February 2025 ."
+          ]
+        ],
+        [
+          [
+            "Latest Posts SSC CHSL 10+2 Online Form 2026 (2536 Posts) MPESB MP Police Constable Online Form 2026 (7500 Posts) RRB NTPC 10+2 UG Online Form 2026 Uttarakhand TET Answer Key 2026 – Out SSC CGL Tier-I Admit Card 2026",
+            "Related Posts Delhi High Court Higher Judicial Service HJS Mains Admit Card 2026 Railway RRB Technician Admit Card 2026 IBPS Clerk (CSA) 16th Pre Admit Card 2026 RRB Section Controller Exam City Details 2026 SSC Junior Engineer JE Exam Date 2026"
+          ]
+        ]
+      ],
+      "qualification": "Indian Army SSC Tech Recruitment 2025 : Education Qualification",
+      "age_limit": "Minimum: 20 years | Maximum: 27 years",
+      "salary": "A stipend of",
+      "application_fee": "No application fee",
+      "important_dates": {
+        "application_start": "07 January 2025 Apply Online",
+        "application_last_date": "05 February 2025",
+        "fee_payment_last_date": "05 February 2025",
+        "correction_date": "",
+        "exam_date": "Notify Soon",
+        "admit_card": "Before Exam Result Date : Will Be Updated Here Soon Candidates are advised to co",
+        "result": ""
+      },
+      "selection_process": [
+        "Mode Of Selection",
+        "Interview"
+      ],
+      "event_statuses": {
+        "admit_card_status": "Not mentioned",
+        "exam_city_status": "Not mentioned",
+        "answer_key_status": "answer key 2026 – out",
+        "result_status": "Not mentioned"
+      },
+      "apply_link": "https://164.100.158.23/registration.htm",
+      "notification_link": "Not found",
+      "official_website": "Not found",
+      "source_url": "https://sarkariresult.com.cm/indian-army-ssc-tech-online-form-2025-start/",
+      "verification": {
+        "verification_status": "NEEDS_REVIEW",
+        "official_domains_expected": [
+          "ssc.gov.in"
+        ],
+        "official_source_checked": false,
+        "official_source_url": "",
+        "checks": [],
+        "verification_notes": [
+          "No known official-domain link was found on the source page."
+        ]
+      },
+      "processed_at": "2026-10-05T22:03:10.659291+00:00"
+    },
+    "change_history": [
+      {
+        "detected_at": "2026-10-06T06:03:46.125979+00:00",
+        "change_type": "HIGH_PRIORITY",
+        "changes": [
+          {
+            "field": "event_statuses.answer_key_status",
+            "label": "Answer key status",
+            "old": "answer key 2026 – out",
+            "new": "answer key 2026 ib mts final result 2026 – out"
+          },
+          {
+            "field": "event_statuses.result_status",
+            "label": "Result status",
+            "old": "Not mentioned",
+            "new": "result 2026 – out"
+          },
+          {
+            "field": "category_wise_vacancies",
+            "label": "Category-wise vacancies",
+            "old": [
+              [
+                [
+                  "How To Fill Indian Army SSC Tech Online Form 2025"
+                ],
+                [
+                  "Interested candidates who wish to apply for the Indian Army post can submit their application online before the 05 February 2025. Use the click here link provided below under important link section to apply directly. Alternatively, visit the official website of Indian Army to complete the application process online. Make sure to complete the application before the deadline 05 February 2025 ."
+                ]
+              ],
+              [
+                [
+                  "Latest Posts SSC CHSL 10+2 Online Form 2026 (2536 Posts) MPESB MP Police Constable Online Form 2026 (7500 Posts) RRB NTPC 10+2 UG Online Form 2026 Uttarakhand TET Answer Key 2026 – Out SSC CGL Tier-I Admit Card 2026",
+                  "Related Posts Delhi High Court Higher Judicial Service HJS Mains Admit Card 2026 Railway RRB Technician Admit Card 2026 IBPS Clerk (CSA) 16th Pre Admit Card 2026 RRB Section Controller Exam City Details 2026 SSC Junior Engineer JE Exam Date 2026"
+                ]
+              ]
+            ],
+            "new": [
+              [
+                [
+                  "How To Fill Indian Army SSC Tech Online Form 2025"
+                ],
+                [
+                  "Interested candidates who wish to apply for the Indian Army post can submit their application online before the 05 February 2025. Use the click here link provided below under important link section to apply directly. Alternatively, visit the official website of Indian Army to complete the application process online. Make sure to complete the application before the deadline 05 February 2025 ."
+                ]
+              ],
+              [
+                [
+                  "Latest Posts MPESB MP Police Constable Online Form 2026 (7500 Posts) – Last Date Today IBPS Hindi Officer Online Form 2026 – Last Date Today UPSC Engineering Services Pre Online Form 2027 – Last Date Today Rajasthan State Eligibility Test SET Answer Key 2026 IB MTS Final Result 2026 – Out",
+                  "Related Posts Rajasthan State Eligibility Test SET Answer Key 2026 RRB Ministerial & Isolated Category Result 2026 – Out RPSC APO Marks 2026 RPSC Veterinary Officer 2025 Merit List, Marks Uttarakhand TET Answer Key 2026 – Out"
+                ]
+              ]
+            ]
+          }
+        ]
+      }
+    ],
+    "last_update": {
+      "has_material_update": true,
       "change_type": "HIGH_PRIORITY",
       "changes": [
         {
@@ -212,61 +347,34 @@
           ]
         }
       ]
+    },
+    "processed_at": "2026-10-06T06:03:46.126024+00:00"
+  },
+  "change_history": [
+    {
+      "detected_at": "2026-10-06T10:04:07.920801+00:00",
+      "change_type": "UPDATE",
+      "changes": [
+        {
+          "field": "age_relaxation",
+          "label": "Age relaxation",
+          "old": "Not mentioned",
+          "new": "provides age relaxation for the"
+        }
+      ]
     }
   ],
   "last_update": {
     "has_material_update": true,
-    "change_type": "HIGH_PRIORITY",
+    "change_type": "UPDATE",
     "changes": [
       {
-        "field": "event_statuses.answer_key_status",
-        "label": "Answer key status",
-        "old": "answer key 2026 – out",
-        "new": "answer key 2026 ib mts final result 2026 – out"
-      },
-      {
-        "field": "event_statuses.result_status",
-        "label": "Result status",
+        "field": "age_relaxation",
+        "label": "Age relaxation",
         "old": "Not mentioned",
-        "new": "result 2026 – out"
-      },
-      {
-        "field": "category_wise_vacancies",
-        "label": "Category-wise vacancies",
-        "old": [
-          [
-            [
-              "How To Fill Indian Army SSC Tech Online Form 2025"
-            ],
-            [
-              "Interested candidates who wish to apply for the Indian Army post can submit their application online before the 05 February 2025. Use the click here link provided below under important link section to apply directly. Alternatively, visit the official website of Indian Army to complete the application process online. Make sure to complete the application before the deadline 05 February 2025 ."
-            ]
-          ],
-          [
-            [
-              "Latest Posts SSC CHSL 10+2 Online Form 2026 (2536 Posts) MPESB MP Police Constable Online Form 2026 (7500 Posts) RRB NTPC 10+2 UG Online Form 2026 Uttarakhand TET Answer Key 2026 – Out SSC CGL Tier-I Admit Card 2026",
-              "Related Posts Delhi High Court Higher Judicial Service HJS Mains Admit Card 2026 Railway RRB Technician Admit Card 2026 IBPS Clerk (CSA) 16th Pre Admit Card 2026 RRB Section Controller Exam City Details 2026 SSC Junior Engineer JE Exam Date 2026"
-            ]
-          ]
-        ],
-        "new": [
-          [
-            [
-              "How To Fill Indian Army SSC Tech Online Form 2025"
-            ],
-            [
-              "Interested candidates who wish to apply for the Indian Army post can submit their application online before the 05 February 2025. Use the click here link provided below under important link section to apply directly. Alternatively, visit the official website of Indian Army to complete the application process online. Make sure to complete the application before the deadline 05 February 2025 ."
-            ]
-          ],
-          [
-            [
-              "Latest Posts MPESB MP Police Constable Online Form 2026 (7500 Posts) – Last Date Today IBPS Hindi Officer Online Form 2026 – Last Date Today UPSC Engineering Services Pre Online Form 2027 – Last Date Today Rajasthan State Eligibility Test SET Answer Key 2026 IB MTS Final Result 2026 – Out",
-              "Related Posts Rajasthan State Eligibility Test SET Answer Key 2026 RRB Ministerial & Isolated Category Result 2026 – Out RPSC APO Marks 2026 RPSC Veterinary Officer 2025 Merit List, Marks Uttarakhand TET Answer Key 2026 – Out"
-            ]
-          ]
-        ]
+        "new": "provides age relaxation for the"
       }
     ]
   },
-  "processed_at": "2026-10-06T06:03:46.126024+00:00"
+  "processed_at": "2026-10-06T10:04:07.920828+00:00"
 }
