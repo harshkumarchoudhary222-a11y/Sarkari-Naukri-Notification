@@ -1,0 +1,57 @@
+name: Telegram Quiz Bot
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: telegram-quiz-bot
+  cancel-in-progress: false
+
+jobs:
+  receive-and-publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+
+    env:
+      QUIZ_TELEGRAM_BOT_TOKEN: ${{ secrets.QUIZ_TELEGRAM_BOT_TOKEN }}
+      QUIZ_TELEGRAM_CHAT_ID: ${{ secrets.QUIZ_TELEGRAM_CHAT_ID }}
+      QUIZ_ADMIN_USER_ID: ${{ secrets.QUIZ_ADMIN_USER_ID }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Validate configuration
+        run: |
+          test -n "$QUIZ_TELEGRAM_BOT_TOKEN"
+          test -n "$QUIZ_TELEGRAM_CHAT_ID"
+          test -n "$QUIZ_ADMIN_USER_ID"
+
+      - name: Receive and publish quiz files
+        run: python quiz_bot.py
+
+      - name: Save bot state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add quizzes/bot_state.json
+
+          if git diff --cached --quiet; then
+            echo "No state changes."
+          else
+            git commit -m "Update quiz bot state"
+            git push
+          fi
