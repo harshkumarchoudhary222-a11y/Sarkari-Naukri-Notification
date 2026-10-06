@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html b:css='false' b:defaultwidgetversion='2' b:layoutsVersion='3' b:responsive='true' b:templateVersion='1.0.0'
+      expr:dir='data:blog.languageDirection' expr:lang='data:blog.locale'
+      xmlns='http://www.w3.org/1999/xhtml'
+      xmlns:b='http://www.google.com/2005/gml/b'
+      xmlns:data='http://www.google.com/2005/gml/data'
+      xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+  <meta charset='UTF-8'/>
+  <meta content='width=device-width, initial-scale=1' name='viewport'/>
+  <title><data:blog.pageTitle/></title>
+  <meta content='Government Jobs, Sarkari Naukri, Latest Recruitment, Admit Card, Results and Answer Key' name='description'/>
+
+  <b:skin><![CDATA[
+    :root{--yellow:#ffc400;--black:#111;--white:#fff;--light:#f5f5f5;--border:#ddd;--green:#16833b;--blue:#168de2}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:#f4f4f4;color:#222;font-family:Arial,Helvetica,sans-serif;line-height:1.6}
+    a{color:#1769aa}
+    .top-bar{background:#111;color:#fff;text-align:center;font-size:13px;padding:7px 10px}
+    .site-header{background:#fff;border-bottom:1px solid #ddd}
+    .header-inner{max-width:1200px;margin:auto;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .logo{display:flex;align-items:center;gap:12px}
+    .logo-box{width:48px;height:48px;background:var(--yellow);color:#111;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:23px;border-radius:8px}
+    .logo-text{font-size:22px;font-weight:800;color:#111}
+    .logo-sub{display:block;font-size:11px;color:#777}
+    .telegram-button{background:var(--blue);color:#fff!important;padding:10px 16px;border-radius:6px;text-decoration:none!important;font-weight:bold;font-size:14px}
+    .nav-wrapper{background:#111}
+    .nav{max-width:1200px;margin:auto;display:flex;overflow-x:auto}
+    .nav a{color:#fff;text-decoration:none;padding:13px 16px;font-size:14px;font-weight:bold;white-space:nowrap}
+    .nav a:hover{background:var(--yellow);color:#111}
+    .search-area{max-width:1200px;margin:20px auto 0;padding:0 20px}
+    .search-box{display:flex;background:#fff;border:1px solid #ddd;border-radius:7px;overflow:hidden}
+    .search-box input{flex:1;border:0;outline:0;padding:13px;font-size:15px}
+    .search-box button{border:0;background:var(--yellow);padding:0 22px;font-weight:bold;cursor:pointer}
+    .main-wrapper{max-width:1200px;margin:20px auto;padding:0 20px}
+    .post-outer{background:#fff;border:1px solid #ddd;margin-bottom:20px;border-radius:8px;overflow:hidden}
+    .post{padding:25px}
+    .post-title{font-size:30px;line-height:1.3;margin:0 0 15px;color:#111;font-weight:800}
+    .post-title a{color:#111;text-decoration:none}
+    .post-title:before{content:"";display:inline-block;width:6px;height:32px;background:var(--yellow);margin-right:10px;vertical-align:-4px}
+    .post-header{color:#777;font-size:13px;margin-bottom:18px}
+    .post-body{font-size:16px}
+    .post-body img{max-width:100%;height:auto;border-radius:5px}
+    .post-body h2{background:#111;color:#fff;padding:10px 14px;font-size:20px;border-left:6px solid var(--yellow);margin:25px 0 12px}
+    .post-body h3{background:#f7f7f7;padding:9px 12px;border-left:5px solid var(--yellow);font-size:18px}
+    .post-body p{margin:10px 0}
+    .post-body table{width:100%;border-collapse:collapse;margin:15px 0;background:#fff}
+    .post-body th{background:#111;color:#fff;padding:10px;border:1px solid #333;text-align:left}
+    .post-body td{padding:10px;border:1px solid #ddd}
+    .post-body tr:nth-child(even){background:#fafafa}
+    .post-body .important-dates{background:#fff9d9;border:1px solid #f0d75a;border-left:6px solid var(--yellow);padding:15px;border-radius:6px;margin:20px 0}
+    .post-body .info-box{background:#f7f7f7;border:1px solid #ddd;padding:15px;border-radius:6px;margin:15px 0}
+    .post-body .apply-button,.post-body .notification-button{display:inline-block;color:#fff!important;padding:12px 22px;border-radius:5px;text-decoration:none!important;font-weight:bold;margin:5px}
+    .post-body .apply-button{background:var(--green)}
+    .post-body .notification-button{background:#1769aa}
+    .post-body .alert{padding:13px 15px;border-radius:5px;margin:15px 0}
+    .post-body .alert-warning{background:#fff4cc;border-left:5px solid #f0b400}
+    .post-body .alert-success{background:#e8f7ed;border-left:5px solid #16833b}
+    .post-labels{margin-top:20px}
+    .post-labels a{display:inline-block;background:#eee;color:#333;padding:5px 10px;margin:3px;border-radius:4px;text-decoration:none;font-size:12px}
+    .telegram-box{background:#168de2;color:#fff;padding:20px;border-radius:7px;text-align:center;margin:20px 0}
+    .telegram-box h3{margin-top:0}
+    .telegram-box a{display:inline-block;background:#fff;color:#168de2;padding:9px 17px;border-radius:5px;font-weight:bold;text-decoration:none}
+    .footer{background:#111;color:#ccc;margin-top:40px}
+    .footer-inner{max-width:1200px;margin:auto;padding:35px 20px;text-align:center}
+    .footer a{color:#fff;text-decoration:none}
+    .footer-bottom{border-top:1px solid #333;padding:15px;text-align:center;font-size:13px}
+    @media(max-width:768px){
+      .header-inner{padding:14px}
+      .logo-text{font-size:18px}
+      .logo-box{width:40px;height:40px;font-size:19px}
+      .telegram-button{padding:8px 10px;font-size:12px}
+      .main-wrapper,.search-area{padding-left:10px;padding-right:10px}
+      .post{padding:16px}
+      .post-title{font-size:23px}
+      .post-title:before{height:25px}
+      .post-body{font-size:15px}
+      .post-body table{font-size:13px}
+      .post-body th,.post-body td{padding:7px}
+    }
+  ]]></b:skin>
+</head>
+
+<body>
+  <div class='top-bar'>Latest Government Jobs • Recruitment • Admit Card • Results • Answer Key</div>
+
+  <header class='site-header'>
+    <div class='header-inner'>
+      <div class='logo'>
+        <div class='logo-box'>SN</div>
+        <div>
+          <div class='logo-text'>Sarkari Naukri Notification</div>
+          <span class='logo-sub'>Latest Government Jobs &amp; Recruitment Updates</span>
+        </div>
+      </div>
+      <a class='telegram-button' href='https://t.me/sarkari_naukri_notification' target='_blank'>📢 Join Telegram</a>
+    </div>
+  </header>
+
+  <div class='nav-wrapper'>
+    <nav class='nav'>
+      <a href='/'>Home</a>
+      <a href='/search/label/Latest%20Jobs'>Latest Jobs</a>
+      <a href='/search/label/Admit%20Card'>Admit Card</a>
+      <a href='/search/label/Results'>Results</a>
+      <a href='/search/label/Answer%20Key'>Answer Key</a>
+      <a href='/search/label/SSC'>SSC</a>
+      <a href='/search/label/Railway'>Railway</a>
+      <a href='/search/label/Banking'>Banking</a>
+      <a href='/search/label/Teaching'>Teaching</a>
+    </nav>
+  </div>
+
+  <div class='search-area'>
+    <form action='/search' class='search-box' method='get'>
+      <input name='q' placeholder='Search Government Jobs, Results, Admit Card...' type='text'/>
+      <button type='submit'>Search</button>
+    </form>
+  </div>
+
+  <div class='main-wrapper'>
+    <b:section class='main' id='main' maxwidgets='1' showaddelement='yes'>
+      <b:widget id='Blog1' locked='true' title='Latest Government Jobs' type='Blog' version='2'>
+        <b:includable id='main' var='top'>
+          <b:loop values='data:posts' var='post'>
+            <article class='post-outer'>
+              <div class='post'>
+                <h1 class='post-title'>
+                  <b:if cond='data:blog.pageType == &quot;item&quot;'>
+                    <data:post.title/>
+                  <b:else/>
+                    <a expr:href='data:post.url'><data:post.title/></a>
+                  </b:if>
+                </h1>
+                <div class='post-header'>Published: <data:post.timestamp/></div>
+                <div class='post-body'><data:post.body/></div>
+                <div class='post-labels'>
+                  <b:loop values='data:post.labels' var='label'>
+                    <a expr:href='data:label.url'>#<data:label.name/></a>
+                  </b:loop>
+                </div>
+              </div>
+            </article>
+          </b:loop>
+        </b:includable>
+      </b:widget>
+    </b:section>
+
+    <div class='telegram-box'>
+      <h3>📢 Get Government Job Updates on Telegram</h3>
+      <p>Get new recruitment, admit card, result and answer key updates directly on Telegram.</p>
+      <a href='https://t.me/sarkari_naukri_notification' target='_blank'>Join Telegram Channel</a>
+    </div>
+  </div>
+
+  <footer class='footer'>
+    <div class='footer-inner'>
+      <h3>Sarkari Naukri Notification</h3>
+      <p>Latest Government Jobs, Recruitment, Admit Card, Results and Answer Key updates.</p>
+      <p>
+        <a href='/'>Home</a> &nbsp;|&nbsp;
+        <a href='/p/about-us.html'>About Us</a> &nbsp;|&nbsp;
+        <a href='/p/contact-us.html'>Contact Us</a> &nbsp;|&nbsp;
+        <a href='/p/privacy-policy.html'>Privacy Policy</a> &nbsp;|&nbsp;
+        <a href='/p/disclaimer.html'>Disclaimer</a>
+      </p>
+    </div>
+    <div class='footer-bottom'>© 2026 Sarkari Naukri Notification. All Rights Reserved.</div>
+  </footer>
+</body>
+</html>
