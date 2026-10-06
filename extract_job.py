@@ -526,10 +526,20 @@ def extract_links(soup, page_url):
         href = urljoin(page_url, link["href"])
 
         if href.startswith(("http://", "https://")):
-            candidates.append((text.lower(), href))
+            context_parts = []
+            parent = link.parent
+            for _ in range(4):
+                if not parent:
+                    break
+                parent_text = clean(parent.get_text(" ", strip=True))
+                if parent_text:
+                    context_parts.append(parent_text.lower())
+                parent = parent.parent
+            context = " ".join(context_parts)
+            candidates.append((text.lower(), href, context))
 
-    for index, (text, href) in enumerate(candidates):
-        combined = text + " " + href.lower()
+    for index, (text, href, context) in enumerate(candidates):
+        combined = text + " " + href.lower() + " " + context
 
         if (
             not result["apply_link"]
@@ -562,12 +572,10 @@ def extract_links(soup, page_url):
         # anchors in the page order and use a PDF/document URL when it is
         # clearly associated with that section.
         if not result["notification_link"] and text.strip().lower() in {"click here", "click here to download"}:
-            nearby = " ".join(
-                item[0].lower() for item in candidates[max(0, index - 3):index]
-            )
             href_lower = href.lower()
             if (
-                "official notification" in nearby
+                "official notification" in context
+                or "check official notification" in context
                 or "notification" in href_lower
                 or href_lower.endswith(".pdf")
                 or ".pdf?" in href_lower
