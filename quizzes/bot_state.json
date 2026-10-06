@@ -1,18 +1,15 @@
 {
-  "offset": 752628045,
+  "offset": 752628052,
   "processed_messages": [
     "7625086140:74",
     "7625086140:77",
     "7625086140:78",
     "7625086140:80",
     "7625086140:94",
-    "7625086140:112"
+    "7625086140:112",
+    "7625086140:125",
+    "7625086140:129"
   ],
   "pending_updates": [],
-  "pending_quiz": {
-    "message_key": "7625086140:116",
-    "chat_id": 7625086140,
-    "file_id": "BQACAgUAAxkBAAN0asTO1040L0ai5G85I9YxPYagc-8AAvUoAAIM2yFWoUaMPTSdnJc9BA",
-    "filename": "SSC_GD_English_10_PYQ (1).txt"
-  }
+  "pending_quiz": null
 }
