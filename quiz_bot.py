@@ -122,7 +122,7 @@ def main() -> None:
 
     # Keep polling for most of the GitHub Actions run so scheduled runs can
     # receive files at any point during the 5-minute interval.
-    deadline = time.time() + 220
+    deadline = time.time() + 280
     while time.time() < deadline:
         data = api(
             "getUpdates",
@@ -134,6 +134,7 @@ def main() -> None:
         )
 
         updates = data.get("result", [])
+        print(f"Telegram polling: received {len(updates)} update(s)")
         for update in updates:
             offset = update["update_id"] + 1
             handle_update(update)
