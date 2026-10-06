@@ -1,0 +1,15 @@
+Q: भारत का संविधान कब लागू हुआ?
+A: 15 अगस्त 1947
+B: 26 जनवरी 1950
+C: 26 नवंबर 1949
+D: 2 अक्टूबर 1950
+ANSWER: B
+EXPLANATION: भारतीय संविधान 26 जनवरी 1950 को लागू हुआ।
+
+Q: भारत की राजधानी क्या है?
+A: Mumbai
+B: Kolkata
+C: New Delhi
+D: Chennai
+ANSWER: C
+EXPLANATION: New Delhi is the capital of India.
