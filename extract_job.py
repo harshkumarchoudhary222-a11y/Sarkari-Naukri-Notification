@@ -341,7 +341,17 @@ def extract_event_statuses(lines):
         for pattern in alternatives:
             match = re.search(pattern, text, re.IGNORECASE)
             if match:
-                value = clean(match.group(0))
+                matched = clean(match.group(0))
+                negative_phrases = [
+                    "not released",
+                    "not available",
+                    "not out",
+                    "not issued",
+                    "yet to be released",
+                ]
+                if any(phrase in matched for phrase in negative_phrases):
+                    continue
+                value = matched
                 break
 
         statuses[field] = value or "Not mentioned"
