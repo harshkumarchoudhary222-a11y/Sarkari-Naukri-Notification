@@ -120,27 +120,23 @@ def compare_jobs(old, new):
             "new": new.get("selection_process", []) or "Not mentioned"
         })
 
+    # Post/category tables can be reformatted by the source page without
+    # changing the actual vacancy count. Treat the total vacancy field as the
+    # authoritative change signal to avoid noisy false updates from FAQ tables.
+    old_total = normalize(old.get("total_vacancies", ""))
+    new_total = normalize(new.get("total_vacancies", ""))
+
     old_posts = normalize(old.get("post_wise_vacancies", []))
     new_posts = normalize(new.get("post_wise_vacancies", []))
 
-    if old_posts != new_posts and (old_posts or new_posts):
-        changes.append({
-            "field": "post_wise_vacancies",
-            "label": "Post-wise vacancies",
-            "old": old.get("post_wise_vacancies", []) or "Not mentioned",
-            "new": new.get("post_wise_vacancies", []) or "Not mentioned"
-        })
+    if old_total == new_total and old_posts != new_posts:
+        pass
 
     old_categories = normalize(old.get("category_wise_vacancies", []))
     new_categories = normalize(new.get("category_wise_vacancies", []))
 
-    if old_categories != new_categories and (old_categories or new_categories):
-        changes.append({
-            "field": "category_wise_vacancies",
-            "label": "Category-wise vacancies",
-            "old": old.get("category_wise_vacancies", []) or "Not mentioned",
-            "new": new.get("category_wise_vacancies", []) or "Not mentioned"
-        })
+    if old_total == new_total and old_categories != new_categories:
+        pass
 
     return changes
 
