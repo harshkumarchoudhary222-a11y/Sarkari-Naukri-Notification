@@ -4,12 +4,11 @@ import os
 import requests
 
 
-TELEGRAM_API = "https://api.telegram.org/bot{token}/sendPoll"
-
-
 def send_quiz_poll(question: dict) -> dict:
     token = os.environ["QUIZ_TELEGRAM_BOT_TOKEN"]
     chat_id = os.environ["QUIZ_TELEGRAM_CHAT_ID"]
+
+    telegram_api = f"https://api.telegram.org/bot{token}/sendPoll"
 
     payload = {
         "chat_id": chat_id,
@@ -25,7 +24,7 @@ def send_quiz_poll(question: dict) -> dict:
     if question.get("explanation"):
         payload["explanation"] = question["explanation"]
 
-    response = requests.post(TELEGRAM_API, json=payload, timeout=30)
+    response = requests.post(telegram_api, json=payload, timeout=30)
     response.raise_for_status()
 
     data = response.json()
