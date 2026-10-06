@@ -1,3 +1,4 @@
+import hashlib
 import json
 import os
 import re
@@ -7,10 +8,16 @@ from extract_job import extract_job
 from job_checker_source import get_latest_jobs_source
 from official_verifier import verify_job
 from update_detector import detect_update
+from telegram import (
+    build_new_job_message,
+    build_update_message,
+    send_telegram_message,
+)
 
 
 SEEN_FILE = "seen_jobs.json"
 JOBS_FOLDER = "jobs"
+REPORTED_ALERTS_FILE = "reported_alerts.json"
 
 
 def load_seen_jobs():
@@ -32,6 +39,92 @@ def save_seen_jobs(seen_jobs):
             indent=2,
             ensure_ascii=False
         )
+
+
+def load_reported_alerts():
+    if not os.path.exists(REPORTED_ALERTS_FILE):
+        return set()
+
+    try:
+        with open(REPORTED_ALERTS_FILE, "r", encoding="utf-8") as file:
+            return set(json.load(file))
+    except Exception:
+        return set()
+
+
+def save_reported_alerts(alerts):
+    with open(REPORTED_ALERTS_FILE, "w", encoding="utf-8") as file:
+        json.dump(
+            sorted(alerts),
+            file,
+            indent=2,
+            ensure_ascii=False
+        )
+
+
+def normalize_for_fingerprint(value):
+    if isinstance(value, list):
+        return [
+            normalize_for_fingerprint(item)
+            for item in value
+        ]
+
+    if isinstance(value, dict):
+        return {
+            str(key): normalize_for_fingerprint(value[key])
+            for key in sorted(value)
+        }
+
+    text = str(value or "").strip().lower()
+    text = re.sub(r"\s+", " ", text)
+    return text
+
+
+def make_alert_fingerprint(job, alert_type, changes=None):
+    payload = {
+        "source_url": job.get("source_url", ""),
+        "alert_type": alert_type,
+        "changes": changes or [],
+    }
+
+    raw = json.dumps(
+        normalize_for_fingerprint(payload),
+        sort_keys=True,
+        ensure_ascii=False,
+    )
+
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+
+def publish_alert_once(job, alert_type, message, changes=None):
+    fingerprint = make_alert_fingerprint(
+        job,
+        alert_type,
+        changes=changes,
+    )
+
+    reported_alerts = load_reported_alerts()
+
+    if fingerprint in reported_alerts:
+        print("Telegram alert already reported. Skipping duplicate.")
+        return False
+
+    token = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
+
+    if not token:
+        print(
+            "Telegram alert not sent because TELEGRAM_BOT_TOKEN "
+            "is not configured yet."
+        )
+        return False
+
+    send_telegram_message(message)
+
+    reported_alerts.add(fingerprint)
+    save_reported_alerts(reported_alerts)
+
+    print("Telegram alert recorded:", fingerprint[:12])
+    return True
 
 
 def make_filename(title):
@@ -104,7 +197,6 @@ def add_change_history(job, update):
         "changes": update["changes"]
     })
 
-    # Keep the file compact while preserving recent history.
     job["change_history"] = history[-20:]
     job["last_update"] = update
 
@@ -117,6 +209,13 @@ def process_new_job(job):
 
     print("Verifying official source...")
     data["verification"] = verify_job(data)
+
+    message = build_new_job_message(data)
+    publish_alert_once(
+        data,
+        "NEW_JOB",
+        message,
+    )
 
     filepath = save_job(data)
 
@@ -157,7 +256,15 @@ def process_existing_job(job, saved):
     print("Verifying updated job against official source...")
     current["verification"] = verify_job(current)
 
-    # Preserve the previous version so important changes are auditable.
+    message = build_update_message(current, update)
+
+    publish_alert_once(
+        current,
+        update["change_type"],
+        message,
+        changes=update["changes"],
+    )
+
     current["previous_version"] = old_data
     add_change_history(current, update)
 
