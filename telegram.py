@@ -55,8 +55,18 @@ def _short_date(value):
 def _eligibility(job):
     value = job.get("qualification")
     text = _value(value)
-    if text == "Not specified":
-        return text
+    bad = {
+        "post name",
+        "name of post",
+        "education qualification",
+        "educational qualification",
+        "qualification",
+        "eligibility",
+        "eligibility criteria",
+        "required qualification",
+    }
+    if text.lower().strip() in bad or text.lower().strip().endswith(":"):
+        return "Not specified"
     # Keep Telegram compact; the full qualification will be available in the detailed post.
     return text.replace("\n", " ").strip()
 
