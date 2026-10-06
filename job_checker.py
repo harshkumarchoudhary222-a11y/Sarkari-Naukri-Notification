@@ -13,6 +13,11 @@ from telegram import (
     build_update_message,
     send_telegram_message,
 )
+from facebook import (
+    build_new_facebook_post,
+    build_update_facebook_post,
+    send_facebook_post,
+)
 
 
 SEEN_FILE = "seen_jobs.json"
@@ -217,6 +222,19 @@ def process_new_job(job):
         message,
     )
 
+    try:
+        facebook_message = build_new_facebook_post(
+            data,
+            detail_url=data.get("source_url"),
+        )
+        send_facebook_post(
+            facebook_message,
+            link=data.get("source_url"),
+        )
+    except Exception as error:
+        print("Facebook publishing failed:")
+        print(str(error))
+
     filepath = save_job(data)
 
     print(
@@ -264,6 +282,20 @@ def process_existing_job(job, saved):
         message,
         changes=update["changes"],
     )
+
+    try:
+        facebook_message = build_update_facebook_post(
+            current,
+            update,
+            detail_url=current.get("source_url"),
+        )
+        send_facebook_post(
+            facebook_message,
+            link=current.get("source_url"),
+        )
+    except Exception as error:
+        print("Facebook publishing failed:")
+        print(str(error))
 
     current["previous_version"] = old_data
     add_change_history(current, update)
