@@ -54,5 +54,6 @@ jobs:
             echo "No state changes."
           else
             git commit -m "Update quiz bot state"
+            git pull --rebase origin main
             git push
           fi
