@@ -59,7 +59,7 @@ def looks_like_category_table(table):
 
 
 def _first_positive_number(text):
-    numbers = re.findall(r"(?<![A-Za-z])\\d[\\d,]*(?![A-Za-z])", text)
+    numbers = re.findall(r"(?<![A-Za-z])\d[\d,]*(?![A-Za-z])", text)
     for number in numbers:
         value = number.replace(",", "")
         if value.isdigit() and int(value) > 0:
@@ -78,15 +78,26 @@ def extract_vacancies(tables):
         "total vacancy", "total vacancies"
     ]
 
+    def find_vacancy_header(table):
+        for index, row in enumerate(table[:4]):
+            for col, cell in enumerate(row):
+                cell_lower = cell.lower()
+                if any(header in cell_lower for header in vacancy_headers):
+                    return index, col
+        return None, None
+
     for table in tables:
         text = table_text(table).lower()
 
         if looks_like_category_table(table):
             category_wise.append(table)
 
-        if not ("post" in text or "vacancy" in text):
-            continue
-        if not any(header in text for header in vacancy_headers):
+        header_index, vacancy_col = find_vacancy_header(table)
+
+        # A table is a post-wise vacancy table only when its actual header
+        # contains a vacancy/post-count column. This prevents FAQ tables
+        # from being mistaken for vacancy tables.
+        if vacancy_col is None or header_index is None:
             continue
 
         post_wise.append(table)
@@ -94,7 +105,7 @@ def extract_vacancies(tables):
         # Prefer an explicit Total/Grand Total row.
         for row in table:
             row_text = " ".join(row)
-            if re.search(r"\\b(grand\\s+total|total)\\b", row_text, re.IGNORECASE):
+            if re.search(r"\b(grand\s+total|total)\b", row_text, re.IGNORECASE):
                 number = _first_positive_number(row_text)
                 if number is not None:
                     total_posts = str(number)
@@ -103,33 +114,22 @@ def extract_vacancies(tables):
         if total_posts:
             break
 
-        # Otherwise identify the vacancy column from the header row and sum it.
-        header_index = None
-        vacancy_col = None
-        for index, row in enumerate(table[:3]):
-            for col, cell in enumerate(row):
-                if any(header in cell.lower() for header in vacancy_headers):
-                    header_index = index
-                    vacancy_col = col
-                    break
-            if vacancy_col is not None:
-                break
+        # Otherwise sum the actual vacancy column.
+        total = 0
+        found = False
+        for row in table[header_index + 1:]:
+            row_text = " ".join(row)
+            if re.search(r"\b(grand\s+total|total)\b", row_text, re.IGNORECASE):
+                continue
+            if vacancy_col < len(row):
+                number = _first_positive_number(row[vacancy_col])
+                if number is not None:
+                    total += number
+                    found = True
 
-        if vacancy_col is not None and header_index is not None:
-            total = 0
-            found = False
-            for row in table[header_index + 1:]:
-                row_text = " ".join(row)
-                if re.search(r"\\b(grand\\s+total|total)\\b", row_text, re.IGNORECASE):
-                    continue
-                if vacancy_col < len(row):
-                    number = _first_positive_number(row[vacancy_col])
-                    if number is not None:
-                        total += number
-                        found = True
-            if found:
-                total_posts = str(total)
-                break
+        if found:
+            total_posts = str(total)
+            break
 
     return {
         "total_posts": total_posts,
@@ -157,7 +157,7 @@ def extract_labeled_value(lines, labels):
                 continue
 
             remainder = re.sub(
-                rf"^{re.escape(label)}\\s*[:\\-]?\\s*",
+                rf"^{re.escape(label)}\s*[:\-]?\s*",
                 "",
                 line,
                 flags=re.IGNORECASE
@@ -165,7 +165,7 @@ def extract_labeled_value(lines, labels):
 
             if remainder and remainder.lower() != label_lower and remainder.lower() not in heading_only:
                 # Do not return table/navigation fragments such as 'for Apply Online'.
-                if not re.fullmatch(r"(?:for\\s+)?(?:apply|online|fee|payment)\\s*(?:online)?", remainder, re.IGNORECASE):
+                if not re.fullmatch(r"(?:for\s+)?(?:apply|online|fee|payment)\s*(?:online)?", remainder, re.IGNORECASE):
                     return clean(remainder)
 
             # If the label is a heading, inspect the following lines for the actual value.
@@ -178,7 +178,7 @@ def extract_labeled_value(lines, labels):
                     continue
                 if any(next_lower.startswith(item.lower()) for item in labels):
                     continue
-                if re.fullmatch(r"(?:for\\s+)?(?:apply|online|fee|payment)\\s*(?:online)?", next_line, re.IGNORECASE):
+                if re.fullmatch(r"(?:for\s+)?(?:apply|online|fee|payment)\s*(?:online)?", next_line, re.IGNORECASE):
                     continue
                 return next_line
 
@@ -252,8 +252,14 @@ def extract_dates(lines):
         )
 
     for key in ("application_start", "application_last_date", "fee_payment_last_date", "correction_date", "exam_date", "admit_card", "result"):
-        value = _clean_date_value(dates.get(key, ""))
-        dates[key] = value or "Not Announced"
+        raw_value = dates.get(key, "")
+        value = _clean_date_value(raw_value)
+        if value:
+            dates[key] = value
+        elif str(raw_value).strip():
+            dates[key] = "Not mentioned"
+        else:
+            dates[key] = "Not mentioned"
 
     return dates
 
