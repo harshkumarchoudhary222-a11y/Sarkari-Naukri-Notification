@@ -2,7 +2,7 @@ import json
 import re
 import requests
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 
 HEADERS = {
@@ -478,7 +478,17 @@ def extract_age_relaxation(lines):
     value = extract_labeled_value(lines, labels)
     if value:
         lower = value.strip().lower()
-        if lower not in {"for the", "as per", "extra as per", "provides age relaxation for the"}:
+        invalid_fragments = {
+            "for the",
+            "as per",
+            "extra as per",
+            "provides age relaxation for the",
+        }
+        if (
+            lower not in invalid_fragments
+            and not lower.startswith(("for the ", "as per ", "extra as per "))
+            and len(lower.split()) >= 4
+        ):
             return value
 
     full_text = clean(" ".join(lines))
@@ -521,127 +531,117 @@ def extract_links(soup, page_url):
         "official_website": ""
     }
 
+    page_parts = urlparse(page_url)
+    page_path = page_parts.path.rstrip("/") or "/"
+
+    def is_same_page(href):
+        parts = urlparse(href)
+        href_path = parts.path.rstrip("/") or "/"
+        return (
+            parts.netloc.lower() == page_parts.netloc.lower()
+            and href_path == page_path
+        )
+
+    def is_bad_link(href):
+        lower = href.lower()
+        if is_same_page(href):
+            return True
+        if "play.google.com" in lower or "apps.apple.com" in lower:
+            return True
+        if lower.startswith(("javascript:", "mailto:")):
+            return True
+        return False
+
     candidates = []
 
     for link in soup.find_all("a", href=True):
         text = clean(link.get_text(" ", strip=True))
         href = urljoin(page_url, link["href"])
 
-        if href.startswith(("http://", "https://")):
-            context_parts = []
-            parent = link.parent
-            for _ in range(4):
-                if not parent:
-                    break
-                parent_text = clean(parent.get_text(" ", strip=True))
-                if parent_text:
-                    context_parts.append(parent_text.lower())
-                parent = parent.parent
-            context = " ".join(context_parts)
-            candidates.append((text.lower(), href, context))
+        if not href.startswith(("http://", "https://")):
+            continue
 
-    for index, (text, href, context) in enumerate(candidates):
-        combined = text + " " + href.lower() + " " + context
+        # Use only the anchor itself for strong link detection. Broad parent
+        # context is intentionally avoided because it can contain unrelated
+        # words from the whole page (for example "registration" or
+        # "advertisement"), causing false links.
+        nearby_heading = ""
+        heading = link.find_previous(["h1", "h2", "h3", "h4", "h5", "h6"])
+        if heading:
+            nearby_heading = clean(heading.get_text(" ", strip=True)).lower()
 
-        if (
-            not result["apply_link"]
-            and any(word in combined for word in [
-                "apply online", "online application", "registration", "apply now"
-            ])
-            and "sarkariresult.com.cm" not in href.lower()
-        ):
-            result["apply_link"] = href
+        candidates.append((text.lower(), href, nearby_heading))
 
-        if (
-            not result["notification_link"]
-            and any(word in combined for word in [
-                "official notification", "download notification",
-                "notification pdf", "advertisement", "detailed notification"
-            ])
-        ):
-            result["notification_link"] = href
+    for text, href, nearby_heading in candidates:
+        href_lower = href.lower()
+        generic_click = text.strip() in {"click here", "click here to download"}
 
-        if (
-            not result["official_website"]
-            and any(word in text for word in [
-                "official website", "official site", "department website"
-            ])
-        ):
-            result["official_website"] = href
+        if not result["apply_link"] and not is_bad_link(href):
+            strong_apply_text = any(
+                phrase in text
+                for phrase in [
+                    "apply online",
+                    "online application",
+                    "apply now",
+                    "registration link",
+                    "application link",
+                ]
+            )
+            strong_apply_url = any(
+                phrase in href_lower
+                for phrase in [
+                    "apply",
+                    "registration",
+                    "register",
+                    "onlineform",
+                    "application",
+                ]
+            )
+            if strong_apply_text or strong_apply_url:
+                result["apply_link"] = href
+            elif generic_click and "apply" in nearby_heading:
+                result["apply_link"] = href
 
-        # SarkariResult often uses a generic "Click Here" anchor under a
-        # heading such as "Check Official Notification". Look at nearby
-        # anchors in the page order and use a PDF/document URL when it is
-        # clearly associated with that section.
-        if not result["notification_link"] and text.strip().lower() in {"click here", "click here to download"}:
-            href_lower = href.lower()
-            if (
-                "official notification" in context
-                or "check official notification" in context
-                or "notification" in href_lower
+        if not result["notification_link"] and not is_bad_link(href):
+            strong_notification_text = any(
+                phrase in text
+                for phrase in [
+                    "official notification",
+                    "download notification",
+                    "notification pdf",
+                    "detailed notification",
+                    "advertisement",
+                    "short notice",
+                ]
+            )
+            strong_notification_url = (
+                "notification" in href_lower
+                or "advertisement" in href_lower
                 or href_lower.endswith(".pdf")
                 or ".pdf?" in href_lower
+            )
+            if strong_notification_text or strong_notification_url:
+                result["notification_link"] = href
+            elif generic_click and (
+                "official notification" in nearby_heading
+                or "check official notification" in nearby_heading
+                or "check short notice" in nearby_heading
             ):
                 result["notification_link"] = href
 
+        if (
+            not result["official_website"]
+            and not is_bad_link(href)
+            and any(
+                phrase in text
+                for phrase in [
+                    "official website",
+                    "official site",
+                    "department website",
+                ]
+            )
+        ):
+            result["official_website"] = href
+
     return result
 
-
-def extract_job(url):
-    soup = get_page(url)
-
-    for tag in soup.find_all(["script", "style", "noscript"]):
-        tag.decompose()
-
-    h1 = soup.find("h1")
-    title = clean(h1.get_text(" ", strip=True)) if h1 else ""
-
-    page_text = soup.get_text("\n", strip=True)
-    lines = [
-        clean(line)
-        for line in page_text.splitlines()
-        if clean(line)
-    ]
-
-    tables = extract_tables(soup)
-    vacancies = extract_vacancies(tables)
-    dates = extract_dates(lines)
-    fee = extract_fee(lines)
-    age = extract_age(lines)
-    salary = extract_salary(lines, tables)
-    age_relaxation = extract_age_relaxation(lines)
-    links = extract_links(soup, url)
-    event_statuses = extract_event_statuses(lines)
-
-    return {
-        "title": title or "Not specified",
-        "organization": extract_organization(title, lines),
-        "total_vacancies": vacancies["total_posts"] or "Not specified",
-        "post_wise_vacancies": vacancies["post_wise"],
-        "category_wise_vacancies": vacancies["category_wise"],
-        "qualification": extract_qualification(lines, tables),
-        "age_limit": age or "Not specified",
-        "age_relaxation": age_relaxation,
-        "salary": salary or "Not specified",
-        "application_fee": fee or "Not specified",
-        "important_dates": dates,
-        "selection_process": extract_selection(lines),
-        "event_statuses": event_statuses,
-        "apply_link": links["apply_link"] or "Not found",
-        "notification_link": links["notification_link"] or "Not found",
-        "official_website": links["official_website"] or "Not found",
-        "source_url": url
-    }
-
-
-if __name__ == "__main__":
-    TEST_URL = "https://sarkariresult.com.cm/ssc-chsl-sep-2026/"
-
-    print("Creating clean job data...")
-    job = extract_job(TEST_URL)
-
-    with open("test_job_data.json", "w", encoding="utf-8") as file:
-        json.dump(job, file, indent=2, ensure_ascii=False)
-
-    print("Clean job data created.")
-    print("Saved as: test_job_data.json")
