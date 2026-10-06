@@ -20,6 +20,15 @@ STATE_FILE = Path("quizzes/bot_state.json")
 DOWNLOAD_DIR = Path("quizzes/runtime")
 DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
+CONFIRM_BUTTON = {
+    "inline_keyboard": [
+        [
+            {"text": "✅ Publish quiz", "callback_data": "confirm_quiz"},
+            {"text": "❌ Cancel", "callback_data": "cancel_quiz"},
+        ]
+    ]
+}
+
 STOP_BUTTON = {
     "inline_keyboard": [
         [{"text": "🛑 Stop bot", "callback_data": "stop_bot"}]
@@ -42,11 +51,13 @@ def load_state() -> dict:
             "offset": 0,
             "processed_messages": [],
             "pending_updates": [],
+            "pending_quiz": None,
         }
 
     state = json.loads(STATE_FILE.read_text(encoding="utf-8"))
     state.setdefault("processed_messages", [])
     state.setdefault("pending_updates", [])
+    state.setdefault("pending_quiz", None)
     return state
 
 
@@ -59,9 +70,16 @@ def save_state(state: dict) -> None:
     )
 
 
-def send_message(chat_id: int | str, text: str, with_stop_button: bool = True) -> None:
+def send_message(
+    chat_id: int | str,
+    text: str,
+    with_stop_button: bool = True,
+    reply_markup: dict | None = None,
+) -> None:
     payload = {"chat_id": chat_id, "text": text}
-    if with_stop_button:
+    if reply_markup is not None:
+        payload["reply_markup"] = reply_markup
+    elif with_stop_button:
         payload["reply_markup"] = STOP_BUTTON
     api("sendMessage", json=payload)
 
@@ -85,6 +103,64 @@ def message_key(message: dict) -> str:
     return f"{message.get('chat', {}).get('id')}:{message.get('message_id')}"
 
 
+def publish_pending_quiz(state: dict) -> bool:
+    pending = state.get("pending_quiz")
+    if not pending:
+        return False
+
+    chat_id = pending["chat_id"]
+    key = pending["message_key"]
+    filename = pending["filename"]
+    file_id = pending["file_id"]
+
+    try:
+        path = download_document(file_id, filename)
+        questions = parse_quiz_file(path)
+
+        send_message(
+            chat_id,
+            f"⏳ Publishing {len(questions)} quiz poll(s)...",
+        )
+
+        for index, question in enumerate(questions, start=1):
+            send_quiz_poll(question)
+
+            stopped, _ = check_for_stop(state)
+            if stopped:
+                state["processed_messages"].append(key)
+                state["pending_quiz"] = None
+                save_state(state)
+                send_message(
+                    chat_id,
+                    f"🛑 Publishing stopped after {index} of {len(questions)} question(s).\n\n"
+                    "This upload will not resume automatically. Send a new file when you are ready.",
+                    with_stop_button=False,
+                )
+                return True
+
+        state["processed_messages"].append(key)
+        state["pending_quiz"] = None
+        save_state(state)
+
+        send_message(
+            chat_id,
+            f"✅ Published {len(questions)} quiz poll(s) to the channel.\n\n"
+            "The bot session has finished automatically.",
+            with_stop_button=False,
+        )
+    except Exception as exc:
+        state["pending_quiz"] = None
+        save_state(state)
+        send_message(
+            chat_id,
+            "❌ Quiz file could not be published.\n\n"
+            f"Error: {exc}",
+            with_stop_button=False,
+        )
+
+    return True
+
+
 def handle_document(message: dict, state: dict) -> bool:
     sender = message.get("from", {})
     chat_id = message["chat"]["id"]
@@ -102,51 +178,34 @@ def handle_document(message: dict, state: dict) -> bool:
     filename = document.get("file_name", "quiz.txt")
 
     if not filename.lower().endswith(".txt"):
-        send_message(chat_id, "❌ Please send a .txt quiz file.")
+        send_message(chat_id, "❌ Please send a .txt quiz file.", with_stop_button=False)
         return False
 
-    try:
-        path = download_document(document["file_id"], filename)
-        questions = parse_quiz_file(path)
-
+    if state.get("pending_quiz"):
         send_message(
             chat_id,
-            f"⏳ Publishing {len(questions)} quiz poll(s)...",
-        )
-
-        for index, question in enumerate(questions, start=1):
-            send_quiz_poll(question)
-
-            stopped, _ = check_for_stop(state)
-            if stopped:
-                state["processed_messages"].append(key)
-                save_state(state)
-                send_message(
-                    chat_id,
-                    f"🛑 Publishing stopped after {index} of {len(questions)} question(s).\n\n"
-                    "This upload will not resume automatically. Send a new file when you are ready.",
-                    with_stop_button=False,
-                )
-                return True
-
-        state["processed_messages"].append(key)
-        save_state(state)
-
-        send_message(
-            chat_id,
-            f"✅ Published {len(questions)} quiz poll(s) to the channel.\n\n"
-            "The bot session has finished automatically.",
+            "⚠️ A quiz is already waiting for confirmation.\n\n"
+            "Please confirm or cancel it before sending another file.",
             with_stop_button=False,
         )
-    except Exception as exc:
-        send_message(
-            chat_id,
-            "❌ Quiz file could not be published.\n\n"
-            f"Error: {exc}",
-            with_stop_button=False,
-        )
+        return False
 
-    return True
+    state["pending_quiz"] = {
+        "message_key": key,
+        "chat_id": chat_id,
+        "file_id": document["file_id"],
+        "filename": filename,
+    }
+    save_state(state)
+
+    send_message(
+        chat_id,
+        f"📄 Received: {filename}\n\n"
+        "Do you want me to publish this quiz to the channel?",
+        with_stop_button=False,
+        reply_markup=CONFIRM_BUTTON,
+    )
+    return False
 
 
 def handle_update(update: dict, state: dict) -> bool:
@@ -166,7 +225,40 @@ def handle_update(update: dict, state: dict) -> bool:
             )
             return False
 
-        if callback.get("data") == "stop_bot":
+        action = callback.get("data")
+
+        if action == "confirm_quiz":
+            api(
+                "answerCallbackQuery",
+                json={
+                    "callback_query_id": callback_id,
+                    "text": "Publishing quiz...",
+                },
+            )
+            return publish_pending_quiz(state)
+
+        if action == "cancel_quiz":
+            api(
+                "answerCallbackQuery",
+                json={
+                    "callback_query_id": callback_id,
+                    "text": "Quiz cancelled.",
+                },
+            )
+            pending = state.get("pending_quiz")
+            if pending:
+                chat_id = pending["chat_id"]
+                state["processed_messages"].append(pending["message_key"])
+                state["pending_quiz"] = None
+                save_state(state)
+                send_message(
+                    chat_id,
+                    "❌ Quiz cancelled. The file was not published.",
+                    with_stop_button=False,
+                )
+            return False
+
+        if action == "stop_bot":
             api(
                 "answerCallbackQuery",
                 json={
@@ -198,7 +290,7 @@ def handle_update(update: dict, state: dict) -> bool:
         send_message(
             message["chat"]["id"],
             "📄 Send me a .txt file containing your quiz questions.\n\n"
-            "Use the button below if you want to stop this bot session.",
+            "You will get a confirmation button before anything is published.",
         )
     return False
 
@@ -243,7 +335,6 @@ def check_for_stop(state: dict) -> tuple[bool, int | None]:
                 stopped = True
                 continue
 
-        # Do not lose uploads/messages that arrive while a quiz is publishing.
         state["pending_updates"].append(update)
 
     state["offset"] = offset
@@ -257,7 +348,6 @@ def main() -> None:
 
     api("deleteWebhook", json={"drop_pending_updates": False})
 
-    # Process updates that were queued while another quiz was publishing.
     pending = state.get("pending_updates", [])
     state["pending_updates"] = []
     save_state(state)
