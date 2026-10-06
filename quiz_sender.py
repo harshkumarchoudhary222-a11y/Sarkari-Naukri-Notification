@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import os
+import time
+
 import requests
 
 
@@ -24,11 +26,21 @@ def send_quiz_poll(question: dict) -> dict:
     if question.get("explanation"):
         payload["explanation"] = question["explanation"]
 
-    response = requests.post(telegram_api, json=payload, timeout=30)
-    response.raise_for_status()
+    while True:
+        response = requests.post(telegram_api, json=payload, timeout=30)
 
-    data = response.json()
-    if not data.get("ok"):
-        raise RuntimeError(f"Telegram API error: {data}")
+        if response.status_code == 429:
+            data = response.json()
+            retry_after = int(data.get("parameters", {}).get("retry_after", 5))
+            time.sleep(retry_after + 1)
+            continue
 
-    return data["result"]
+        response.raise_for_status()
+
+        data = response.json()
+        if not data.get("ok"):
+            raise RuntimeError(f"Telegram API error: {data}")
+
+        # Keep a conservative gap between polls to avoid Telegram rate limits.
+        time.sleep(3.2)
+        return data["result"]
