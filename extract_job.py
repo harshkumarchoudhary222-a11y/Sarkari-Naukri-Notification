@@ -477,7 +477,9 @@ def extract_age_relaxation(lines):
 
     value = extract_labeled_value(lines, labels)
     if value:
-        return value
+        lower = value.strip().lower()
+        if lower not in {"for the", "as per", "extra as per", "provides age relaxation for the"}:
+            return value
 
     full_text = clean(" ".join(lines))
 
