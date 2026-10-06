@@ -1,5 +1,7 @@
 import os
+import re
 import requests
+from datetime import datetime
 
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
@@ -94,6 +96,11 @@ def get_latest_jobs_source():
             in title.lower()
             for word in job_words
         ):
+            continue
+
+        years = [int(year) for year in re.findall(r"\b(20\d{2})\b", title)]
+        current_year = datetime.now().year
+        if years and max(years) < current_year:
             continue
 
         if url in seen_urls:
