@@ -58,48 +58,78 @@ def looks_like_category_table(table):
     )
 
 
+def _first_positive_number(text):
+    numbers = re.findall(r"(?<![A-Za-z])\\d[\\d,]*(?![A-Za-z])", text)
+    for number in numbers:
+        value = number.replace(",", "")
+        if value.isdigit() and int(value) > 0:
+            return int(value)
+    return None
+
+
 def extract_vacancies(tables):
     total_posts = ""
     post_wise = []
     category_wise = []
 
+    vacancy_headers = [
+        "no. of post", "no of post", "number of post", "total post",
+        "no. of posts", "no of posts", "vacancy", "vacancies",
+        "total vacancy", "total vacancies"
+    ]
+
     for table in tables:
         text = table_text(table).lower()
 
-        has_vacancy_header = (
-            "post name" in text
-            or "name of post" in text
-            or "post" in text
-        ) and any(
-            word in text
-            for word in [
-                "no. of post", "no of post", "total post",
-                "vacancy", "vacancies", "number of post"
-            ]
-        )
-
-        if has_vacancy_header:
-            post_wise.append(table)
-
-            for row in table:
-                row_text = " ".join(row)
-                numbers = re.findall(
-                    r"(?<![A-Za-z])\d[\d,]*(?![A-Za-z])",
-                    row_text
-                )
-
-                for number in numbers:
-                    value = number.replace(",", "")
-                    if value.isdigit() and int(value) > 0:
-                        if not total_posts:
-                            total_posts = number
-                        break
-
-                if total_posts:
-                    break
-
         if looks_like_category_table(table):
             category_wise.append(table)
+
+        if not ("post" in text or "vacancy" in text):
+            continue
+        if not any(header in text for header in vacancy_headers):
+            continue
+
+        post_wise.append(table)
+
+        # Prefer an explicit Total/Grand Total row.
+        for row in table:
+            row_text = " ".join(row)
+            if re.search(r"\\b(grand\\s+total|total)\\b", row_text, re.IGNORECASE):
+                number = _first_positive_number(row_text)
+                if number is not None:
+                    total_posts = str(number)
+                    break
+
+        if total_posts:
+            break
+
+        # Otherwise identify the vacancy column from the header row and sum it.
+        header_index = None
+        vacancy_col = None
+        for index, row in enumerate(table[:3]):
+            for col, cell in enumerate(row):
+                if any(header in cell.lower() for header in vacancy_headers):
+                    header_index = index
+                    vacancy_col = col
+                    break
+            if vacancy_col is not None:
+                break
+
+        if vacancy_col is not None and header_index is not None:
+            total = 0
+            found = False
+            for row in table[header_index + 1:]:
+                row_text = " ".join(row)
+                if re.search(r"\\b(grand\\s+total|total)\\b", row_text, re.IGNORECASE):
+                    continue
+                if vacancy_col < len(row):
+                    number = _first_positive_number(row[vacancy_col])
+                    if number is not None:
+                        total += number
+                        found = True
+            if found:
+                total_posts = str(total)
+                break
 
     return {
         "total_posts": total_posts,
@@ -109,27 +139,63 @@ def extract_vacancies(tables):
 
 
 def extract_labeled_value(lines, labels):
+    heading_only = {
+        "education qualification", "educational qualification", "qualification",
+        "eligibility", "eligibility criteria", "essential qualification",
+        "start date", "online apply start date", "application start date",
+        "last date", "online apply last date", "application last date",
+        "closing date", "exam date", "admit card", "result"
+    }
+
     for index, line in enumerate(lines):
-        lower = line.lower()
+        lower = line.lower().strip()
 
         for label in labels:
-            if label.lower() in lower:
-                remainder = re.sub(
-                    rf"^{re.escape(label)}\s*[:\-]?\s*",
-                    "",
-                    line,
-                    flags=re.IGNORECASE
-                )
+            label_lower = label.lower()
+            if label_lower not in lower:
+                continue
 
-                if remainder and remainder.lower() != label.lower():
+            remainder = re.sub(
+                rf"^{re.escape(label)}\\s*[:\\-]?\\s*",
+                "",
+                line,
+                flags=re.IGNORECASE
+            ).strip()
+
+            if remainder and remainder.lower() != label_lower and remainder.lower() not in heading_only:
+                # Do not return table/navigation fragments such as 'for Apply Online'.
+                if not re.fullmatch(r"(?:for\\s+)?(?:apply|online|fee|payment)\\s*(?:online)?", remainder, re.IGNORECASE):
                     return clean(remainder)
 
-                if index + 1 < len(lines):
-                    next_line = clean(lines[index + 1])
-                    if next_line:
-                        return next_line
+            # If the label is a heading, inspect the following lines for the actual value.
+            for next_index in range(index + 1, min(index + 4, len(lines))):
+                next_line = clean(lines[next_index])
+                if not next_line:
+                    continue
+                next_lower = next_line.lower()
+                if next_lower in heading_only:
+                    continue
+                if any(next_lower.startswith(item.lower()) for item in labels):
+                    continue
+                if re.fullmatch(r"(?:for\\s+)?(?:apply|online|fee|payment)\\s*(?:online)?", next_line, re.IGNORECASE):
+                    continue
+                return next_line
 
     return ""
+
+
+def _clean_date_value(value):
+    value = clean(value)
+    if not value:
+        return ""
+    bad = {
+        "not specified", "not available", "not mentioned", "notify soon",
+        "to be notified", "to be announced", "tba", "coming soon",
+        "for apply online", "to pay exam fee", "application", "online"
+    }
+    if value.lower() in bad:
+        return "Not Announced" if value.lower() in {"notify soon", "to be notified", "to be announced", "tba", "coming soon"} else ""
+    return value
 
 
 def extract_dates(lines):
@@ -185,9 +251,8 @@ def extract_dates(lines):
         )
 
     for key in ("application_start", "application_last_date", "fee_payment_last_date", "correction_date", "exam_date", "admit_card", "result"):
-        value = clean(dates.get(key, ""))
-        if value.lower() in {"notify soon", "to be notified", "to be announced", "tba", "coming soon"}:
-            dates[key] = "Not Announced"
+        value = _clean_date_value(dates.get(key, ""))
+        dates[key] = value or "Not Announced"
 
     return dates
 
