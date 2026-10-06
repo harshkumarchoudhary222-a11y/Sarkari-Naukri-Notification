@@ -157,9 +157,20 @@ def extract_labeled_value(lines, labels):
                 continue
 
             remainder = re.sub(
-                rf"^{re.escape(label)}\s*[:\-]?\s*",
+                rf"^.*?{re.escape(label)}\s*[:\-]?\s*",
                 "",
                 line,
+                count=1,
+                flags=re.IGNORECASE
+            ).strip()
+
+            # Some SarkariResult pages put a title before the label and then
+            # place a small table header on the same line.
+            remainder = re.sub(
+                r"^(?:post\s+name|name\s+of\s+post)\s+"
+                r"(?:eligibility|qualification)\s*[:\-]?\s*",
+                "",
+                remainder,
                 flags=re.IGNORECASE
             ).strip()
 
