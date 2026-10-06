@@ -358,6 +358,33 @@ def extract_event_statuses(lines):
 
     return statuses
 
+def extract_age_relaxation(lines):
+    labels = [
+        "Age Relaxation",
+        "Age Relaxation Details",
+        "Relaxation in Upper Age Limit",
+        "Age Relaxation as per Rules",
+    ]
+
+    value = extract_labeled_value(lines, labels)
+    if value:
+        return value
+
+    full_text = clean(" ".join(lines))
+
+    patterns = [
+        r"age\s+relaxation\s*[:\-]\s*(.{1,250}?)(?=\s+(?:selection|application|important dates|exam|fee)|$)",
+        r"upper\s+age\s+relaxation\s*[:\-]\s*(.{1,250}?)(?=\s+(?:selection|application|important dates|exam|fee)|$)",
+    ]
+
+    for pattern in patterns:
+        match = re.search(pattern, full_text, re.IGNORECASE)
+        if match:
+            return clean(match.group(1))
+
+    return "As per government rules"
+
+
 def extract_selection(lines):
     keywords = [
         "selection process", "mode of selection", "selection procedure",
