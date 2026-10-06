@@ -117,6 +117,9 @@ def main() -> None:
     state = load_state()
     offset = int(state.get("offset", 0))
 
+    # Ensure polling works if a webhook was previously configured for this bot.
+    api("deleteWebhook", json={"drop_pending_updates": False})
+
     # We use short polling because GitHub Actions is not a permanent server.
     while True:
         data = api(
