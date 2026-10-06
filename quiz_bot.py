@@ -38,11 +38,15 @@ def api(method: str, **kwargs) -> dict:
 
 def load_state() -> dict:
     if not STATE_FILE.exists():
-        return {"offset": 0}
-    return json.loads(STATE_FILE.read_text(encoding="utf-8"))
+        return {"offset": 0, "processed_messages": []}
+    state = json.loads(STATE_FILE.read_text(encoding="utf-8"))
+    state.setdefault("processed_messages", [])
+    return state
 
 
 def save_state(state: dict) -> None:
+    # Keep the deduplication list small while retaining recent uploads.
+    state["processed_messages"] = state.get("processed_messages", [])[-200:]
     STATE_FILE.write_text(
         json.dumps(state, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
@@ -71,9 +75,24 @@ def download_document(file_id: str, filename: str) -> Path:
     return destination
 
 
-def handle_document(message: dict) -> bool:
+def message_key(message: dict) -> str:
+    return f"{message.get('chat', {}).get('id')}:{message.get('message_id')}"
+
+
+def handle_document(message: dict, state: dict) -> bool:
     sender = message.get("from", {})
     chat_id = message["chat"]["id"]
+    key = message_key(message)
+
+    if key in state["processed_messages"]:
+        print(f"Skipping already processed message: {key}")
+        return False
+
+    # Mark this Telegram message as processed before doing the work.
+    # This prevents the same upload from being published twice if another
+    # workflow run sees the same update.
+    state["processed_messages"].append(key)
+    save_state(state)
 
     if str(sender.get("id")) != ADMIN_USER_ID:
         send_message(chat_id, "⛔ This bot is private.", with_stop_button=False)
@@ -90,10 +109,7 @@ def handle_document(message: dict) -> bool:
         path = download_document(document["file_id"], filename)
         questions = parse_quiz_file(path)
 
-        send_message(
-            chat_id,
-            f"⏳ Publishing {len(questions)} quiz poll(s)...",
-        )
+        send_message(chat_id, f"⏳ Publishing {len(questions)} quiz poll(s)...")
 
         for question in questions:
             send_quiz_poll(question)
@@ -110,12 +126,10 @@ def handle_document(message: dict) -> bool:
             f"Error: {exc}",
         )
 
-    # A quiz upload completes the current polling session. The next scheduled
-    # GitHub Actions run will wait for the next file.
     return True
 
 
-def handle_update(update: dict) -> bool:
+def handle_update(update: dict, state: dict) -> bool:
     callback = update.get("callback_query")
     if callback:
         sender = callback.get("from", {})
@@ -157,7 +171,7 @@ def handle_update(update: dict) -> bool:
         return False
 
     if "document" in message:
-        return handle_document(message)
+        return handle_document(message, state)
 
     sender = message.get("from", {})
     if str(sender.get("id")) == ADMIN_USER_ID:
@@ -173,11 +187,8 @@ def main() -> None:
     state = load_state()
     offset = int(state.get("offset", 0))
 
-    # Ensure polling works if a webhook was previously configured for this bot.
     api("deleteWebhook", json={"drop_pending_updates": False})
 
-    # Poll during the current GitHub Actions window. If a quiz is received,
-    # handle_document returns True and the workflow exits cleanly immediately.
     deadline = time.time() + 280
     while time.time() < deadline:
         data = api(
@@ -197,8 +208,7 @@ def main() -> None:
             state["offset"] = offset
             save_state(state)
 
-            should_exit = handle_update(update)
-            if should_exit:
+            if handle_update(update, state):
                 return
 
         if not updates:
