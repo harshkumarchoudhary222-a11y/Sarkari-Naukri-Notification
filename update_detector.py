@@ -61,7 +61,29 @@ def compare_jobs(old, new):
         before = old.get(field)
         after = new.get(field)
 
-        if normalize(before) != normalize(after):
+        before_norm = normalize(before)
+        after_norm = normalize(after)
+
+        # "Not mentioned" and "Not Announced" both mean that no usable
+        # update was extracted. Do not alert users for this wording change.
+        missing_values = {
+            "", "not mentioned", "not announced", "not specified",
+            "not available", "not found"
+        }
+        if before_norm in missing_values and after_norm in missing_values:
+            continue
+
+        # Do not report a truncated qualification as a real update.
+        if (
+            field == "qualification"
+            and before_norm
+            and after_norm
+            and len(after_norm) < len(before_norm)
+            and before_norm.startswith(after_norm)
+        ):
+            continue
+
+        if before_norm != after_norm:
             if meaningful(before) or meaningful(after):
                 changes.append({
                     "field": field,
