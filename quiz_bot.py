@@ -221,6 +221,7 @@ def handle_update(update: dict, state: dict) -> None:
                 },
             )
             publish_pending_quiz(state)
+            process_pending_updates(state)
             return
 
         if action == "cancel_quiz":
