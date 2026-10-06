@@ -1,0 +1,53 @@
+name: Telegram Quiz Publisher
+
+on:
+  push:
+    paths:
+      - "quizzes/inbox/*.txt"
+      - "quizzes/posted.json"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-quizzes:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    env:
+      QUIZ_TELEGRAM_BOT_TOKEN: ${{ secrets.QUIZ_TELEGRAM_BOT_TOKEN }}
+      QUIZ_TELEGRAM_CHAT_ID: ${{ secrets.QUIZ_TELEGRAM_CHAT_ID }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Validate Telegram configuration
+        run: |
+          test -n "$QUIZ_TELEGRAM_BOT_TOKEN"
+          test -n "$QUIZ_TELEGRAM_CHAT_ID"
+
+      - name: Publish quizzes
+        run: python post_quizzes.py
+
+      - name: Save posting state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add quizzes/posted.json
+
+          if git diff --cached --quiet; then
+            echo "No state changes to save."
+          else
+            git commit -m "Record published quizzes"
+            git push
+          fi
