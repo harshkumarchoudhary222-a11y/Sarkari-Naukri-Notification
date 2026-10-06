@@ -312,12 +312,28 @@ def extract_qualification(lines, tables):
     )
 
     if value:
-        return value
+        bad = {
+            "education qualification",
+            "educational qualification",
+            "qualification",
+            "eligibility",
+            "eligibility criteria",
+            "essential qualification",
+        }
+        if value.strip().lower() not in bad and not value.strip().lower().endswith("qualification"):
+            return value
 
     for table in tables:
         text = table_text(table)
         if "qualification" in text.lower() or "eligibility" in text.lower():
-            return text
+            if text.strip().lower() not in {
+                "education qualification",
+                "educational qualification",
+                "qualification",
+                "eligibility",
+                "eligibility criteria",
+            }:
+                return text
 
     return "Not specified"
 
