@@ -120,8 +120,10 @@ def main() -> None:
     # Ensure polling works if a webhook was previously configured for this bot.
     api("deleteWebhook", json={"drop_pending_updates": False})
 
-    # We use short polling because GitHub Actions is not a permanent server.
-    while True:
+    # Keep polling for most of the GitHub Actions run so scheduled runs can
+    # receive files at any point during the 5-minute interval.
+    deadline = time.time() + 220
+    while time.time() < deadline:
         data = api(
             "getUpdates",
             json={
@@ -139,7 +141,7 @@ def main() -> None:
             save_state(state)
 
         if not updates:
-            break
+            continue
 
 
 if __name__ == "__main__":
