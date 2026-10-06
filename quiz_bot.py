@@ -34,6 +34,13 @@ STOP_BUTTON = {
     ]]
 }
 
+CROSS_PROMOTION = (
+    "📢 <b>Also Follow Our Sarkari Naukri Channel</b>\n\n"
+    "💼 <b>Latest Government Job Notifications</b>\n"
+    "🔔 New vacancies • Exam updates • Important dates\n\n"
+    "👉 Join: @sarkari_naukri_notification"
+)
+
 
 def api(method: str, **kwargs) -> dict:
     response = requests.post(f"{API}/{method}", timeout=60, **kwargs)
@@ -77,7 +84,7 @@ def send_message(
     with_stop_button: bool = False,
     reply_markup: dict | None = None,
 ) -> None:
-    payload = {"chat_id": chat_id, "text": text}
+    payload = {"chat_id": chat_id, "text": text, "parse_mode": "HTML"}
     if reply_markup is not None:
         payload["reply_markup"] = reply_markup
     elif with_stop_button:
@@ -138,6 +145,9 @@ def publish_pending_quiz(state: dict) -> None:
                     "The bot is still online. Send another .txt file whenever you are ready.",
                 )
                 return
+
+        # Cross-promote the main Sarkari Naukri channel after every completed quiz.
+        send_message(CHANNEL_ID, CROSS_PROMOTION)
 
         state["processed_messages"].append(key)
         state["pending_quiz"] = None
@@ -308,7 +318,6 @@ def check_for_stop(state: dict) -> bool:
                 stopped = True
                 continue
 
-        # Queue all other updates so they are processed after publishing.
         state.setdefault("pending_updates", []).append(update)
 
     state["pending_updates"] = state.get("pending_updates", [])[-100:]
@@ -328,8 +337,6 @@ def process_pending_updates(state: dict) -> None:
 def run_forever() -> None:
     state = load_state()
 
-    # Long polling and webhooks are mutually exclusive. Ensure this worker
-    # owns update delivery.
     api("deleteWebhook", json={"drop_pending_updates": False})
 
     process_pending_updates(state)
