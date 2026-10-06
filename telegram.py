@@ -30,6 +30,13 @@ def _link(label, url):
     return f'🔗 <a href="{html.escape(str(url), quote=True)}">{_escape(label)}</a>'
 
 
+def _apply_link(job):
+    url = job.get("apply_link")
+    if url and str(url).strip() not in {"", "Not found", "Not specified"}:
+        return str(url).strip()
+    return str(job.get("source_url") or "").strip()
+
+
 def _format_table_rows(rows):
     if not rows:
         return ""
@@ -94,7 +101,7 @@ def build_new_job_message(job):
         "",
         "Click Below Link To Check & Apply 👇",
         "",
-        _link("Apply Here", job.get("apply_link") or job.get("source_url")),
+        _link("Apply Here", _apply_link(job)),
         "",
         "📌 Detailed recruitment information is available in the full post.",
         "",
