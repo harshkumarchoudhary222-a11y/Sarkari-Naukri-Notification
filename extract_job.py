@@ -184,6 +184,11 @@ def extract_dates(lines):
             ["Online Apply Last Date", "Application Last Date", "Last Date", "Closing Date"]
         )
 
+    for key in ("application_start", "application_last_date", "fee_payment_last_date", "correction_date", "exam_date", "admit_card", "result"):
+        value = clean(dates.get(key, ""))
+        if value.lower() in {"notify soon", "to be notified", "to be announced", "tba", "coming soon"}:
+            dates[key] = "Not Announced"
+
     return dates
 
 
