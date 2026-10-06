@@ -277,6 +277,7 @@ def extract_organization(title, lines):
         ("bpsc", "Bihar Public Service Commission (BPSC)"),
         ("isro", "Indian Space Research Organisation (ISRO)"),
         ("drdo", "Defence Research and Development Organisation (DRDO)"),
+        ("cuh", "Central University of Haryana (CUH)"),
         ("lic", "Life Insurance Corporation of India (LIC)"),
         ("india post", "India Post"),
         ("post office", "India Post")
