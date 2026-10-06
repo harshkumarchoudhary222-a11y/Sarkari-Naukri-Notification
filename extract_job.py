@@ -473,6 +473,7 @@ def extract_job(url):
     fee = extract_fee(lines)
     age = extract_age(lines)
     salary = extract_salary(lines, tables)
+    age_relaxation = extract_age_relaxation(lines)
     links = extract_links(soup, url)
     event_statuses = extract_event_statuses(lines)
 
@@ -484,6 +485,7 @@ def extract_job(url):
         "category_wise_vacancies": vacancies["category_wise"],
         "qualification": extract_qualification(lines, tables),
         "age_limit": age or "Not specified",
+        "age_relaxation": age_relaxation,
         "salary": salary or "Not specified",
         "application_fee": fee or "Not specified",
         "important_dates": dates,
