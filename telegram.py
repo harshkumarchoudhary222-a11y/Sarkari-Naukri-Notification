@@ -95,27 +95,42 @@ def build_new_job_message(job):
     eligibility = _escape(_eligibility(job))
     total = _escape(_value(job.get("total_vacancies")))
 
+    links = []
+    apply = _apply_link(job)
+    notification = job.get("notification_link", "")
+    official = job.get("official_website", "")
+
+    if apply:
+        links.append(_link("📝 Apply Online", apply))
+    if notification:
+        links.append(_link("📄 Official Notification", notification))
+    if official:
+        links.append(_link("🌐 Official Website", official))
+
     parts = [
         "⏳ <b>अंतिम तिथि का इंतजार न करें, आवेदन चल रहे हैं ✅</b>",
         "",
-        f"🔥🔥 <b>{title}</b>",
-        f"➡️ Application Starts From : {start_date}",
-        f"➡️ Last Date : {last_date}",
-        f"➡️ Eligibility : {eligibility}",
-        f"➡️ Total : {total} Posts",
-        f"➡️ Exam Date : {exam_date}",
+        f"🔥 <b>{title}</b>",
+        "",
+        f"➡️ <b>Application Starts:</b> {start_date}",
+        "",
+        f"➡️ <b>Last Date:</b> {last_date}",
+        "",
+        f"➡️ <b>Eligibility:</b> {eligibility}",
+        "",
+        f"➡️ <b>Total Posts:</b> {total}",
+        "",
+        f"➡️ <b>Exam Date:</b> {exam_date}",
         "",
         _escape(_hashtags(job)),
         "",
-        "📢 <b>Sarkari Naukri Notification</b> 👈",
+        "📌 <b>Important Links</b>",
         "",
-        "Click Below Link To Check & Apply 👇",
+        "\n\n".join(links) if links else _link("🔎 View Recruitment Details", job.get("source_url")),
         "",
-        _link("Apply Here", _apply_link(job)),
+        "📢 <b>Sarkari Naukri Notification</b>",
         "",
-        "📌 Detailed recruitment information is available in the full post.",
-        "",
-        "📢 <b>Join Us:</b> @sarkari_naukri_notification",
+        "👉 @sarkari_naukri_notification",
         "",
         "━━━━━━━━━━━━━━━━━━",
         "📚 <b>DAILY EXAM QUIZ</b>",
@@ -138,21 +153,76 @@ def build_update_message(job, update):
             f"{_escape(change.get('new', 'Not specified'))}"
         )
 
+    links = []
+    apply = job.get("apply_link") or job.get("source_url")
+    notification = job.get("notification_link")
+    if apply:
+        links.append(_link("📝 Apply Online", apply))
+    if notification:
+        links.append(_link("📄 Official Notification", notification))
+
     parts = [
         "🔔 <b>Important Recruitment Update</b>",
         "",
         f"🔥 <b>{_escape(_value(job.get('title')))}</b>",
         "",
         "📢 <b>What Changed:</b>",
-        "\n".join(lines) or "• Recruitment details updated.",
         "",
-        "Click Below Link To Check & Apply 👇",
+        "\n\n".join(lines) or "• Recruitment details updated.",
         "",
-        _link("Apply Here", job.get("apply_link") or job.get("source_url")),
-        _link("Official Notification", job.get("notification_link")),
+        "📌 <b>Important Links</b>",
         "",
-        "📢 <b>Join Us:</b> @sarkari_naukri_notification",
+        "\n\n".join(links) if links else "",
+        "",
+        "📢 <b>Join Us:</b>",
+        "@sarkari_naukri_notification",
     ]
+
+    return "\n".join(part for part in parts if part != "")
+
+
+def build_update_alert_message(item):
+    category = item.get("category", "")
+    labels = {
+        "RESULT": ("🏆", "RESULT DECLARED"),
+        "ADMIT_CARD": ("🎫", "ADMIT CARD / EXAM UPDATE"),
+        "ANSWER_KEY": ("📝", "ANSWER KEY RELEASED"),
+    }
+    icon, heading = labels.get(category, ("🔔", "IMPORTANT UPDATE"))
+
+    primary = item.get("primary_link")
+    source = item.get("url")
+
+    parts = [
+        f"{icon} <b>{heading}</b>",
+        "",
+        f"🔥 <b>{_escape(item.get('title', 'Government Exam Update'))}</b>",
+        "",
+        f"📅 <b>Updated:</b> {_escape(item.get('published', 'Today'))}",
+        "",
+    ]
+
+    if primary:
+        parts.extend([
+            _link(item.get("primary_label", "Open Update"), primary),
+            "",
+        ])
+
+    parts.extend([
+        _link("🔎 View Full Details", source),
+        "",
+        "⚠️ Please verify important dates and instructions on the official authority website before taking action.",
+        "",
+        "📢 <b>Sarkari Naukri Notification</b>",
+        "@sarkari_naukri_notification",
+        "",
+        "━━━━━━━━━━━━━━━━━━",
+        "📚 <b>DAILY EXAM QUIZ</b>",
+        "SSC • UPSC • BPSC • BANKING",
+        "📝 PYQs + Practice Questions",
+        "👉 Join Now: @upsc_ssc_bpsc_bank",
+        "━━━━━━━━━━━━━━━━━━",
+    ])
 
     return "\n".join(part for part in parts if part != "")
 
