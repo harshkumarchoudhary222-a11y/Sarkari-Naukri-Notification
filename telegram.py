@@ -174,7 +174,7 @@ def build_update_message(job, update):
         )
 
     links = []
-    apply = job.get("apply_link") or job.get("source_url")
+    apply = job.get("apply_link")
     notification = job.get("notification_link")
     if apply:
         links.append(_link("📝 Apply Online", apply))
