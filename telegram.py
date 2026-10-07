@@ -2,6 +2,7 @@ import html
 import os
 import re
 import requests
+from urllib.parse import urlparse
 
 
 TELEGRAM_API = "https://api.telegram.org/bot{token}/sendMessage"
@@ -31,11 +32,23 @@ def _link(label, url):
 
 
 def _apply_link(job):
-    url = job.get("apply_link")
-    if url and str(url).strip() not in {"", "Not found", "Not specified"}:
-        return str(url).strip()
-    # Never substitute the SarkariResult detail page for an Apply Online link.
-    return ""
+    url = str(job.get("apply_link") or "").strip()
+    if not url or url in {"Not found", "Not specified"}:
+        return ""
+
+    # Defense in depth: an Apply Online button must never point back to the
+    # SarkariResult source domain. The extractor is already required to find
+    # an external application portal, and Telegram rejects any legacy/internal
+    # URL that may still exist in an older saved job record.
+    source = str(job.get("source_url") or "").strip()
+    if source:
+        try:
+            if urlparse(url).netloc.lower() == urlparse(source).netloc.lower():
+                return ""
+        except ValueError:
+            return ""
+
+    return url
 
 
 def _format_table_rows(rows):
