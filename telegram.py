@@ -121,29 +121,30 @@ def build_new_job_message(job):
     if official:
         links.append(_link("🌐 Official Website", official))
 
+    # Keep Telegram readable: group related information into compact
+    # sections instead of putting a blank line after every single field.
+    info_block = "\n".join([
+        f"➡️ <b>Application Starts:</b> {start_date}",
+        f"➡️ <b>Last Date:</b> {last_date}",
+        f"➡️ <b>Eligibility:</b> {eligibility}",
+        f"➡️ <b>Total Posts:</b> {total}",
+        f"➡️ <b>Exam Date:</b> {exam_date}",
+    ])
+
     parts = [
         "⏳ <b>अंतिम तिथि का इंतजार न करें, आवेदन चल रहे हैं ✅</b>",
         "",
         f"🔥 <b>{title}</b>",
         "",
-        f"➡️ <b>Application Starts:</b> {start_date}",
-        "",
-        f"➡️ <b>Last Date:</b> {last_date}",
-        "",
-        f"➡️ <b>Eligibility:</b> {eligibility}",
-        "",
-        f"➡️ <b>Total Posts:</b> {total}",
-        "",
-        f"➡️ <b>Exam Date:</b> {exam_date}",
+        info_block,
         "",
         _escape(_hashtags(job)),
         "",
         "📌 <b>Important Links</b>",
         "",
-        "\n\n".join(links) if links else _link("🔎 View Recruitment Details", job.get("source_url")),
+        "\n".join(links) if links else _link("🔎 View Recruitment Details", job.get("source_url")),
         "",
         "📢 <b>Sarkari Naukri Notification</b>",
-        "",
         "👉 @sarkari_naukri_notification",
         "",
         "━━━━━━━━━━━━━━━━━━",
