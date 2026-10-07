@@ -11,6 +11,11 @@ NOT_MENTIONED = {
     "not announced",
     "as per government rules",
     "for",
+    "before exam",
+    "after exam",
+    "will be updated here soon",
+    "will be updated soon",
+    "to be updated",
 }
 
 
@@ -69,10 +74,7 @@ def compare_jobs(old, new):
 
         # "Not mentioned" and "Not Announced" both mean that no usable
         # update was extracted. Do not alert users for this wording change.
-        missing_values = {
-            "", "not mentioned", "not announced", "not specified",
-            "not available", "not found"
-        }
+        missing_values = NOT_MENTIONED | {"n/a", "na", "-"}
         if before_norm in missing_values and after_norm in missing_values:
             continue
 
@@ -151,13 +153,22 @@ def compare_jobs(old, new):
         if before_norm == after_norm:
             continue
 
-        if meaningful(after):
-            changes.append({
-                "field": f"event_statuses.{field}",
-                "label": label,
-                "old": before or "Not mentioned",
-                "new": after or "Not mentioned"
-            })
+        # Generic placeholders such as "Before Exam" are not real status
+        # changes. Only alert when the new value contains a concrete date,
+        # release state, or meaningful exam/update information.
+        placeholder_statuses = NOT_MENTIONED | {
+            "before exam", "after exam", "will be updated here soon",
+            "will be updated soon", "to be updated", "soon"
+        }
+        if after_norm in placeholder_statuses:
+            continue
+
+        changes.append({
+            "field": f"event_statuses.{field}",
+            "label": label,
+            "old": before or "Not mentioned",
+            "new": after or "Not mentioned"
+        })
 
     # Selection-process extraction is intentionally not used as an alert
     # signal yet; source-page headings frequently reformat without a real
