@@ -7,7 +7,10 @@ NOT_MENTIONED = {
     "not specified",
     "not found",
     "not mentioned",
-    "not available"
+    "not available",
+    "not announced",
+    "as per government rules",
+    "for",
 }
 
 
@@ -74,6 +77,22 @@ def compare_jobs(old, new):
             continue
 
         # Do not report a truncated qualification as a real update.
+        # Ignore incomplete/heading-only old values created by the scraper.
+        placeholder_prefixes = (
+            "qualification", "eligibility", "education qualification",
+            "educational qualification", "mode of selection",
+            "selection process", "for"
+        )
+        if field in {"qualification", "application_fee"} and (
+            before_norm in missing_values
+            or before_norm in placeholder_prefixes
+            or before_norm.endswith("eligibility criteria")
+            or before_norm.endswith("mode of selection")
+        ):
+            if meaningful(after) and before_norm != after_norm:
+                # A scraper correction is not itself a recruitment update.
+                continue
+
         if (
             field == "qualification"
             and before_norm
@@ -122,26 +141,28 @@ def compare_jobs(old, new):
         before = old_events.get(field, "")
         after = new_events.get(field, "")
 
-        if normalize(before) != normalize(after):
-            if meaningful(before) or meaningful(after):
-                changes.append({
-                    "field": f"event_statuses.{field}",
-                    "label": label,
-                    "old": before or "Not mentioned",
-                    "new": after or "Not mentioned"
-                })
+        before_norm = normalize(before)
+        after_norm = normalize(after)
 
-    old_selection = normalize(old.get("selection_process", []))
-    new_selection = normalize(new.get("selection_process", []))
+        # A status disappearing is usually an extraction problem. Only alert
+        # when a previously absent status becomes a real status.
+        if after_norm in {"", "not mentioned", "not specified", "not announced"}:
+            continue
+        if before_norm == after_norm:
+            continue
 
-    if old_selection != new_selection and (old_selection or new_selection):
-        changes.append({
-            "field": "selection_process",
-            "label": "Selection process",
-            "old": old.get("selection_process", []) or "Not mentioned",
-            "new": new.get("selection_process", []) or "Not mentioned"
-        })
+        if meaningful(after):
+            changes.append({
+                "field": f"event_statuses.{field}",
+                "label": label,
+                "old": before or "Not mentioned",
+                "new": after or "Not mentioned"
+            })
 
+    # Selection-process extraction is intentionally not used as an alert
+    # signal yet; source-page headings frequently reformat without a real
+    # recruitment change.
+    
     # Post/category tables can be reformatted by the source page without
     # changing the actual vacancy count. Treat the total vacancy field as the
     # authoritative change signal to avoid noisy false updates from FAQ tables.
