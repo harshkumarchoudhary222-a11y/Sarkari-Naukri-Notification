@@ -144,14 +144,33 @@ def build_new_job_message(job):
     return "\n".join(part for part in parts if part != "")
 
 
+def _safe_change_value(change, side):
+    value = change.get(side, "Not specified")
+    field = str(change.get("field", "")).lower()
+    text = str(value or "").strip()
+    lower = text.lower()
+
+    # Never expose known app-store/social/promotional URLs in a public
+    # recruitment update, even if they exist in an older saved job snapshot.
+    blocked = (
+        "play.google.com", "apps.apple.com", "whatsapp.com", "wa.me",
+        "t.me", "telegram.me", "facebook.com", "instagram.com",
+        "youtube.com", "twitter.com", "x.com"
+    )
+    if field.endswith("apply_link") and any(item in lower for item in blocked):
+        return "Not available"
+
+    return text or "Not specified"
+
+
 def build_update_message(job, update):
     changes = update.get("changes", [])
     lines = []
     for change in changes:
         lines.append(
             f"• <b>{_escape(change.get('label', 'Updated'))}</b>: "
-            f"{_escape(change.get('old', 'Not specified'))} → "
-            f"{_escape(change.get('new', 'Not specified'))}"
+            f"{_escape(_safe_change_value(change, 'old'))} → "
+            f"{_escape(_safe_change_value(change, 'new'))}"
         )
 
     links = []
