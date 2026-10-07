@@ -262,6 +262,16 @@ def extract_dates(lines):
             ["Online Apply Last Date", "Application Last Date", "Last Date", "Closing Date"]
         )
 
+    # Keep action text such as "Apply Online" out of date fields.
+    # Source pages sometimes place it immediately after the start date.
+    if dates.get("application_start"):
+        dates["application_start"] = re.sub(
+            r"\s+(?:apply\s+online|online\s+apply)\s*$",
+            "",
+            dates["application_start"],
+            flags=re.IGNORECASE,
+        ).strip()
+
     for key in ("application_start", "application_last_date", "fee_payment_last_date", "correction_date", "exam_date", "admit_card", "result"):
         raw_value = dates.get(key, "")
         value = _clean_date_value(raw_value)
