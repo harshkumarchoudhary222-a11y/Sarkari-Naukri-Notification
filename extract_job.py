@@ -555,7 +555,9 @@ def extract_important_links(soup, page_url):
         ):
             return False
         if any(bad in lower for bad in [
-            "play.google.com", "apps.apple.com", "javascript:", "mailto:"
+            "play.google.com", "apps.apple.com", "whatsapp.com", "wa.me",
+            "t.me", "telegram.me", "facebook.com", "instagram.com",
+            "youtube.com", "twitter.com", "x.com", "javascript:", "mailto:"
         ]):
             return False
         return href
@@ -672,7 +674,11 @@ def extract_links(soup, page_url):
         lower = href.lower()
         if is_same_page(href):
             return True
-        if "play.google.com" in lower or "apps.apple.com" in lower:
+        if any(domain in lower for domain in [
+            "play.google.com", "apps.apple.com", "whatsapp.com", "wa.me",
+            "t.me", "telegram.me", "facebook.com", "instagram.com",
+            "youtube.com", "twitter.com", "x.com"
+        ]):
             return True
         if lower.startswith(("javascript:", "mailto:")):
             return True
@@ -713,17 +719,10 @@ def extract_links(soup, page_url):
                     "application link",
                 ]
             )
-            strong_apply_url = any(
-                phrase in href_lower
-                for phrase in [
-                    "apply",
-                    "registration",
-                    "register",
-                    "onlineform",
-                    "application",
-                ]
-            )
-            if strong_apply_text or strong_apply_url:
+            # Never select an Apply link merely because its URL contains
+            # "apply"/"registration". Social and promotional URLs can contain
+            # those words. Require explicit anchor text or an Apply heading.
+            if strong_apply_text:
                 result["apply_link"] = href
             elif generic_click and "apply" in nearby_heading:
                 result["apply_link"] = href
