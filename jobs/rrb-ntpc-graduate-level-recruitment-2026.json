@@ -2,7 +2,7 @@
   "title": "RRB NTPC Graduate Level Recruitment 2026",
   "source_url": "https://sarkariresult.com.cm/rrb-ntpc-graduate-level-06-2026/",
   "organization": "Indian Railways",
-  "total_vacancies": "3477",
+  "total_vacancies": "3548",
   "post_wise_vacancies": [
     [
       [
@@ -10,22 +10,34 @@
         "No. Of Post"
       ],
       [
-        "NTPC Graduate Level",
-        "3477"
+        "Chief Commercial Cum Ticket Supervisor",
+        "127"
+      ],
+      [
+        "Goods Train Manager",
+        "2750"
+      ],
+      [
+        "Junior Accounts Assistant Cum Typist",
+        "300"
+      ],
+      [
+        "Senior Clerk Cum Typist",
+        "371"
       ]
     ]
   ],
   "category_wise_vacancies": [],
-  "qualification": "No. Of Posts",
+  "qualification": "Graduate Level CEN 06/2026",
   "age_limit": "Minimum: 18 years | Maximum: 33 years",
   "age_relaxation": "As per government rules",
   "salary": "Not specified",
   "application_fee": "For General / OBC / EWS : ₹ 500/-",
   "important_dates": {
-    "application_start": "08 October 2026 Tentative",
-    "application_last_date": "06 November 2026 Tentative",
-    "fee_payment_last_date": "06 November 2026 Tentative",
-    "correction_date": "Not mentioned",
+    "application_start": "08 October 2026",
+    "application_last_date": "06 November 2026",
+    "fee_payment_last_date": "08 November 2026",
+    "correction_date": "09 – 18 November 2026",
     "exam_date": "Notify Later Exam City Details : 10 Days Before Exam",
     "admit_card": "04 Days Before Exam Candidates are advised to confirm from the RRB official webs",
     "result": "Not mentioned"
@@ -45,7 +57,7 @@
     "answer_key_status": "Not mentioned",
     "result_status": "Not mentioned"
   },
-  "apply_link": "",
+  "apply_link": "https://www.rrbapply.gov.in/#/auth/landing",
   "notification_link": "http://sarkariresult.com.cm/wp-content/uploads/2026/09/RRB-NTPC-Graduate-Level-Short-Notice-2026.webp",
   "official_website": "https://www.rrbapply.gov.in/#/auth/landing",
   "result_link": "",
@@ -61,6 +73,10 @@
     "official_source_checked": false,
     "official_source_url": "",
     "checks": [
+      {
+        "url": "https://www.rrbapply.gov.in/#/auth/landing",
+        "status": "UNREACHABLE"
+      },
       {
         "url": "https://www.rrbapply.gov.in/#/auth/landing",
         "status": "UNREACHABLE"
@@ -101,20 +117,21 @@
       "result": "Not mentioned"
     },
     "selection_process": [
-      "RRB NTPC Graduate Level Recruitment 2026 : Mode Of Selection",
-      "Computer Based Test (CBT-1) Computer Based Test (CBT-2) – Skill Test / Typing Test / Aptitude Test Document Verification . Medical Examination .",
+      "Computer Based Test (CBT-1) Computer Based Test (CBT-2)",
+      "Skill Test / Typing Test / Aptitude Test Document Verification . Medical Examination",
       "Computer Based Test (CBT-1)",
-      "Computer Based Test (CBT-2) –",
+      "Computer Based Test (CBT-2)",
       "Skill Test / Typing Test / Aptitude Test",
-      "Document Verification ."
+      "Document Verification",
+      "Medical Examination"
     ],
     "event_statuses": {
-      "admit_card_status": "Not mentioned",
+      "admit_card_status": "Admit Card: 04 Days Before Exam",
       "exam_city_status": "Not mentioned",
       "answer_key_status": "Not mentioned",
       "result_status": "Not mentioned"
     },
-    "apply_link": "https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L",
+    "apply_link": "",
     "notification_link": "http://sarkariresult.com.cm/wp-content/uploads/2026/09/RRB-NTPC-Graduate-Level-Short-Notice-2026.webp",
     "official_website": "https://www.rrbapply.gov.in/#/auth/landing",
     "result_link": "",
@@ -139,6 +156,7 @@
     },
     "previous_version": {
       "title": "RRB NTPC Graduate Level Recruitment 2026",
+      "source_url": "https://sarkariresult.com.cm/rrb-ntpc-graduate-level-06-2026/",
       "organization": "Indian Railways",
       "total_vacancies": "3477",
       "post_wise_vacancies": [
@@ -158,7 +176,7 @@
       "age_limit": "Minimum: 18 years | Maximum: 33 years",
       "age_relaxation": "As per government rules",
       "salary": "Not specified",
-      "application_fee": "For",
+      "application_fee": "For General / OBC / EWS : ₹ 500/-",
       "important_dates": {
         "application_start": "08 October 2026 Tentative",
         "application_last_date": "06 November 2026 Tentative",
@@ -169,22 +187,25 @@
         "result": "Not mentioned"
       },
       "selection_process": [
-        "Mode Of Selection",
+        "RRB NTPC Graduate Level Recruitment 2026 : Mode Of Selection",
+        "Computer Based Test (CBT-1) Computer Based Test (CBT-2) – Skill Test / Typing Test / Aptitude Test Document Verification . Medical Examination .",
         "Computer Based Test (CBT-1)",
-        "Computer Based Test (CBT-2)",
+        "Computer Based Test (CBT-2) –",
         "Skill Test / Typing Test / Aptitude Test",
-        "Document Verification"
+        "Document Verification ."
       ],
       "event_statuses": {
         "admit_card_status": "Not mentioned",
         "exam_city_status": "Not mentioned",
-        "answer_key_status": "answer key 2026 ib mts final result 2026 – out",
-        "result_status": "result 2026 – out"
+        "answer_key_status": "Not mentioned",
+        "result_status": "Not mentioned"
       },
-      "apply_link": "https://play.google.com/store/apps/details?id=com.vinod.sarkarinaukri&hl=en_IN",
-      "notification_link": "https://sarkariresult.com.cm/rrb-ntpc-graduate-level-06-2026/#content",
-      "official_website": "Not found",
-      "source_url": "https://sarkariresult.com.cm/rrb-ntpc-graduate-level-06-2026/",
+      "apply_link": "https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L",
+      "notification_link": "http://sarkariresult.com.cm/wp-content/uploads/2026/09/RRB-NTPC-Graduate-Level-Short-Notice-2026.webp",
+      "official_website": "https://www.rrbapply.gov.in/#/auth/landing",
+      "result_link": "",
+      "admit_card_link": "",
+      "answer_key_link": "",
       "verification": {
         "verification_status": "NEEDS_REVIEW",
         "official_domains_expected": [
@@ -194,10 +215,13 @@
         ],
         "official_source_checked": false,
         "official_source_url": "",
-        "checks": [],
-        "verification_notes": [
-          "No known official-domain link was found on the source page."
-        ]
+        "checks": [
+          {
+            "url": "https://www.rrbapply.gov.in/#/auth/landing",
+            "status": "UNREACHABLE"
+          }
+        ],
+        "verification_notes": []
       },
       "previous_version": {
         "title": "RRB NTPC Graduate Level Recruitment 2026",
@@ -218,7 +242,7 @@
         "category_wise_vacancies": [],
         "qualification": "No. Of Posts",
         "age_limit": "Minimum: 18 years | Maximum: 33 years",
-        "age_relaxation": "for the",
+        "age_relaxation": "As per government rules",
         "salary": "Not specified",
         "application_fee": "For",
         "important_dates": {
@@ -243,8 +267,8 @@
           "answer_key_status": "answer key 2026 ib mts final result 2026 – out",
           "result_status": "result 2026 – out"
         },
-        "apply_link": "Not found",
-        "notification_link": "Not found",
+        "apply_link": "https://play.google.com/store/apps/details?id=com.vinod.sarkarinaukri&hl=en_IN",
+        "notification_link": "https://sarkariresult.com.cm/rrb-ntpc-graduate-level-06-2026/#content",
         "official_website": "Not found",
         "source_url": "https://sarkariresult.com.cm/rrb-ntpc-graduate-level-06-2026/",
         "verification": {
@@ -264,7 +288,7 @@
         "previous_version": {
           "title": "RRB NTPC Graduate Level Recruitment 2026",
           "organization": "Indian Railways",
-          "total_vacancies": "Not specified",
+          "total_vacancies": "3477",
           "post_wise_vacancies": [
             [
               [
@@ -275,86 +299,22 @@
                 "NTPC Graduate Level",
                 "3477"
               ]
-            ],
-            [
-              [
-                "RRB NTPC Graduate Level Recruitment 2026 : Eligibility Criteria"
-              ],
-              [
-                "Post Name",
-                "No. Of Posts",
-                "Eligibility Criteria"
-              ],
-              [
-                "Chief Commercial-cum-Ticket Supervisor",
-                "—",
-                "Candidates must have a Degree from a recognized University or its equivalent in India. For complete eligibility criteria and details, please r efer to the official notification ."
-              ],
-              [
-                "Station Master (SM)",
-                "—"
-              ],
-              [
-                "Goods Train Manager",
-                "—"
-              ],
-              [
-                "Junior Accounts Assistant Cum Typist",
-                "—",
-                "Candidates must have a Degree from a recognized University or its equivalent and typing proficiency in English or Hindi on a computer is essential."
-              ],
-              [
-                "Senior Clerk Cum Typist",
-                "—"
-              ],
-              [
-                "Traffic Assistant",
-                "—",
-                "Candidates must have a Degree from a recognized University or its equivalent in India."
-              ]
-            ],
-            [
-              [
-                "RRB NTPC Graduate Level Online Form 2026 : Important Question"
-              ],
-              [
-                "Question: When will the online application for RRB NTPC Graduate Level Recruitment 2026 Start? Answer: The online application for this recruitment will start on 08 October 2026 ."
-              ],
-              [
-                "Question: What is the last date for online application for RRB NTPC Graduate Level Online Form 2026 ? Answer: The last date for online application Form is 06 November 2026."
-              ],
-              [
-                "Question: What is the age limit for RRB NTPC Graduate Level Bharti 2026 ? Answer: The age limit for RRB NTPC Graduate Level Bharti 2026 is as follows: The Minimum age is 18 Years & The Maximum Age Is 33 Years as on 01 January 2027."
-              ],
-              [
-                "Question: What is the eligibility for RRB NTPC Graduate Level Vacancy 2026 ? Answer: The eligibility for RRB NTPC Graduate Level Bharti 2026 is as follows post wise."
-              ],
-              [
-                "Question: What is the official website for RRB ? Answer: The official website for RRB is https://rrb.indianrailways.gov.in/."
-              ]
             ]
           ],
-          "category_wise_vacancies": [
-            [
-              [
-                "Latest Posts MPESB MP Police Constable Online Form 2026 (7500 Posts) – Last Date Today IBPS Hindi Officer Online Form 2026 – Last Date Today UPSC Engineering Services Pre Online Form 2027 – Last Date Today Rajasthan State Eligibility Test SET Answer Key 2026 IB MTS Final Result 2026 – Out",
-                "Related Posts Rajasthan State Eligibility Test SET Answer Key 2026 RRB Ministerial & Isolated Category Result 2026 – Out RPSC APO Marks 2026 RPSC Veterinary Officer 2025 Merit List, Marks Uttarakhand TET Answer Key 2026 – Out"
-              ]
-            ]
-          ],
-          "qualification": "RRB NTPC Graduate Level Recruitment 2026 : Eligibility Criteria",
+          "category_wise_vacancies": [],
+          "qualification": "No. Of Posts",
           "age_limit": "Minimum: 18 years | Maximum: 33 years",
-          "age_relaxation": "provides age relaxation for the",
+          "age_relaxation": "for the",
           "salary": "Not specified",
           "application_fee": "For",
           "important_dates": {
             "application_start": "08 October 2026 Tentative",
             "application_last_date": "06 November 2026 Tentative",
             "fee_payment_last_date": "06 November 2026 Tentative",
-            "correction_date": "Not Announced",
+            "correction_date": "Not mentioned",
             "exam_date": "Notify Later Exam City Details : 10 Days Before Exam",
             "admit_card": "04 Days Before Exam Candidates are advised to confirm from the RRB official webs",
-            "result": "Not Announced"
+            "result": "Not mentioned"
           },
           "selection_process": [
             "Mode Of Selection",
@@ -390,7 +350,7 @@
           "previous_version": {
             "title": "RRB NTPC Graduate Level Recruitment 2026",
             "organization": "Indian Railways",
-            "total_vacancies": "3477",
+            "total_vacancies": "Not specified",
             "post_wise_vacancies": [
               [
                 [
@@ -477,10 +437,10 @@
               "application_start": "08 October 2026 Tentative",
               "application_last_date": "06 November 2026 Tentative",
               "fee_payment_last_date": "06 November 2026 Tentative",
-              "correction_date": "",
+              "correction_date": "Not Announced",
               "exam_date": "Notify Later Exam City Details : 10 Days Before Exam",
               "admit_card": "04 Days Before Exam Candidates are advised to confirm from the RRB official webs",
-              "result": ""
+              "result": "Not Announced"
             },
             "selection_process": [
               "Mode Of Selection",
@@ -596,6 +556,7 @@
               ],
               "qualification": "RRB NTPC Graduate Level Recruitment 2026 : Eligibility Criteria",
               "age_limit": "Minimum: 18 years | Maximum: 33 years",
+              "age_relaxation": "provides age relaxation for the",
               "salary": "Not specified",
               "application_fee": "For",
               "important_dates": {
@@ -714,8 +675,8 @@
                 "category_wise_vacancies": [
                   [
                     [
-                      "Latest Posts SSC CHSL 10+2 Online Form 2026 (2536 Posts) MPESB MP Police Constable Online Form 2026 (7500 Posts) RRB NTPC 10+2 UG Online Form 2026 Uttarakhand TET Answer Key 2026 – Out SSC CGL Tier-I Admit Card 2026",
-                      "Related Posts Delhi High Court Higher Judicial Service HJS Mains Admit Card 2026 Railway RRB Technician Admit Card 2026 IBPS Clerk (CSA) 16th Pre Admit Card 2026 RRB Section Controller Exam City Details 2026 SSC Junior Engineer JE Exam Date 2026"
+                      "Latest Posts MPESB MP Police Constable Online Form 2026 (7500 Posts) – Last Date Today IBPS Hindi Officer Online Form 2026 – Last Date Today UPSC Engineering Services Pre Online Form 2027 – Last Date Today Rajasthan State Eligibility Test SET Answer Key 2026 IB MTS Final Result 2026 – Out",
+                      "Related Posts Rajasthan State Eligibility Test SET Answer Key 2026 RRB Ministerial & Isolated Category Result 2026 – Out RPSC APO Marks 2026 RPSC Veterinary Officer 2025 Merit List, Marks Uttarakhand TET Answer Key 2026 – Out"
                     ]
                   ]
                 ],
@@ -742,8 +703,8 @@
                 "event_statuses": {
                   "admit_card_status": "Not mentioned",
                   "exam_city_status": "Not mentioned",
-                  "answer_key_status": "answer key 2026 – out",
-                  "result_status": "Not mentioned"
+                  "answer_key_status": "answer key 2026 ib mts final result 2026 – out",
+                  "result_status": "result 2026 – out"
                 },
                 "apply_link": "Not found",
                 "notification_link": "Not found",
@@ -763,11 +724,175 @@
                     "No known official-domain link was found on the source page."
                   ]
                 },
-                "processed_at": "2026-10-05T22:02:48.544385+00:00"
-              },
-              "change_history": [
-                {
-                  "detected_at": "2026-10-06T06:02:34.506650+00:00",
+                "previous_version": {
+                  "title": "RRB NTPC Graduate Level Recruitment 2026",
+                  "organization": "Indian Railways",
+                  "total_vacancies": "3477",
+                  "post_wise_vacancies": [
+                    [
+                      [
+                        "Post Name",
+                        "No. Of Post"
+                      ],
+                      [
+                        "NTPC Graduate Level",
+                        "3477"
+                      ]
+                    ],
+                    [
+                      [
+                        "RRB NTPC Graduate Level Recruitment 2026 : Eligibility Criteria"
+                      ],
+                      [
+                        "Post Name",
+                        "No. Of Posts",
+                        "Eligibility Criteria"
+                      ],
+                      [
+                        "Chief Commercial-cum-Ticket Supervisor",
+                        "—",
+                        "Candidates must have a Degree from a recognized University or its equivalent in India. For complete eligibility criteria and details, please r efer to the official notification ."
+                      ],
+                      [
+                        "Station Master (SM)",
+                        "—"
+                      ],
+                      [
+                        "Goods Train Manager",
+                        "—"
+                      ],
+                      [
+                        "Junior Accounts Assistant Cum Typist",
+                        "—",
+                        "Candidates must have a Degree from a recognized University or its equivalent and typing proficiency in English or Hindi on a computer is essential."
+                      ],
+                      [
+                        "Senior Clerk Cum Typist",
+                        "—"
+                      ],
+                      [
+                        "Traffic Assistant",
+                        "—",
+                        "Candidates must have a Degree from a recognized University or its equivalent in India."
+                      ]
+                    ],
+                    [
+                      [
+                        "RRB NTPC Graduate Level Online Form 2026 : Important Question"
+                      ],
+                      [
+                        "Question: When will the online application for RRB NTPC Graduate Level Recruitment 2026 Start? Answer: The online application for this recruitment will start on 08 October 2026 ."
+                      ],
+                      [
+                        "Question: What is the last date for online application for RRB NTPC Graduate Level Online Form 2026 ? Answer: The last date for online application Form is 06 November 2026."
+                      ],
+                      [
+                        "Question: What is the age limit for RRB NTPC Graduate Level Bharti 2026 ? Answer: The age limit for RRB NTPC Graduate Level Bharti 2026 is as follows: The Minimum age is 18 Years & The Maximum Age Is 33 Years as on 01 January 2027."
+                      ],
+                      [
+                        "Question: What is the eligibility for RRB NTPC Graduate Level Vacancy 2026 ? Answer: The eligibility for RRB NTPC Graduate Level Bharti 2026 is as follows post wise."
+                      ],
+                      [
+                        "Question: What is the official website for RRB ? Answer: The official website for RRB is https://rrb.indianrailways.gov.in/."
+                      ]
+                    ]
+                  ],
+                  "category_wise_vacancies": [
+                    [
+                      [
+                        "Latest Posts SSC CHSL 10+2 Online Form 2026 (2536 Posts) MPESB MP Police Constable Online Form 2026 (7500 Posts) RRB NTPC 10+2 UG Online Form 2026 Uttarakhand TET Answer Key 2026 – Out SSC CGL Tier-I Admit Card 2026",
+                        "Related Posts Delhi High Court Higher Judicial Service HJS Mains Admit Card 2026 Railway RRB Technician Admit Card 2026 IBPS Clerk (CSA) 16th Pre Admit Card 2026 RRB Section Controller Exam City Details 2026 SSC Junior Engineer JE Exam Date 2026"
+                      ]
+                    ]
+                  ],
+                  "qualification": "RRB NTPC Graduate Level Recruitment 2026 : Eligibility Criteria",
+                  "age_limit": "Minimum: 18 years | Maximum: 33 years",
+                  "salary": "Not specified",
+                  "application_fee": "For",
+                  "important_dates": {
+                    "application_start": "08 October 2026 Tentative",
+                    "application_last_date": "06 November 2026 Tentative",
+                    "fee_payment_last_date": "06 November 2026 Tentative",
+                    "correction_date": "",
+                    "exam_date": "Notify Later Exam City Details : 10 Days Before Exam",
+                    "admit_card": "04 Days Before Exam Candidates are advised to confirm from the RRB official webs",
+                    "result": ""
+                  },
+                  "selection_process": [
+                    "Mode Of Selection",
+                    "Computer Based Test (CBT-1)",
+                    "Computer Based Test (CBT-2)",
+                    "Skill Test / Typing Test / Aptitude Test",
+                    "Document Verification"
+                  ],
+                  "event_statuses": {
+                    "admit_card_status": "Not mentioned",
+                    "exam_city_status": "Not mentioned",
+                    "answer_key_status": "answer key 2026 – out",
+                    "result_status": "Not mentioned"
+                  },
+                  "apply_link": "Not found",
+                  "notification_link": "Not found",
+                  "official_website": "Not found",
+                  "source_url": "https://sarkariresult.com.cm/rrb-ntpc-graduate-level-06-2026/",
+                  "verification": {
+                    "verification_status": "NEEDS_REVIEW",
+                    "official_domains_expected": [
+                      "indianrailways.gov.in",
+                      "rrbapply.gov.in",
+                      "rrbcdg.gov.in"
+                    ],
+                    "official_source_checked": false,
+                    "official_source_url": "",
+                    "checks": [],
+                    "verification_notes": [
+                      "No known official-domain link was found on the source page."
+                    ]
+                  },
+                  "processed_at": "2026-10-05T22:02:48.544385+00:00"
+                },
+                "change_history": [
+                  {
+                    "detected_at": "2026-10-06T06:02:34.506650+00:00",
+                    "change_type": "HIGH_PRIORITY",
+                    "changes": [
+                      {
+                        "field": "event_statuses.answer_key_status",
+                        "label": "Answer key status",
+                        "old": "answer key 2026 – out",
+                        "new": "answer key 2026 ib mts final result 2026 – out"
+                      },
+                      {
+                        "field": "event_statuses.result_status",
+                        "label": "Result status",
+                        "old": "Not mentioned",
+                        "new": "result 2026 – out"
+                      },
+                      {
+                        "field": "category_wise_vacancies",
+                        "label": "Category-wise vacancies",
+                        "old": [
+                          [
+                            [
+                              "Latest Posts SSC CHSL 10+2 Online Form 2026 (2536 Posts) MPESB MP Police Constable Online Form 2026 (7500 Posts) RRB NTPC 10+2 UG Online Form 2026 Uttarakhand TET Answer Key 2026 – Out SSC CGL Tier-I Admit Card 2026",
+                              "Related Posts Delhi High Court Higher Judicial Service HJS Mains Admit Card 2026 Railway RRB Technician Admit Card 2026 IBPS Clerk (CSA) 16th Pre Admit Card 2026 RRB Section Controller Exam City Details 2026 SSC Junior Engineer JE Exam Date 2026"
+                            ]
+                          ]
+                        ],
+                        "new": [
+                          [
+                            [
+                              "Latest Posts MPESB MP Police Constable Online Form 2026 (7500 Posts) – Last Date Today IBPS Hindi Officer Online Form 2026 – Last Date Today UPSC Engineering Services Pre Online Form 2027 – Last Date Today Rajasthan State Eligibility Test SET Answer Key 2026 IB MTS Final Result 2026 – Out",
+                              "Related Posts Rajasthan State Eligibility Test SET Answer Key 2026 RRB Ministerial & Isolated Category Result 2026 – Out RPSC APO Marks 2026 RPSC Veterinary Officer 2025 Merit List, Marks Uttarakhand TET Answer Key 2026 – Out"
+                            ]
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "last_update": {
+                  "has_material_update": true,
                   "change_type": "HIGH_PRIORITY",
                   "changes": [
                     {
@@ -803,51 +928,25 @@
                       ]
                     }
                   ]
+                },
+                "processed_at": "2026-10-06T06:02:34.506694+00:00"
+              },
+              "change_history": [
+                {
+                  "detected_at": "2026-10-06T10:03:03.177819+00:00",
+                  "change_type": "UPDATE",
+                  "changes": [
+                    {
+                      "field": "age_relaxation",
+                      "label": "Age relaxation",
+                      "old": "Not mentioned",
+                      "new": "provides age relaxation for the"
+                    }
+                  ]
                 }
               ],
               "last_update": {
                 "has_material_update": true,
-                "change_type": "HIGH_PRIORITY",
-                "changes": [
-                  {
-                    "field": "event_statuses.answer_key_status",
-                    "label": "Answer key status",
-                    "old": "answer key 2026 – out",
-                    "new": "answer key 2026 ib mts final result 2026 – out"
-                  },
-                  {
-                    "field": "event_statuses.result_status",
-                    "label": "Result status",
-                    "old": "Not mentioned",
-                    "new": "result 2026 – out"
-                  },
-                  {
-                    "field": "category_wise_vacancies",
-                    "label": "Category-wise vacancies",
-                    "old": [
-                      [
-                        [
-                          "Latest Posts SSC CHSL 10+2 Online Form 2026 (2536 Posts) MPESB MP Police Constable Online Form 2026 (7500 Posts) RRB NTPC 10+2 UG Online Form 2026 Uttarakhand TET Answer Key 2026 – Out SSC CGL Tier-I Admit Card 2026",
-                          "Related Posts Delhi High Court Higher Judicial Service HJS Mains Admit Card 2026 Railway RRB Technician Admit Card 2026 IBPS Clerk (CSA) 16th Pre Admit Card 2026 RRB Section Controller Exam City Details 2026 SSC Junior Engineer JE Exam Date 2026"
-                        ]
-                      ]
-                    ],
-                    "new": [
-                      [
-                        [
-                          "Latest Posts MPESB MP Police Constable Online Form 2026 (7500 Posts) – Last Date Today IBPS Hindi Officer Online Form 2026 – Last Date Today UPSC Engineering Services Pre Online Form 2027 – Last Date Today Rajasthan State Eligibility Test SET Answer Key 2026 IB MTS Final Result 2026 – Out",
-                          "Related Posts Rajasthan State Eligibility Test SET Answer Key 2026 RRB Ministerial & Isolated Category Result 2026 – Out RPSC APO Marks 2026 RPSC Veterinary Officer 2025 Merit List, Marks Uttarakhand TET Answer Key 2026 – Out"
-                        ]
-                      ]
-                    ]
-                  }
-                ]
-              },
-              "processed_at": "2026-10-06T06:02:34.506694+00:00"
-            },
-            "change_history": [
-              {
-                "detected_at": "2026-10-06T10:03:03.177819+00:00",
                 "change_type": "UPDATE",
                 "changes": [
                   {
@@ -857,25 +956,37 @@
                     "new": "provides age relaxation for the"
                   }
                 ]
+              },
+              "processed_at": "2026-10-06T10:03:03.177853+00:00"
+            },
+            "change_history": [
+              {
+                "detected_at": "2026-10-06T11:08:05.842544+00:00",
+                "change_type": "HIGH_PRIORITY",
+                "changes": [
+                  {
+                    "field": "total_vacancies",
+                    "label": "Vacancy",
+                    "old": "3477",
+                    "new": "Not specified"
+                  },
+                  {
+                    "field": "important_dates.correction_date",
+                    "label": "Correction window",
+                    "old": "Not mentioned",
+                    "new": "Not Announced"
+                  },
+                  {
+                    "field": "important_dates.result",
+                    "label": "Result",
+                    "old": "Not mentioned",
+                    "new": "Not Announced"
+                  }
+                ]
               }
             ],
             "last_update": {
               "has_material_update": true,
-              "change_type": "UPDATE",
-              "changes": [
-                {
-                  "field": "age_relaxation",
-                  "label": "Age relaxation",
-                  "old": "Not mentioned",
-                  "new": "provides age relaxation for the"
-                }
-              ]
-            },
-            "processed_at": "2026-10-06T10:03:03.177853+00:00"
-          },
-          "change_history": [
-            {
-              "detected_at": "2026-10-06T11:08:05.842544+00:00",
               "change_type": "HIGH_PRIORITY",
               "changes": [
                 {
@@ -897,37 +1008,49 @@
                   "new": "Not Announced"
                 }
               ]
+            },
+            "processed_at": "2026-10-06T11:08:05.842588+00:00"
+          },
+          "change_history": [
+            {
+              "detected_at": "2026-10-06T12:09:40.251744+00:00",
+              "change_type": "HIGH_PRIORITY",
+              "changes": [
+                {
+                  "field": "total_vacancies",
+                  "label": "Vacancy",
+                  "old": "Not specified",
+                  "new": "3477"
+                },
+                {
+                  "field": "qualification",
+                  "label": "Qualification",
+                  "old": "RRB NTPC Graduate Level Recruitment 2026 : Eligibility Criteria",
+                  "new": "No. Of Posts"
+                },
+                {
+                  "field": "age_relaxation",
+                  "label": "Age relaxation",
+                  "old": "provides age relaxation for the",
+                  "new": "for the"
+                },
+                {
+                  "field": "important_dates.correction_date",
+                  "label": "Correction window",
+                  "old": "Not Announced",
+                  "new": "Not mentioned"
+                },
+                {
+                  "field": "important_dates.result",
+                  "label": "Result",
+                  "old": "Not Announced",
+                  "new": "Not mentioned"
+                }
+              ]
             }
           ],
           "last_update": {
             "has_material_update": true,
-            "change_type": "HIGH_PRIORITY",
-            "changes": [
-              {
-                "field": "total_vacancies",
-                "label": "Vacancy",
-                "old": "3477",
-                "new": "Not specified"
-              },
-              {
-                "field": "important_dates.correction_date",
-                "label": "Correction window",
-                "old": "Not mentioned",
-                "new": "Not Announced"
-              },
-              {
-                "field": "important_dates.result",
-                "label": "Result",
-                "old": "Not mentioned",
-                "new": "Not Announced"
-              }
-            ]
-          },
-          "processed_at": "2026-10-06T11:08:05.842588+00:00"
-        },
-        "change_history": [
-          {
-            "detected_at": "2026-10-06T12:09:40.251744+00:00",
             "change_type": "HIGH_PRIORITY",
             "changes": [
               {
@@ -961,49 +1084,37 @@
                 "new": "Not mentioned"
               }
             ]
+          },
+          "processed_at": "2026-10-06T12:09:40.251792+00:00"
+        },
+        "change_history": [
+          {
+            "detected_at": "2026-10-06T12:55:11.820694+00:00",
+            "change_type": "MATERIAL_UPDATE",
+            "changes": [
+              {
+                "field": "age_relaxation",
+                "label": "Age relaxation",
+                "old": "for the",
+                "new": "As per government rules"
+              },
+              {
+                "field": "apply_link",
+                "label": "Apply link",
+                "old": "Not found",
+                "new": "https://play.google.com/store/apps/details?id=com.vinod.sarkarinaukri&hl=en_IN"
+              },
+              {
+                "field": "notification_link",
+                "label": "Official notification link",
+                "old": "Not found",
+                "new": "https://sarkariresult.com.cm/rrb-ntpc-graduate-level-06-2026/#content"
+              }
+            ]
           }
         ],
         "last_update": {
           "has_material_update": true,
-          "change_type": "HIGH_PRIORITY",
-          "changes": [
-            {
-              "field": "total_vacancies",
-              "label": "Vacancy",
-              "old": "Not specified",
-              "new": "3477"
-            },
-            {
-              "field": "qualification",
-              "label": "Qualification",
-              "old": "RRB NTPC Graduate Level Recruitment 2026 : Eligibility Criteria",
-              "new": "No. Of Posts"
-            },
-            {
-              "field": "age_relaxation",
-              "label": "Age relaxation",
-              "old": "provides age relaxation for the",
-              "new": "for the"
-            },
-            {
-              "field": "important_dates.correction_date",
-              "label": "Correction window",
-              "old": "Not Announced",
-              "new": "Not mentioned"
-            },
-            {
-              "field": "important_dates.result",
-              "label": "Result",
-              "old": "Not Announced",
-              "new": "Not mentioned"
-            }
-          ]
-        },
-        "processed_at": "2026-10-06T12:09:40.251792+00:00"
-      },
-      "change_history": [
-        {
-          "detected_at": "2026-10-06T12:55:11.820694+00:00",
           "change_type": "MATERIAL_UPDATE",
           "changes": [
             {
@@ -1025,37 +1136,74 @@
               "new": "https://sarkariresult.com.cm/rrb-ntpc-graduate-level-06-2026/#content"
             }
           ]
+        },
+        "processed_at": "2026-10-06T12:55:11.820735+00:00"
+      },
+      "change_history": [
+        {
+          "detected_at": "2026-10-07T08:40:25.311300+00:00",
+          "change_type": "HIGH_PRIORITY",
+          "changes": [
+            {
+              "field": "application_fee",
+              "label": "Application fee",
+              "old": "For",
+              "new": "For General / OBC / EWS : ₹ 500/-"
+            },
+            {
+              "field": "apply_link",
+              "label": "Apply link",
+              "old": "https://play.google.com/store/apps/details?id=com.vinod.sarkarinaukri&hl=en_IN",
+              "new": "https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L"
+            },
+            {
+              "field": "notification_link",
+              "label": "Official notification link",
+              "old": "https://sarkariresult.com.cm/rrb-ntpc-graduate-level-06-2026/#content",
+              "new": "http://sarkariresult.com.cm/wp-content/uploads/2026/09/RRB-NTPC-Graduate-Level-Short-Notice-2026.webp"
+            },
+            {
+              "field": "official_website",
+              "label": "Official website",
+              "old": "Not found",
+              "new": "https://www.rrbapply.gov.in/#/auth/landing"
+            },
+            {
+              "field": "event_statuses.answer_key_status",
+              "label": "Answer key status",
+              "old": "answer key 2026 ib mts final result 2026 – out",
+              "new": "Not mentioned"
+            },
+            {
+              "field": "event_statuses.result_status",
+              "label": "Result status",
+              "old": "result 2026 – out",
+              "new": "Not mentioned"
+            },
+            {
+              "field": "selection_process",
+              "label": "Selection process",
+              "old": [
+                "Mode Of Selection",
+                "Computer Based Test (CBT-1)",
+                "Computer Based Test (CBT-2)",
+                "Skill Test / Typing Test / Aptitude Test",
+                "Document Verification"
+              ],
+              "new": [
+                "RRB NTPC Graduate Level Recruitment 2026 : Mode Of Selection",
+                "Computer Based Test (CBT-1) Computer Based Test (CBT-2) – Skill Test / Typing Test / Aptitude Test Document Verification . Medical Examination .",
+                "Computer Based Test (CBT-1)",
+                "Computer Based Test (CBT-2) –",
+                "Skill Test / Typing Test / Aptitude Test",
+                "Document Verification ."
+              ]
+            }
+          ]
         }
       ],
       "last_update": {
         "has_material_update": true,
-        "change_type": "MATERIAL_UPDATE",
-        "changes": [
-          {
-            "field": "age_relaxation",
-            "label": "Age relaxation",
-            "old": "for the",
-            "new": "As per government rules"
-          },
-          {
-            "field": "apply_link",
-            "label": "Apply link",
-            "old": "Not found",
-            "new": "https://play.google.com/store/apps/details?id=com.vinod.sarkarinaukri&hl=en_IN"
-          },
-          {
-            "field": "notification_link",
-            "label": "Official notification link",
-            "old": "Not found",
-            "new": "https://sarkariresult.com.cm/rrb-ntpc-graduate-level-06-2026/#content"
-          }
-        ]
-      },
-      "processed_at": "2026-10-06T12:55:11.820735+00:00"
-    },
-    "change_history": [
-      {
-        "detected_at": "2026-10-07T08:40:25.311300+00:00",
         "change_type": "HIGH_PRIORITY",
         "changes": [
           {
@@ -1114,74 +1262,31 @@
             ]
           }
         ]
+      },
+      "processed_at": "2026-10-07T08:40:25.311349+00:00"
+    },
+    "change_history": [
+      {
+        "detected_at": "2026-10-07T09:53:55.722059+00:00",
+        "change_type": "HIGH_PRIORITY",
+        "changes": [
+          {
+            "field": "apply_link",
+            "label": "Apply link",
+            "old": "https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L",
+            "new": "Not mentioned"
+          },
+          {
+            "field": "event_statuses.admit_card_status",
+            "label": "Admit card status",
+            "old": "Not mentioned",
+            "new": "Admit Card: 04 Days Before Exam"
+          }
+        ]
       }
     ],
     "last_update": {
       "has_material_update": true,
-      "change_type": "HIGH_PRIORITY",
-      "changes": [
-        {
-          "field": "application_fee",
-          "label": "Application fee",
-          "old": "For",
-          "new": "For General / OBC / EWS : ₹ 500/-"
-        },
-        {
-          "field": "apply_link",
-          "label": "Apply link",
-          "old": "https://play.google.com/store/apps/details?id=com.vinod.sarkarinaukri&hl=en_IN",
-          "new": "https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L"
-        },
-        {
-          "field": "notification_link",
-          "label": "Official notification link",
-          "old": "https://sarkariresult.com.cm/rrb-ntpc-graduate-level-06-2026/#content",
-          "new": "http://sarkariresult.com.cm/wp-content/uploads/2026/09/RRB-NTPC-Graduate-Level-Short-Notice-2026.webp"
-        },
-        {
-          "field": "official_website",
-          "label": "Official website",
-          "old": "Not found",
-          "new": "https://www.rrbapply.gov.in/#/auth/landing"
-        },
-        {
-          "field": "event_statuses.answer_key_status",
-          "label": "Answer key status",
-          "old": "answer key 2026 ib mts final result 2026 – out",
-          "new": "Not mentioned"
-        },
-        {
-          "field": "event_statuses.result_status",
-          "label": "Result status",
-          "old": "result 2026 – out",
-          "new": "Not mentioned"
-        },
-        {
-          "field": "selection_process",
-          "label": "Selection process",
-          "old": [
-            "Mode Of Selection",
-            "Computer Based Test (CBT-1)",
-            "Computer Based Test (CBT-2)",
-            "Skill Test / Typing Test / Aptitude Test",
-            "Document Verification"
-          ],
-          "new": [
-            "RRB NTPC Graduate Level Recruitment 2026 : Mode Of Selection",
-            "Computer Based Test (CBT-1) Computer Based Test (CBT-2) – Skill Test / Typing Test / Aptitude Test Document Verification . Medical Examination .",
-            "Computer Based Test (CBT-1)",
-            "Computer Based Test (CBT-2) –",
-            "Skill Test / Typing Test / Aptitude Test",
-            "Document Verification ."
-          ]
-        }
-      ]
-    },
-    "processed_at": "2026-10-07T08:40:25.311349+00:00"
-  },
-  "change_history": [
-    {
-      "detected_at": "2026-10-07T09:53:55.722059+00:00",
       "change_type": "HIGH_PRIORITY",
       "changes": [
         {
@@ -1197,25 +1302,106 @@
           "new": "Admit Card: 04 Days Before Exam"
         }
       ]
+    },
+    "processed_at": "2026-10-07T09:53:55.722104+00:00"
+  },
+  "change_history": [
+    {
+      "detected_at": "2026-10-07T12:46:30.200962+00:00",
+      "change_type": "MATERIAL_UPDATE",
+      "changes": [
+        {
+          "field": "total_vacancies",
+          "label": "Vacancy",
+          "old": "3477",
+          "new": "3548"
+        },
+        {
+          "field": "qualification",
+          "label": "Qualification",
+          "old": "No. Of Posts",
+          "new": "Graduate Level CEN 06/2026"
+        },
+        {
+          "field": "apply_link",
+          "label": "Apply link",
+          "old": "Not mentioned",
+          "new": "https://www.rrbapply.gov.in/#/auth/landing"
+        },
+        {
+          "field": "important_dates.application_start",
+          "label": "Application start date",
+          "old": "08 October 2026 Tentative",
+          "new": "08 October 2026"
+        },
+        {
+          "field": "important_dates.application_last_date",
+          "label": "Last date",
+          "old": "06 November 2026 Tentative",
+          "new": "06 November 2026"
+        },
+        {
+          "field": "important_dates.fee_payment_last_date",
+          "label": "Fee payment last date",
+          "old": "06 November 2026 Tentative",
+          "new": "08 November 2026"
+        },
+        {
+          "field": "important_dates.correction_date",
+          "label": "Correction window",
+          "old": "Not mentioned",
+          "new": "09 – 18 November 2026"
+        }
+      ]
     }
   ],
   "last_update": {
     "has_material_update": true,
-    "change_type": "HIGH_PRIORITY",
+    "change_type": "MATERIAL_UPDATE",
     "changes": [
+      {
+        "field": "total_vacancies",
+        "label": "Vacancy",
+        "old": "3477",
+        "new": "3548"
+      },
+      {
+        "field": "qualification",
+        "label": "Qualification",
+        "old": "No. Of Posts",
+        "new": "Graduate Level CEN 06/2026"
+      },
       {
         "field": "apply_link",
         "label": "Apply link",
-        "old": "https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L",
-        "new": "Not mentioned"
+        "old": "Not mentioned",
+        "new": "https://www.rrbapply.gov.in/#/auth/landing"
       },
       {
-        "field": "event_statuses.admit_card_status",
-        "label": "Admit card status",
+        "field": "important_dates.application_start",
+        "label": "Application start date",
+        "old": "08 October 2026 Tentative",
+        "new": "08 October 2026"
+      },
+      {
+        "field": "important_dates.application_last_date",
+        "label": "Last date",
+        "old": "06 November 2026 Tentative",
+        "new": "06 November 2026"
+      },
+      {
+        "field": "important_dates.fee_payment_last_date",
+        "label": "Fee payment last date",
+        "old": "06 November 2026 Tentative",
+        "new": "08 November 2026"
+      },
+      {
+        "field": "important_dates.correction_date",
+        "label": "Correction window",
         "old": "Not mentioned",
-        "new": "Admit Card: 04 Days Before Exam"
+        "new": "09 – 18 November 2026"
       }
     ]
   },
-  "processed_at": "2026-10-07T09:53:55.722104+00:00"
+  "processed_at": "2026-10-07T12:46:30.201013+00:00"
 }
