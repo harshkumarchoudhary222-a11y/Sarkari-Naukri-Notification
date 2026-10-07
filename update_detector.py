@@ -58,8 +58,15 @@ def normalize(value):
     return text
 
 
+def canonical_missing(value):
+    normalized = normalize(value)
+    if normalized in NOT_MENTIONED | {"n/a", "na", "-"}:
+        return ""
+    return normalized
+
+
 def meaningful(value):
-    return normalize(value) not in NOT_MENTIONED
+    return canonical_missing(value) != ""
 
 
 def compare_jobs(old, new):
@@ -69,10 +76,11 @@ def compare_jobs(old, new):
         before = old.get(field)
         after = new.get(field)
 
-        before_norm = normalize(before)
-        after_norm = normalize(after)
+        before_norm = canonical_missing(before)
+        after_norm = canonical_missing(after)
 
-        # "Not mentioned" and "Not Announced" both mean that no usable
+        # "Not mentioned", "Not available", "Not Announced", etc. all mean
+        # that no usable update was extracted.
         # update was extracted. Do not alert users for this wording change.
         missing_values = NOT_MENTIONED | {"n/a", "na", "-"}
         if before_norm in missing_values and after_norm in missing_values:
@@ -143,8 +151,8 @@ def compare_jobs(old, new):
         before = old_events.get(field, "")
         after = new_events.get(field, "")
 
-        before_norm = normalize(before)
-        after_norm = normalize(after)
+        before_norm = canonical_missing(before)
+        after_norm = canonical_missing(after)
 
         # A status disappearing is usually an extraction problem. Only alert
         # when a previously absent status becomes a real status.
@@ -160,7 +168,17 @@ def compare_jobs(old, new):
             "before exam", "after exam", "will be updated here soon",
             "will be updated soon", "to be updated", "soon"
         }
-        if after_norm in placeholder_statuses:
+
+        # Source pages often store the label inside the value, e.g.
+        # "Admit Card: Before Exam". Compare the meaningful part only.
+        status_text = re.sub(
+            r"^(admit card|exam city|exam city/intimation|answer key|result)"
+            r"(?:\s+status)?\s*:\s*",
+            "",
+            after_norm,
+        ).strip()
+
+        if status_text in placeholder_statuses:
             continue
 
         changes.append({
