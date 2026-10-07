@@ -426,46 +426,65 @@ def extract_qualification(lines, tables):
 
 
 def extract_event_statuses(lines):
-    text = clean(" ".join(lines)).lower()
-
-    statuses = {}
-
-    patterns = {
-        "admit_card_status": [
-            r"admit\s+card[^.]{0,80}\b(released|out|available|issued|download)"
-        ],
-        "exam_city_status": [
-            r"(exam|examination)\s+city[^.]{0,80}\b(released|out|available|issued|intimation)"
-        ],
-        "answer_key_status": [
-            r"answer\s+key[^.]{0,80}\b(released|out|available|issued)"
-        ],
-        "result_status": [
-            r"\bresult\b[^.]{0,80}\b(declared|released|out|available)"
-        ]
+    """Read status only from explicitly labelled lines, not whole-page text."""
+    statuses = {
+        "admit_card_status": "Not mentioned",
+        "exam_city_status": "Not mentioned",
+        "answer_key_status": "Not mentioned",
+        "result_status": "Not mentioned",
     }
 
-    for field, alternatives in patterns.items():
-        value = ""
-        for pattern in alternatives:
-            match = re.search(pattern, text, re.IGNORECASE)
-            if match:
-                matched = clean(match.group(0))
-                negative_phrases = [
-                    "not released",
-                    "not available",
-                    "not out",
-                    "not issued",
-                    "yet to be released",
-                ]
-                if any(phrase in matched for phrase in negative_phrases):
-                    continue
-                value = matched
-                break
+    rules = {
+        "admit_card_status": re.compile(
+            r"^(?:admit\s*card|download\s+admit\s*card|hall\s*ticket)\s*(?:status)?\s*[:\-]\s*(.+)$",
+            re.I,
+        ),
+        "exam_city_status": re.compile(
+            r"^(?:exam(?:ination)?\s+city|city\s+intimation)\s*(?:status)?\s*[:\-]\s*(.+)$",
+            re.I,
+        ),
+        "answer_key_status": re.compile(
+            r"^(?:answer\s*key|final\s+answer\s*key)\s*(?:status)?\s*[:\-]\s*(.+)$",
+            re.I,
+        ),
+        "result_status": re.compile(
+            r"^(?:result|final\s+result)\s*(?:status)?\s*[:\-]\s*(.+)$",
+            re.I,
+        ),
+    }
 
-        statuses[field] = value or "Not mentioned"
+    labels = {
+        "admit_card_status": "Admit Card",
+        "exam_city_status": "Exam City",
+        "answer_key_status": "Answer Key",
+        "result_status": "Result",
+    }
+
+    for raw_line in lines:
+        line = clean(raw_line)
+        if not line:
+            continue
+
+        for field, pattern in rules.items():
+            match = pattern.match(line)
+            if not match:
+                continue
+
+            value = clean(match.group(1))
+            lower = value.lower()
+            if not value or len(value) > 120:
+                continue
+            if any(phrase in lower for phrase in [
+                "not released", "not available", "not out",
+                "not issued", "yet to be released",
+                "will be updated here",
+            ]):
+                continue
+
+            statuses[field] = f"{labels[field]}: {value}"
 
     return statuses
+
 
 def extract_age_relaxation(lines):
     labels = [
@@ -507,22 +526,63 @@ def extract_age_relaxation(lines):
 
 
 def extract_selection(lines):
-    keywords = [
-        "selection process", "mode of selection", "selection procedure",
-        "written examination", "computer based test", "cbt",
-        "skill test", "typing test", "interview", "physical test",
-        "document verification"
+    """Extract actual selection stages, never section headings."""
+    stage_patterns = [
+        r"written\s+(?:examination|exam|test)",
+        r"computer\s+based\s+test(?:\s*\([^)]*\))?",
+        r"\bcbt(?:[- ]?\d+)?\b",
+        r"skill\s+test", r"typing\s+test", r"steno(?:graphy)?\s+test",
+        r"physical\s+(?:test|efficiency|standard|measurement)",
+        r"\bpet\b", r"\bpmt\b",
+        r"interview(?:\s*\([^)]*\))?",
+        r"document\s+verification", r"medical\s+(?:test|examination)",
+        r"aptitude\s+test", r"descriptive\s+test",
+        r"merit\s+list", r"final\s+merit\s+list",
+        r"shortlisting[^,.;]*",
     ]
 
     found = []
-    for line in lines:
-        lower = line.lower()
-        if any(keyword in lower for keyword in keywords):
-            if line not in found:
-                found.append(line)
+    for raw_line in lines:
+        line = clean(raw_line)
+        if not line:
+            continue
+
+        # Remove a page heading such as "Recruitment Name : Mode Of Selection".
+        line = re.sub(
+            r"^.*?:\s*(?:mode\s+of\s+selection|selection\s+process|selection\s+procedure)\s*$",
+            "",
+            line,
+            flags=re.I,
+        ).strip()
+
+        # Also remove a heading prefix when actual stages follow it.
+        line = re.sub(
+            r"^.*?:\s*(?:mode\s+of\s+selection|selection\s+process|selection\s+procedure)\s*[:\-]?",
+            "",
+            line,
+            flags=re.I,
+        ).strip()
+
+        if not line:
+            continue
+
+        pieces = re.split(r"\s*\|\s*|\s*→\s*|\s+[-–—]\s+", line)
+        for piece in pieces:
+            piece = clean(piece.strip(" -–—."))
+            if not piece:
+                continue
+            if not any(re.search(pattern, piece, re.I) for pattern in stage_patterns):
+                continue
+            if re.fullmatch(
+                r"(?:mode\s+of\s+selection|selection\s+process|selection\s+procedure)",
+                piece,
+                re.I,
+            ):
+                continue
+            if piece not in found:
+                found.append(piece)
 
     return found
-
 
 
 def extract_important_links(soup, page_url):
