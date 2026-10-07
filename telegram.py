@@ -66,6 +66,16 @@ def _short_date(value):
     return text
 
 
+def _display_title(value):
+    """Remove source-site branding accidentally included in scraped titles."""
+    text = str(value or "").strip()
+    text = re.sub(r"\s*\|\s*Sarkari\s*Result\s*$", "", text, flags=re.IGNORECASE)
+    text = re.sub(r"\s*[-–—]\s*Sarkari\s*Result\s*$", "", text, flags=re.IGNORECASE)
+    return text.strip() or "Government Recruitment"
+
+
+
+
 def _eligibility(job):
     value = job.get("qualification")
     text = _value(value)
@@ -102,7 +112,7 @@ def _hashtags(job):
 def build_new_job_message(job):
     dates = job.get("important_dates", {})
 
-    title = _escape(_value(job.get("title")))
+    title = _escape(_display_title(job.get("title")))
     start_date = _escape(_short_date(dates.get("application_start")))
     last_date = _escape(_short_date(dates.get("application_last_date")))
     exam_date = _escape(_short_date(dates.get("exam_date")))
@@ -198,7 +208,7 @@ def build_update_message(job, update):
     parts = [
         "🔔 <b>Important Recruitment Update</b>",
         "",
-        f"🔥 <b>{_escape(_value(job.get('title')))}</b>",
+        f"🔥 <b>{_escape(_display_title(job.get('title')))}</b>",
         "",
         "📢 <b>What Changed:</b>",
         "",
@@ -230,7 +240,7 @@ def build_update_alert_message(item):
     parts = [
         f"{icon} <b>{heading}</b>",
         "",
-        f"🔥 <b>{_escape(item.get('title', 'Government Exam Update'))}</b>",
+        f"🔥 <b>{_escape(_display_title(item.get('title', 'Government Exam Update')))}</b>",
         "",
         f"📅 <b>Updated:</b> {_escape(item.get('published', 'Today'))}",
         "",
