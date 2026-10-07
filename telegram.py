@@ -14,7 +14,8 @@ def _value(value, default="Not specified"):
     if isinstance(value, list):
         if not value:
             return default
-        return "\n".join(f"• {item}" for item in value)
+        return "
+".join(f"• {item}" for item in value)
     if isinstance(value, dict):
         return str(value)
     text = str(value).strip()
@@ -58,7 +59,8 @@ def _format_table_rows(rows):
     for row in rows:
         if isinstance(row, list):
             lines.append("• " + " | ".join(str(x) for x in row if str(x).strip()))
-    return "\n".join(lines)
+    return "
+".join(lines)
 
 
 def _short_date(value):
@@ -72,8 +74,6 @@ def _display_title(value):
     text = re.sub(r"\s*\|\s*Sarkari\s*Result\s*$", "", text, flags=re.IGNORECASE)
     text = re.sub(r"\s*[-–—]\s*Sarkari\s*Result\s*$", "", text, flags=re.IGNORECASE)
     return text.strip() or "Government Recruitment"
-
-
 
 
 def _eligibility(job):
@@ -92,7 +92,8 @@ def _eligibility(job):
     if text.lower().strip() in bad or text.lower().strip().endswith(":"):
         return "Not specified"
     # Keep Telegram compact; the full qualification will be available in the detailed post.
-    return text.replace("\n", " ").strip()
+    return text.replace("
+", " ").strip()
 
 
 def _hashtags(job):
@@ -133,7 +134,8 @@ def build_new_job_message(job):
 
     # Keep Telegram readable: group related information into compact
     # sections instead of putting a blank line after every single field.
-    info_block = "\n".join([
+    info_block = "
+".join([
         f"➡️ <b>Application Starts:</b> {start_date}",
         f"➡️ <b>Last Date:</b> {last_date}",
         f"➡️ <b>Eligibility:</b> {eligibility}",
@@ -152,7 +154,8 @@ def build_new_job_message(job):
         "",
         "📌 <b>Important Links</b>",
         "",
-        "\n".join(links) if links else _link("🔎 View Recruitment Details", job.get("source_url")),
+        "
+".join(links) if links else _link("🔎 View Recruitment Details", job.get("source_url")),
         "",
         "📢 <b>Sarkari Naukri Notification</b>",
         "👉 @sarkari_naukri_notification",
@@ -165,7 +168,8 @@ def build_new_job_message(job):
         "━━━━━━━━━━━━━━━━━━",
     ]
 
-    return "\n".join(part for part in parts if part != "")
+    return "
+".join(part for part in parts if part != "")
 
 
 def _safe_change_value(change, side):
@@ -212,17 +216,29 @@ def build_update_message(job, update):
         "",
         "📢 <b>What Changed:</b>",
         "",
-        "\n\n".join(lines) or "• Recruitment details updated.",
+        "
+
+".join(lines) or "• Recruitment details updated.",
         "",
         "📌 <b>Important Links</b>",
         "",
-        "\n\n".join(links) if links else "",
+        "
+
+".join(links) if links else "",
         "",
         "📢 <b>Join Us:</b>",
         "@sarkari_naukri_notification",
+        "",
+        "━━━━━━━━━━━━━━━━━━",
+        "📚 <b>DAILY EXAM QUIZ</b>",
+        "SSC • UPSC • BPSC • BANKING",
+        "📝 PYQs + Practice Questions",
+        "👉 Join Now: @upsc_ssc_bpsc_bank",
+        "━━━━━━━━━━━━━━━━━━",
     ]
 
-    return "\n".join(part for part in parts if part != "")
+    return "
+".join(part for part in parts if part != "")
 
 
 def build_update_alert_message(item):
@@ -268,7 +284,8 @@ def build_update_alert_message(item):
         "━━━━━━━━━━━━━━━━━━",
     ])
 
-    return "\n".join(part for part in parts if part != "")
+    return "
+".join(part for part in parts if part != "")
 
 
 def send_telegram_message(message):
