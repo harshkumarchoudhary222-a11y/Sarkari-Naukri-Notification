@@ -34,10 +34,12 @@
   },
   "selection_process": [
     "SSB Interview : Will Be Updated Here Soon",
-    "Indian Army 10+2 TES 57th Recruitment 2026 : Mode Of Selection",
     "Shortlisting SSB Interview Document Verification Medical Examination Final Merit List",
+    "Shortlisting",
     "SSB Interview",
-    "Document Verification"
+    "Document Verification",
+    "Medical Examination",
+    "Final Merit List"
   ],
   "event_statuses": {
     "admit_card_status": "Not mentioned",
@@ -45,7 +47,7 @@
     "answer_key_status": "Not mentioned",
     "result_status": "Not mentioned"
   },
-  "apply_link": "https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L",
+  "apply_link": "",
   "notification_link": "http://sarkariresult.com.cm/wp-content/uploads/2026/10/Indian-Army-TES-57-Short-Notice.jpg",
   "official_website": "http://joinindianarmy.nic.in/",
   "result_link": "https://sarkariresult.com.cm/",
@@ -64,5 +66,99 @@
       "No known official-domain link was found on the source page."
     ]
   },
-  "processed_at": "2026-10-07T08:40:14.183426+00:00"
+  "previous_version": {
+    "title": "Indian Army TES 57th Recruitment 2026 | Sarkari Result",
+    "source_url": "https://sarkariresult.com.cm/indian-army-tes-57th-2026/",
+    "organization": "Bihar Public Service Commission (BPSC)",
+    "total_vacancies": "90",
+    "post_wise_vacancies": [
+      [
+        [
+          "Post Name",
+          "No. Of Post",
+          "Eligibility Criteria"
+        ],
+        [
+          "Army 10+2 TES 57th",
+          "90 Post",
+          "For the Indian Army TES 57th Course, candidates must have appeared in JEE Mains 2026 , as it is now mandatory. They should also have passed 10+2 (Intermediate) with a minimum of 60% aggregate marks in Physics, Chemistry, and Mathematics (PCM stream) from a recognized board."
+        ]
+      ]
+    ],
+    "category_wise_vacancies": [],
+    "qualification": "Army 10+2 TES 57th",
+    "age_limit": "Minimum: 16 years | Maximum: 19 years",
+    "age_relaxation": "As per government rules",
+    "salary": "Not specified",
+    "application_fee": "No application fee is required for any candidate.",
+    "important_dates": {
+      "application_start": "14 October 2026 Apply Online",
+      "application_last_date": "12 November 2026",
+      "fee_payment_last_date": "Not mentioned",
+      "correction_date": "Not mentioned",
+      "exam_date": "Not mentioned",
+      "admit_card": "Not mentioned",
+      "result": "Not mentioned"
+    },
+    "selection_process": [
+      "SSB Interview : Will Be Updated Here Soon",
+      "Indian Army 10+2 TES 57th Recruitment 2026 : Mode Of Selection",
+      "Shortlisting SSB Interview Document Verification Medical Examination Final Merit List",
+      "SSB Interview",
+      "Document Verification"
+    ],
+    "event_statuses": {
+      "admit_card_status": "Not mentioned",
+      "exam_city_status": "Not mentioned",
+      "answer_key_status": "Not mentioned",
+      "result_status": "Not mentioned"
+    },
+    "apply_link": "https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L",
+    "notification_link": "http://sarkariresult.com.cm/wp-content/uploads/2026/10/Indian-Army-TES-57-Short-Notice.jpg",
+    "official_website": "http://joinindianarmy.nic.in/",
+    "result_link": "https://sarkariresult.com.cm/",
+    "admit_card_link": "",
+    "answer_key_link": "",
+    "verification": {
+      "verification_status": "NEEDS_REVIEW",
+      "official_domains_expected": [
+        "bpsc.bihar.gov.in",
+        "licindia.in"
+      ],
+      "official_source_checked": false,
+      "official_source_url": "",
+      "checks": [],
+      "verification_notes": [
+        "No known official-domain link was found on the source page."
+      ]
+    },
+    "processed_at": "2026-10-07T08:40:14.183426+00:00"
+  },
+  "change_history": [
+    {
+      "detected_at": "2026-10-07T09:53:45.005518+00:00",
+      "change_type": "MATERIAL_UPDATE",
+      "changes": [
+        {
+          "field": "apply_link",
+          "label": "Apply link",
+          "old": "https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L",
+          "new": "Not mentioned"
+        }
+      ]
+    }
+  ],
+  "last_update": {
+    "has_material_update": true,
+    "change_type": "MATERIAL_UPDATE",
+    "changes": [
+      {
+        "field": "apply_link",
+        "label": "Apply link",
+        "old": "https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L",
+        "new": "Not mentioned"
+      }
+    ]
+  },
+  "processed_at": "2026-10-07T09:53:45.005562+00:00"
 }
