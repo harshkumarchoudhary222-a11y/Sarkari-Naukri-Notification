@@ -30,11 +30,9 @@
     "admit_card": "08 December 2026 Result Date : Will Be Updated Here Soon Candidates are advised",
     "result": "Not mentioned"
   },
-  "selection_process": [
-    "RUHS Medical Officer Recruitment 2026 : Mode Of Selection"
-  ],
+  "selection_process": [],
   "event_statuses": {
-    "admit_card_status": "Not mentioned",
+    "admit_card_status": "Admit Card: 08 December 2026",
     "exam_city_status": "Not mentioned",
     "answer_key_status": "Not mentioned",
     "result_status": "Not mentioned"
@@ -56,8 +54,9 @@
     ]
   },
   "previous_version": {
-    "title": "RUHS Medical Officer Recruitment 2026",
-    "organization": "Life Insurance Corporation of India (LIC)",
+    "title": "RUHS Medical Officer Recruitment 2026 | Apply Online",
+    "source_url": "https://sarkariresult.com.cm/ruhs-medical-officer-2026/",
+    "organization": "Not specified",
     "total_vacancies": "600",
     "post_wise_vacancies": [
       [
@@ -71,87 +70,202 @@
         ]
       ]
     ],
-    "category_wise_vacancies": [
-      [
-        [
-          "Post Name",
-          "Eligibility Criteria"
-        ],
-        [
-          "RUHS Medical Officer",
-          "Candidates must have an MBBS Degree from a recognized institution . They should also have practical knowledge of Hindi written in the Devanagari script and knowledge of Rajasthan’s culture . For complete eligibility details, candidates are advised to read the official notification carefully."
-        ]
-      ],
-      [
-        [
-          "RUHS Medical Officer Online Form 2026 : Important Question"
-        ],
-        [
-          "Question: When will the online application for RUHS Medical Officer Recruitment 2026 Start? Answer: The online application for this recruitment has started on 14 September 2026 ."
-        ],
-        [
-          "Question: What is the last date for online application for RUHS Medical Officer Online Form 2026 ? Answer: The last date for online application Form is 13 October 2026."
-        ],
-        [
-          "Question: What is the age limit for RUHS Medical Officer Bharti 2026 ? Answer: The age limit for RUHS Medical Officer Bharti 2026 is as follows: The Minimum age required is 22 Years & The Maximum Age Is 45 Years as on 01 January 2027."
-        ],
-        [
-          "Q uestion: What is the eligibility for RUHS Medical Officer Vacancy 2026 ? Answer: Candidates must have an MBBS Degree from a recognized institution . They should also have practical knowledge of Hindi written in the Devanagari script and knowledge of Rajasthan’s culture . For complete eligibility details, candidates are advised to read the official notification carefully."
-        ],
-        [
-          "Question: What is the official website for RUHS ? Answer: The official website for RUHS is https://ruhsraj.org/."
-        ]
-      ],
-      [
-        [
-          "Latest Posts SSC CHSL 10+2 Online Form 2026 (2536 Posts) MPESB MP Police Constable Online Form 2026 (7500 Posts) RRB NTPC 10+2 UG Online Form 2026 Uttarakhand TET Answer Key 2026 – Out SSC CGL Tier-I Admit Card 2026",
-          "Related Posts Delhi High Court Higher Judicial Service HJS Mains Admit Card 2026 Railway RRB Technician Admit Card 2026 IBPS Clerk (CSA) 16th Pre Admit Card 2026 RRB Section Controller Exam City Details 2026 SSC Junior Engineer JE Exam Date 2026"
-        ]
-      ]
-    ],
-    "qualification": "RUHS Medical Officer",
+    "category_wise_vacancies": [],
+    "qualification": "Candidates must have an MBBS Degree from a recognized institution . They should also have practical knowledge of Hindi written in the Devanagari script and knowledge of Rajasthan’s culture . For complete eligibility details, candidates are advised to read the official notification carefully.",
     "age_limit": "Minimum: 22 years | Maximum: 45 years",
+    "age_relaxation": "As per government rules",
     "salary": "Not specified",
-    "application_fee": "For",
+    "application_fee": "For General/ OBC/ EWS : ₹ 5000/-",
     "important_dates": {
       "application_start": "14 September 2026",
       "application_last_date": "13 October 2026",
       "fee_payment_last_date": "13 October 2026",
-      "correction_date": "",
+      "correction_date": "Not mentioned",
       "exam_date": "13 December 2026",
       "admit_card": "08 December 2026 Result Date : Will Be Updated Here Soon Candidates are advised",
-      "result": ""
+      "result": "Not mentioned"
     },
     "selection_process": [
-      "Mode Of Selection"
+      "RUHS Medical Officer Recruitment 2026 : Mode Of Selection"
     ],
     "event_statuses": {
       "admit_card_status": "Not mentioned",
       "exam_city_status": "Not mentioned",
-      "answer_key_status": "answer key 2026 – out",
+      "answer_key_status": "Not mentioned",
       "result_status": "Not mentioned"
     },
-    "apply_link": "Not found",
-    "notification_link": "Not found",
-    "official_website": "Not found",
-    "source_url": "https://sarkariresult.com.cm/ruhs-medical-officer-2026/",
+    "apply_link": "https://ruhsmomedical.com/",
+    "notification_link": "https://oasis-ruhs-main-bucket.s3.ap-south-1.amazonaws.com/clients/40b5d2dd-07eb-47b1-bdea-ac6acefc4967/template-assets/da3abe86-654a-45fe-8bf5-d210a2ef75e3-Information_Booklet_MODRE-2026.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=AKIA6EBWJAOAKHDBFKPX%2F20260916%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20260916T114357Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=12e6184e6cd6cd093e2d97d7cbcbacd4d7217e358076db9ce6753f609aaa038f",
+    "official_website": "https://ruhsraj.org/",
+    "result_link": "https://sarkariresult.com.cm/",
+    "admit_card_link": "",
+    "answer_key_link": "",
     "verification": {
       "verification_status": "NEEDS_REVIEW",
-      "official_domains_expected": [
-        "licindia.in"
-      ],
+      "official_domains_expected": [],
       "official_source_checked": false,
       "official_source_url": "",
       "checks": [],
       "verification_notes": [
-        "No known official-domain link was found on the source page."
+        "Official domain is not known for this organization yet."
       ]
     },
-    "processed_at": "2026-10-05T22:02:56.885347+00:00"
-  },
-  "change_history": [
-    {
-      "detected_at": "2026-10-07T09:03:01.080226+00:00",
+    "previous_version": {
+      "title": "RUHS Medical Officer Recruitment 2026",
+      "organization": "Life Insurance Corporation of India (LIC)",
+      "total_vacancies": "600",
+      "post_wise_vacancies": [
+        [
+          [
+            "Post Name",
+            "No. Of Post"
+          ],
+          [
+            "RUHS Medical Officer",
+            "600 Posts"
+          ]
+        ]
+      ],
+      "category_wise_vacancies": [
+        [
+          [
+            "Post Name",
+            "Eligibility Criteria"
+          ],
+          [
+            "RUHS Medical Officer",
+            "Candidates must have an MBBS Degree from a recognized institution . They should also have practical knowledge of Hindi written in the Devanagari script and knowledge of Rajasthan’s culture . For complete eligibility details, candidates are advised to read the official notification carefully."
+          ]
+        ],
+        [
+          [
+            "RUHS Medical Officer Online Form 2026 : Important Question"
+          ],
+          [
+            "Question: When will the online application for RUHS Medical Officer Recruitment 2026 Start? Answer: The online application for this recruitment has started on 14 September 2026 ."
+          ],
+          [
+            "Question: What is the last date for online application for RUHS Medical Officer Online Form 2026 ? Answer: The last date for online application Form is 13 October 2026."
+          ],
+          [
+            "Question: What is the age limit for RUHS Medical Officer Bharti 2026 ? Answer: The age limit for RUHS Medical Officer Bharti 2026 is as follows: The Minimum age required is 22 Years & The Maximum Age Is 45 Years as on 01 January 2027."
+          ],
+          [
+            "Q uestion: What is the eligibility for RUHS Medical Officer Vacancy 2026 ? Answer: Candidates must have an MBBS Degree from a recognized institution . They should also have practical knowledge of Hindi written in the Devanagari script and knowledge of Rajasthan’s culture . For complete eligibility details, candidates are advised to read the official notification carefully."
+          ],
+          [
+            "Question: What is the official website for RUHS ? Answer: The official website for RUHS is https://ruhsraj.org/."
+          ]
+        ],
+        [
+          [
+            "Latest Posts SSC CHSL 10+2 Online Form 2026 (2536 Posts) MPESB MP Police Constable Online Form 2026 (7500 Posts) RRB NTPC 10+2 UG Online Form 2026 Uttarakhand TET Answer Key 2026 – Out SSC CGL Tier-I Admit Card 2026",
+            "Related Posts Delhi High Court Higher Judicial Service HJS Mains Admit Card 2026 Railway RRB Technician Admit Card 2026 IBPS Clerk (CSA) 16th Pre Admit Card 2026 RRB Section Controller Exam City Details 2026 SSC Junior Engineer JE Exam Date 2026"
+          ]
+        ]
+      ],
+      "qualification": "RUHS Medical Officer",
+      "age_limit": "Minimum: 22 years | Maximum: 45 years",
+      "salary": "Not specified",
+      "application_fee": "For",
+      "important_dates": {
+        "application_start": "14 September 2026",
+        "application_last_date": "13 October 2026",
+        "fee_payment_last_date": "13 October 2026",
+        "correction_date": "",
+        "exam_date": "13 December 2026",
+        "admit_card": "08 December 2026 Result Date : Will Be Updated Here Soon Candidates are advised",
+        "result": ""
+      },
+      "selection_process": [
+        "Mode Of Selection"
+      ],
+      "event_statuses": {
+        "admit_card_status": "Not mentioned",
+        "exam_city_status": "Not mentioned",
+        "answer_key_status": "answer key 2026 – out",
+        "result_status": "Not mentioned"
+      },
+      "apply_link": "Not found",
+      "notification_link": "Not found",
+      "official_website": "Not found",
+      "source_url": "https://sarkariresult.com.cm/ruhs-medical-officer-2026/",
+      "verification": {
+        "verification_status": "NEEDS_REVIEW",
+        "official_domains_expected": [
+          "licindia.in"
+        ],
+        "official_source_checked": false,
+        "official_source_url": "",
+        "checks": [],
+        "verification_notes": [
+          "No known official-domain link was found on the source page."
+        ]
+      },
+      "processed_at": "2026-10-05T22:02:56.885347+00:00"
+    },
+    "change_history": [
+      {
+        "detected_at": "2026-10-07T09:03:01.080226+00:00",
+        "change_type": "HIGH_PRIORITY",
+        "changes": [
+          {
+            "field": "qualification",
+            "label": "Qualification",
+            "old": "RUHS Medical Officer",
+            "new": "Candidates must have an MBBS Degree from a recognized institution . They should also have practical knowledge of Hindi written in the Devanagari script and knowledge of Rajasthan’s culture . For complete eligibility details, candidates are advised to read the official notification carefully."
+          },
+          {
+            "field": "age_relaxation",
+            "label": "Age relaxation",
+            "old": "Not mentioned",
+            "new": "As per government rules"
+          },
+          {
+            "field": "application_fee",
+            "label": "Application fee",
+            "old": "For",
+            "new": "For General/ OBC/ EWS : ₹ 5000/-"
+          },
+          {
+            "field": "apply_link",
+            "label": "Apply link",
+            "old": "Not found",
+            "new": "https://ruhsmomedical.com/"
+          },
+          {
+            "field": "notification_link",
+            "label": "Official notification link",
+            "old": "Not found",
+            "new": "https://oasis-ruhs-main-bucket.s3.ap-south-1.amazonaws.com/clients/40b5d2dd-07eb-47b1-bdea-ac6acefc4967/template-assets/da3abe86-654a-45fe-8bf5-d210a2ef75e3-Information_Booklet_MODRE-2026.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=AKIA6EBWJAOAKHDBFKPX%2F20260916%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20260916T114357Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=12e6184e6cd6cd093e2d97d7cbcbacd4d7217e358076db9ce6753f609aaa038f"
+          },
+          {
+            "field": "official_website",
+            "label": "Official website",
+            "old": "Not found",
+            "new": "https://ruhsraj.org/"
+          },
+          {
+            "field": "event_statuses.answer_key_status",
+            "label": "Answer key status",
+            "old": "answer key 2026 – out",
+            "new": "Not mentioned"
+          },
+          {
+            "field": "selection_process",
+            "label": "Selection process",
+            "old": [
+              "Mode Of Selection"
+            ],
+            "new": [
+              "RUHS Medical Officer Recruitment 2026 : Mode Of Selection"
+            ]
+          }
+        ]
+      }
+    ],
+    "last_update": {
+      "has_material_update": true,
       "change_type": "HIGH_PRIORITY",
       "changes": [
         {
@@ -207,6 +321,21 @@
           ]
         }
       ]
+    },
+    "processed_at": "2026-10-07T09:03:01.080269+00:00"
+  },
+  "change_history": [
+    {
+      "detected_at": "2026-10-07T10:25:46.212228+00:00",
+      "change_type": "HIGH_PRIORITY",
+      "changes": [
+        {
+          "field": "event_statuses.admit_card_status",
+          "label": "Admit card status",
+          "old": "Not mentioned",
+          "new": "Admit Card: 08 December 2026"
+        }
+      ]
     }
   ],
   "last_update": {
@@ -214,58 +343,12 @@
     "change_type": "HIGH_PRIORITY",
     "changes": [
       {
-        "field": "qualification",
-        "label": "Qualification",
-        "old": "RUHS Medical Officer",
-        "new": "Candidates must have an MBBS Degree from a recognized institution . They should also have practical knowledge of Hindi written in the Devanagari script and knowledge of Rajasthan’s culture . For complete eligibility details, candidates are advised to read the official notification carefully."
-      },
-      {
-        "field": "age_relaxation",
-        "label": "Age relaxation",
+        "field": "event_statuses.admit_card_status",
+        "label": "Admit card status",
         "old": "Not mentioned",
-        "new": "As per government rules"
-      },
-      {
-        "field": "application_fee",
-        "label": "Application fee",
-        "old": "For",
-        "new": "For General/ OBC/ EWS : ₹ 5000/-"
-      },
-      {
-        "field": "apply_link",
-        "label": "Apply link",
-        "old": "Not found",
-        "new": "https://ruhsmomedical.com/"
-      },
-      {
-        "field": "notification_link",
-        "label": "Official notification link",
-        "old": "Not found",
-        "new": "https://oasis-ruhs-main-bucket.s3.ap-south-1.amazonaws.com/clients/40b5d2dd-07eb-47b1-bdea-ac6acefc4967/template-assets/da3abe86-654a-45fe-8bf5-d210a2ef75e3-Information_Booklet_MODRE-2026.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=AKIA6EBWJAOAKHDBFKPX%2F20260916%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20260916T114357Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=12e6184e6cd6cd093e2d97d7cbcbacd4d7217e358076db9ce6753f609aaa038f"
-      },
-      {
-        "field": "official_website",
-        "label": "Official website",
-        "old": "Not found",
-        "new": "https://ruhsraj.org/"
-      },
-      {
-        "field": "event_statuses.answer_key_status",
-        "label": "Answer key status",
-        "old": "answer key 2026 – out",
-        "new": "Not mentioned"
-      },
-      {
-        "field": "selection_process",
-        "label": "Selection process",
-        "old": [
-          "Mode Of Selection"
-        ],
-        "new": [
-          "RUHS Medical Officer Recruitment 2026 : Mode Of Selection"
-        ]
+        "new": "Admit Card: 08 December 2026"
       }
     ]
   },
-  "processed_at": "2026-10-07T09:03:01.080269+00:00"
+  "processed_at": "2026-10-07T10:25:46.212270+00:00"
 }
