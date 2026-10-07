@@ -34,7 +34,8 @@ def _apply_link(job):
     url = job.get("apply_link")
     if url and str(url).strip() not in {"", "Not found", "Not specified"}:
         return str(url).strip()
-    return str(job.get("source_url") or "").strip()
+    # Never substitute the SarkariResult detail page for an Apply Online link.
+    return ""
 
 
 def _format_table_rows(rows):
