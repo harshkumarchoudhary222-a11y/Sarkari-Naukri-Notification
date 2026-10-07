@@ -1,5 +1,5 @@
 {
-  "offset": 752628066,
+  "offset": 752628068,
   "processed_messages": [
     "7625086140:74",
     "7625086140:77",
@@ -11,13 +11,9 @@
     "7625086140:129",
     "7625086140:144",
     "7625086140:149",
-    "7625086140:153"
+    "7625086140:153",
+    "7625086140:160"
   ],
   "pending_updates": [],
-  "pending_quiz": {
-    "message_key": "7625086140:157",
-    "chat_id": 7625086140,
-    "file_id": "BQACAgUAAxkBAAOdasZK9PA1VLpziAbHh7VlUfjnF2oAAtEmAAJLDDhWdncbS3yqUzg9BA",
-    "filename": "SSC_CGL_10_PYQ_Based_Bilingual.txt"
-  }
+  "pending_quiz": null
 }
