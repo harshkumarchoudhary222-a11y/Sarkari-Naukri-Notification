@@ -524,12 +524,136 @@ def extract_selection(lines):
     return found
 
 
+
+def extract_important_links(soup, page_url):
+    """Extract real hrefs from the site's 'SOME USEFUL IMPORTANT LINKS' area.
+
+    The visible 'Click Here' text is often just a label. We only accept an
+    actual href from the same table/row as the labelled resource.
+    """
+    result = {
+        "apply_link": "",
+        "notification_link": "",
+        "official_website": "",
+        "result_link": "",
+        "admit_card_link": "",
+        "answer_key_link": "",
+    }
+
+    def usable(href):
+        if not href:
+            return False
+        href = urljoin(page_url, href)
+        parts = urlparse(href)
+        if parts.scheme not in {"http", "https"}:
+            return False
+        lower = href.lower()
+        page_parts = urlparse(page_url)
+        if (
+            parts.netloc.lower() == page_parts.netloc.lower()
+            and (parts.path.rstrip("/") or "/") == (page_parts.path.rstrip("/") or "/")
+        ):
+            return False
+        if any(bad in lower for bad in [
+            "play.google.com", "apps.apple.com", "javascript:", "mailto:"
+        ]):
+            return False
+        return href
+
+    marker = None
+    for element in soup.find_all(["h2", "h3", "h4", "h5", "strong", "b", "p", "td"]):
+        text = clean(element.get_text(" ", strip=True)).lower()
+        if "some useful important links" in text:
+            marker = element
+            break
+
+    if not marker:
+        return result
+
+    # Prefer rows in the table containing the marker. This avoids unrelated
+    # "Click Here" links elsewhere on the page.
+    table = marker.find_parent("table")
+    rows = table.find_all("tr") if table else []
+
+    for row in rows:
+        row_text = clean(row.get_text(" ", strip=True)).lower()
+        if not row_text:
+            continue
+
+        links = []
+        for anchor in row.find_all("a", href=True):
+            href = usable(anchor.get("href"))
+            if href:
+                links.append(href)
+
+        if not links:
+            continue
+
+        href = links[0]
+
+        if (
+            not result["apply_link"]
+            and any(x in row_text for x in [
+                "apply online", "online application", "application link",
+                "registration link", "apply now"
+            ])
+        ):
+            result["apply_link"] = href
+
+        if (
+            not result["notification_link"]
+            and any(x in row_text for x in [
+                "official notification", "download notification",
+                "notification pdf", "detailed notification",
+                "short notice", "advertisement"
+            ])
+        ):
+            result["notification_link"] = href
+
+        if (
+            not result["result_link"]
+            and re.search(r"\b(result|download result|check result)\b", row_text)
+        ):
+            result["result_link"] = href
+
+        if (
+            not result["admit_card_link"]
+            and any(x in row_text for x in [
+                "admit card", "download admit card", "hall ticket"
+            ])
+        ):
+            result["admit_card_link"] = href
+
+        if (
+            not result["answer_key_link"]
+            and any(x in row_text for x in [
+                "answer key", "download answer key", "final answer key"
+            ])
+        ):
+            result["answer_key_link"] = href
+
+        if (
+            not result["official_website"]
+            and any(x in row_text for x in [
+                "official website", "official site", "department website"
+            ])
+        ):
+            result["official_website"] = href
+
+    return result
+
+
 def extract_links(soup, page_url):
     result = {
         "apply_link": "",
         "notification_link": "",
         "official_website": ""
     }
+
+    important = extract_important_links(soup, page_url)
+    for key in ("apply_link", "notification_link", "official_website"):
+        if important.get(key):
+            result[key] = important[key]
 
     page_parts = urlparse(page_url)
     page_path = page_parts.path.rstrip("/") or "/"
@@ -645,3 +769,48 @@ def extract_links(soup, page_url):
 
     return result
 
+
+
+def extract_job(url):
+    soup = get_page(url)
+    title = clean(soup.title.get_text(" ", strip=True)) if soup.title else ""
+
+    lines = []
+    for element in soup.find_all(["h1", "h2", "h3", "h4", "h5", "h6", "p", "li", "td", "th"]):
+        value = clean(element.get_text(" ", strip=True))
+        if value and value not in lines:
+            lines.append(value)
+
+    tables = extract_tables(soup)
+    vacancies = extract_vacancies(tables)
+    dates = extract_dates(lines)
+    links = extract_links(soup, url)
+
+    data = {
+        "title": title or (lines[0] if lines else "Untitled Recruitment"),
+        "source_url": url,
+        "organization": extract_organization(title, lines),
+        "total_vacancies": vacancies.get("total_posts") or "Not specified",
+        "post_wise_vacancies": vacancies.get("post_wise", []),
+        "category_wise_vacancies": vacancies.get("category_wise", []),
+        "qualification": extract_qualification(lines, tables),
+        "age_limit": extract_age(lines) or "Not specified",
+        "age_relaxation": extract_age_relaxation(lines),
+        "salary": extract_salary(lines, tables) or "Not specified",
+        "application_fee": extract_fee(lines) or "Not specified",
+        "important_dates": dates,
+        "selection_process": extract_selection(lines),
+        "event_statuses": extract_event_statuses(lines),
+        **links,
+    }
+
+    # Keep the real resource links separately so downstream messages can use
+    # them without confusing them with the generic notification link.
+    resources = extract_important_links(soup, url)
+    data.update({
+        "result_link": resources.get("result_link", ""),
+        "admit_card_link": resources.get("admit_card_link", ""),
+        "answer_key_link": resources.get("answer_key_link", ""),
+    })
+
+    return data
