@@ -653,10 +653,19 @@ def extract_important_links(soup, page_url):
         if not links:
             continue
 
-        href = links[0]
+        # For Apply Online, the destination must be an external portal.
+        # SarkariResult may place an internal/self link in the same row before
+        # the real application href. Never use that internal link as Apply Online.
+        page_host = urlparse(page_url).netloc.lower()
+        external_links = [
+            link for link in links
+            if urlparse(link).netloc.lower() != page_host
+        ]
+        href = external_links[0] if external_links else links[0]
 
         if (
             not result["apply_link"]
+            and external_links
             and any(x in row_text for x in [
                 "apply online", "online application", "application link",
                 "registration link", "apply now"
@@ -782,9 +791,10 @@ def extract_links(soup, page_url):
             # Never select an Apply link merely because its URL contains
             # "apply"/"registration". Social and promotional URLs can contain
             # those words. Require explicit anchor text or an Apply heading.
-            if strong_apply_text:
+            is_external = urlparse(href).netloc.lower() != page_parts.netloc.lower()
+            if is_external and strong_apply_text:
                 result["apply_link"] = href
-            elif generic_click and "apply" in nearby_heading:
+            elif is_external and generic_click and "apply" in nearby_heading:
                 result["apply_link"] = href
 
         if not result["notification_link"] and not is_bad_link(href):
