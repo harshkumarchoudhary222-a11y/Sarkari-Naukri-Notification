@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 
 from extract_job import extract_job
 from job_checker_source import get_latest_jobs_source
+from update_source import get_current_updates, enrich_update
 from official_verifier import verify_job
 from update_detector import detect_update
 from telegram import (
@@ -317,6 +318,46 @@ def process_existing_job(job, saved):
     return True
 
 
+
+def process_category_updates():
+    """Publish fresh result, admit-card, and answer-key updates."""
+    print("\nChecking Results / Admit Cards / Answer Keys...")
+
+    updates = get_current_updates(max_age_days=2)
+    print(f"Found {len(updates)} recent category updates.")
+
+    counts = {"RESULT": 0, "ADMIT_CARD": 0, "ANSWER_KEY": 0}
+
+    from telegram import build_update_alert_message
+
+    for item in updates:
+        try:
+            enriched = enrich_update(item)
+            message = build_update_alert_message(enriched)
+
+            if publish_alert_once(
+                {
+                    "source_url": enriched["url"],
+                    "title": enriched["title"],
+                },
+                enriched["category"],
+                message,
+            ):
+                counts[enriched["category"]] = counts.get(enriched["category"], 0) + 1
+
+        except Exception as error:
+            print(
+                f"{item.get('category', 'UPDATE')} failed for "
+                f"{item.get('url', '')}: {error}"
+            )
+
+    print(
+        "Category alerts sent:",
+        "Results=", counts["RESULT"],
+        "Admit Cards=", counts["ADMIT_CARD"],
+        "Answer Keys=", counts["ANSWER_KEY"],
+    )
+
 def main():
     print("=" * 60)
     print("SARKARI NAUKRI AUTOMATION")
@@ -380,6 +421,8 @@ def main():
 
     seen_jobs.update(successful_jobs)
     save_seen_jobs(seen_jobs)
+
+    process_category_updates()
 
     print("\n" + "=" * 60)
     print("AUTOMATION FINISHED")
