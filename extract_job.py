@@ -856,6 +856,15 @@ def extract_job(url):
     soup = get_page(url)
     title = clean(soup.title.get_text(" ", strip=True)) if soup.title else ""
 
+    # SarkariResult is our source, not our brand. Remove its site branding
+    # from recruitment titles before storing or publishing them.
+    title = re.sub(
+        r"\s*(?:\||[-–—])\s*sarkari\s*result\s*$",
+        "",
+        title,
+        flags=re.IGNORECASE,
+    ).strip()
+
     lines = []
     for element in soup.find_all(["h1", "h2", "h3", "h4", "h5", "h6", "p", "li", "td", "th"]):
         value = clean(element.get_text(" ", strip=True))
