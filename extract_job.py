@@ -573,6 +573,8 @@ def extract_important_links(soup, page_url):
     # Prefer rows in the table containing the marker. This avoids unrelated
     # "Click Here" links elsewhere on the page.
     table = marker.find_parent("table")
+    if not table:
+        table = marker.find_next("table")
     rows = table.find_all("tr") if table else []
 
     for row in rows:
