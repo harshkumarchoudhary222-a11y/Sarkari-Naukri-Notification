@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 import time
 
@@ -15,9 +16,10 @@ def send_quiz_poll(question: dict) -> dict:
     payload = {
         "chat_id": chat_id,
         "question": question["question"],
-        "options": [
-            {"text": option} for option in question["options"]
-        ],
+        "options": json.dumps(
+            [{"text": option} for option in question["options"]],
+            ensure_ascii=False,
+        ),
         "type": "quiz",
         "is_anonymous": True,
         "correct_option_id": question["correct_option_id"],
