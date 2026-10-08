@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import os
 import time
 
@@ -15,38 +14,42 @@ def send_quiz_poll(question: dict) -> dict:
 
     options = [str(option).strip() for option in question["options"]]
 
-    if not 1 <= len(options) <= 12:
-        raise ValueError("Telegram polls support 1 to 12 options.")
+    if not 2 <= len(options) <= 12:
+        raise ValueError("Telegram polls require 2 to 12 options.")
 
     if any(not option for option in options):
         raise ValueError("Poll options cannot be empty.")
 
-    correct_option_id = int(question["correct_option_id"])
+    if any(len(option) > 100 for option in options):
+        raise ValueError("Each poll option must be 100 characters or fewer.")
 
+    poll_question = str(question["question"]).strip()
+    if not 1 <= len(poll_question) <= 300:
+        raise ValueError("Poll question must be 1 to 300 characters.")
+
+    correct_option_id = int(question["correct_option_id"])
     if not 0 <= correct_option_id < len(options):
         raise ValueError("correct_option_id is outside the option range.")
 
-    # Telegram expects options and correct_option_ids as JSON-serialized
-    # values when using form-encoded requests.
     payload = {
         "chat_id": chat_id,
-        "question": str(question["question"]).strip(),
-        "options": json.dumps(
-            [{"text": option} for option in options],
-            ensure_ascii=False,
-        ),
+        "question": poll_question,
+        "options": [{"text": option} for option in options],
+        "is_anonymous": True,
         "type": "quiz",
-        "is_anonymous": "true",
-        "correct_option_ids": json.dumps([correct_option_id]),
+        "correct_option_ids": [correct_option_id],
     }
 
     if question.get("explanation"):
-        payload["explanation"] = str(question["explanation"]).strip()
+        explanation = str(question["explanation"]).strip()
+        if len(explanation) > 200:
+            explanation = explanation[:200]
+        payload["explanation"] = explanation
 
     while True:
         response = requests.post(
             telegram_api,
-            data=payload,
+            json=payload,
             timeout=30,
         )
 
@@ -62,6 +65,5 @@ def send_quiz_poll(question: dict) -> dict:
         if not data.get("ok"):
             raise RuntimeError(f"Telegram API error: {data}")
 
-        # Keep a conservative gap between polls to avoid Telegram rate limits.
         time.sleep(3.2)
         return data["result"]
