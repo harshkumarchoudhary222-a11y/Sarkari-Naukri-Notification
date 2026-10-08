@@ -13,23 +13,42 @@ def send_quiz_poll(question: dict) -> dict:
 
     telegram_api = f"https://api.telegram.org/bot{token}/sendPoll"
 
+    options = [str(option).strip() for option in question["options"]]
+
+    if not 1 <= len(options) <= 12:
+        raise ValueError("Telegram polls support 1 to 12 options.")
+
+    if any(not option for option in options):
+        raise ValueError("Poll options cannot be empty.")
+
+    correct_option_id = int(question["correct_option_id"])
+
+    if not 0 <= correct_option_id < len(options):
+        raise ValueError("correct_option_id is outside the option range.")
+
+    # Telegram expects options and correct_option_ids as JSON-serialized
+    # values when using form-encoded requests.
     payload = {
         "chat_id": chat_id,
-        "question": question["question"],
+        "question": str(question["question"]).strip(),
         "options": json.dumps(
-            [{"text": option} for option in question["options"]],
+            [{"text": option} for option in options],
             ensure_ascii=False,
         ),
         "type": "quiz",
-        "is_anonymous": True,
-        "correct_option_id": question["correct_option_id"],
+        "is_anonymous": "true",
+        "correct_option_ids": json.dumps([correct_option_id]),
     }
 
     if question.get("explanation"):
-        payload["explanation"] = question["explanation"]
+        payload["explanation"] = str(question["explanation"]).strip()
 
     while True:
-        response = requests.post(telegram_api, json=payload, timeout=30)
+        response = requests.post(
+            telegram_api,
+            data=payload,
+            timeout=30,
+        )
 
         if response.status_code == 429:
             data = response.json()
