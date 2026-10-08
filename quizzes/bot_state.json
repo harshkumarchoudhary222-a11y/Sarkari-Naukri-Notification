@@ -1,5 +1,5 @@
 {
-  "offset": 752628093,
+  "offset": 752628101,
   "processed_messages": [
     "7625086140:74",
     "7625086140:77",
@@ -17,5 +17,10 @@
     "7625086140:177"
   ],
   "pending_updates": [],
-  "pending_quiz": null
+  "pending_quiz": {
+    "message_key": "7625086140:225",
+    "chat_id": 7625086140,
+    "file_id": "BQACAgUAAxkBAAPhasdPduJ_XqI57uG84jnbURapbiUAAgoiAAJLDEBWWlm3v5YuzVY9BA",
+    "filename": "winter olympic.txt"
+  }
 }
