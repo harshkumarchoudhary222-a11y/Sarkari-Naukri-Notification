@@ -1,5 +1,5 @@
 {
-  "offset": 752628101,
+  "offset": 752628113,
   "processed_messages": [
     "7625086140:74",
     "7625086140:77",
@@ -14,13 +14,16 @@
     "7625086140:153",
     "7625086140:160",
     "7625086140:168",
-    "7625086140:177"
+    "7625086140:177",
+    "7625086140:230",
+    "7625086140:234",
+    "7625086140:240"
   ],
   "pending_updates": [],
   "pending_quiz": {
-    "message_key": "7625086140:225",
+    "message_key": "7625086140:244",
     "chat_id": 7625086140,
-    "file_id": "BQACAgUAAxkBAAPhasdPduJ_XqI57uG84jnbURapbiUAAgoiAAJLDEBWWlm3v5YuzVY9BA",
-    "filename": "winter olympic.txt"
+    "file_id": "BQACAgUAAxkBAAP0asdRLuOsA8Gs_bKphhPdYDHg9KkAAhQiAAJLDEBW0C25xeopzkU9BA",
+    "filename": "his.txt"
   }
 }
