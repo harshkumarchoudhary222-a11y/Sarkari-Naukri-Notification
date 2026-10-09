@@ -121,16 +121,33 @@ def enrich_update(item):
     item = dict(item)
     item["resources"] = resources
 
-    # Keep only the resource relevant to the category, but preserve the
-    # source page as a safe fallback.
+    # Choose the action that matches the actual update. Some result pages
+    # label the resource Score Card/Marks, and some exam-update pages provide
+    # an exam-date notice rather than an admit-card link.
     if item["category"] == "RESULT":
-        item["primary_link"] = resources.get("result_link", "")
-        item["primary_label"] = "Check Result"
+        item["primary_link"] = (
+            resources.get("result_link", "")
+            or resources.get("score_card_link", "")
+        )
+        item["primary_label"] = (
+            "Check Result" if resources.get("result_link") else "Check Score Card / Marks"
+        )
     elif item["category"] == "ADMIT_CARD":
-        item["primary_link"] = resources.get("admit_card_link", "")
-        item["primary_label"] = "Download Admit Card"
+        item["primary_link"] = (
+            resources.get("admit_card_link", "")
+            or resources.get("exam_date_link", "")
+            or resources.get("exam_city_link", "")
+        )
+        if resources.get("admit_card_link"):
+            item["primary_label"] = "Download Admit Card"
+        elif resources.get("exam_date_link"):
+            item["primary_label"] = "Check Exam Date Notice"
+        else:
+            item["primary_label"] = "Check Exam City / Intimation"
     else:
         item["primary_link"] = resources.get("answer_key_link", "")
         item["primary_label"] = "Download Answer Key"
+
+    item["official_website"] = resources.get("official_website", "")
 
     return item
