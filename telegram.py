@@ -257,9 +257,20 @@ def build_update_alert_message(item):
             "",
         ])
 
+    official = item.get("official_website")
+    if official:
+        parts.extend([
+            _link("🌐 Official Website", official),
+            "",
+        ])
+
+    if not primary:
+        parts.extend([
+            "ℹ️ Direct action link was not found in the source page. Please use the official website link above, if available.",
+            "",
+        ])
+
     parts.extend([
-        _link("🔎 View Full Details", source),
-        "",
         "⚠️ Please verify important dates and instructions on the official authority website before taking action.",
         "",
         "📢 <b>Sarkari Naukri Notification</b>",
