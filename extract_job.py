@@ -633,12 +633,12 @@ def extract_important_links(soup, page_url):
             return ""
         return href
 
-    marker = None
-    for element in soup.find_all(["h1", "h2", "h3", "h4", "h5", "h6", "strong", "b", "p", "td", "th", "div"]):
+    marker_candidates = []
+    for element in soup.find_all(["h1", "h2", "h3", "h4", "h5", "h6", "strong", "b", "p", "td", "th"]):
         text = clean(element.get_text(" ", strip=True)).lower()
         if "some useful important links" in text:
-            marker = element
-            break
+            marker_candidates.append((len(text), element))
+    marker = min(marker_candidates, key=lambda item: item[0])[1] if marker_candidates else None
 
     if not marker:
         return result
