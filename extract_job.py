@@ -596,11 +596,7 @@ def extract_selection(lines):
 
 
 def extract_important_links(soup, page_url):
-    """Extract real hrefs from the site's 'SOME USEFUL IMPORTANT LINKS' area.
-
-    The visible 'Click Here' text is often just a label. We only accept an
-    actual href from the same table/row as the labelled resource.
-    """
+    """Extract actual destination URLs from labelled rows in the important-links section."""
     result = {
         "apply_link": "",
         "notification_link": "",
@@ -608,32 +604,37 @@ def extract_important_links(soup, page_url):
         "result_link": "",
         "admit_card_link": "",
         "answer_key_link": "",
+        "score_card_link": "",
+        "exam_date_link": "",
+        "exam_city_link": "",
     }
+
+    page_parts = urlparse(page_url)
+    page_host = page_parts.netloc.lower()
 
     def usable(href):
         if not href:
-            return False
+            return ""
         href = urljoin(page_url, href)
         parts = urlparse(href)
-        if parts.scheme not in {"http", "https"}:
-            return False
-        lower = href.lower()
-        page_parts = urlparse(page_url)
+        if parts.scheme not in {"http", "https"} or not parts.netloc:
+            return ""
         if (
-            parts.netloc.lower() == page_parts.netloc.lower()
+            parts.netloc.lower() == page_host
             and (parts.path.rstrip("/") or "/") == (page_parts.path.rstrip("/") or "/")
         ):
-            return False
+            return ""
+        lower = href.lower()
         if any(bad in lower for bad in [
             "play.google.com", "apps.apple.com", "whatsapp.com", "wa.me",
             "t.me", "telegram.me", "facebook.com", "instagram.com",
             "youtube.com", "twitter.com", "x.com", "javascript:", "mailto:"
         ]):
-            return False
+            return ""
         return href
 
     marker = None
-    for element in soup.find_all(["h2", "h3", "h4", "h5", "strong", "b", "p", "td"]):
+    for element in soup.find_all(["h1", "h2", "h3", "h4", "h5", "h6", "strong", "b", "p", "td", "th", "div"]):
         text = clean(element.get_text(" ", strip=True)).lower()
         if "some useful important links" in text:
             marker = element
@@ -642,89 +643,80 @@ def extract_important_links(soup, page_url):
     if not marker:
         return result
 
-    # Prefer rows in the table containing the marker. This avoids unrelated
-    # "Click Here" links elsewhere on the page.
     table = marker.find_parent("table")
     if not table:
         table = marker.find_next("table")
     rows = table.find_all("tr") if table else []
 
+    # Some templates put the section title outside the table. If the nearest
+    # table is not immediately associated with the heading, use the first
+    # following table, but never scan unrelated page links as a fallback.
+    seen_rows = set()
     for row in rows:
+        identity = id(row)
+        if identity in seen_rows:
+            continue
+        seen_rows.add(identity)
         row_text = clean(row.get_text(" ", strip=True)).lower()
         if not row_text:
             continue
 
-        links = []
+        hrefs = []
         for anchor in row.find_all("a", href=True):
             href = usable(anchor.get("href"))
-            if href:
-                links.append(href)
-
-        if not links:
+            if href and href not in hrefs:
+                hrefs.append(href)
+        if not hrefs:
             continue
 
-        # For Apply Online, the destination must be an external portal.
-        # SarkariResult may place an internal/self link in the same row before
-        # the real application href. Never use that internal link as Apply Online.
-        page_host = urlparse(page_url).netloc.lower()
-        external_links = [
-            link for link in links
-            if urlparse(link).netloc.lower() != page_host
-        ]
-        href = external_links[0] if external_links else links[0]
+        # Pick the actual anchor associated with a labelled row. Prefer an
+        # external destination for application links, but otherwise preserve
+        # the row's first real href.
+        external = [href for href in hrefs if urlparse(href).netloc.lower() != page_host]
+        href = (external or hrefs)[0]
 
-        if (
-            not result["apply_link"]
-            and external_links
-            and any(x in row_text for x in [
-                "apply online", "online application", "application link",
-                "registration link", "apply now"
-            ])
-        ):
-            result["apply_link"] = href
+        if not result["apply_link"] and external and any(term in row_text for term in [
+            "apply online", "online application", "application link", "registration link", "apply now"
+        ]):
+            result["apply_link"] = external[0]
 
-        if (
-            not result["notification_link"]
-            and any(x in row_text for x in [
-                "official notification", "download notification",
-                "notification pdf", "detailed notification",
-                "short notice", "advertisement"
-            ])
-        ):
+        if not result["notification_link"] and any(term in row_text for term in [
+            "official notification", "download notification", "notification pdf",
+            "detailed notification", "short notice", "advertisement"
+        ]):
             result["notification_link"] = href
 
-        if (
-            not result["result_link"]
-            and re.search(r"\b(result|download result|check result)\b", row_text)
+        # Don't confuse a link labelled "Check Sarkari Result" (a source-site
+        # navigation link) with the actual result/scorecard resource.
+        is_source_brand_link = "sarkari result" in row_text and not any(
+            term in row_text for term in ["download result", "check result", "result link", "score card", "scorecard"]
+        )
+        if not result["result_link"] and not is_source_brand_link and re.search(
+            r"\b(result|download result|check result|score ?card|marks|merit list|cut ?off)\b", row_text
         ):
             result["result_link"] = href
 
-        if (
-            not result["admit_card_link"]
-            and any(x in row_text for x in [
-                "admit card", "download admit card", "hall ticket"
-            ])
-        ):
+        if not result["score_card_link"] and re.search(r"\b(score ?card|marks|marksheet)\b", row_text):
+            result["score_card_link"] = href
+
+        if not result["admit_card_link"] and re.search(r"\b(admit ?card|hall ticket)\b", row_text):
             result["admit_card_link"] = href
 
-        if (
-            not result["answer_key_link"]
-            and any(x in row_text for x in [
-                "answer key", "download answer key", "final answer key"
-            ])
-        ):
+        if not result["answer_key_link"] and re.search(r"\b(answer ?key)\b", row_text):
             result["answer_key_link"] = href
 
-        if (
-            not result["official_website"]
-            and any(x in row_text for x in [
-                "official website", "official site", "department website"
-            ])
-        ):
+        if not result["exam_date_link"] and re.search(r"\b(exam date|new exam date|exam schedule|date notice|exam notice)\b", row_text):
+            result["exam_date_link"] = href
+
+        if not result["exam_city_link"] and re.search(r"\b(exam city|city intimation|city slip)\b", row_text):
+            result["exam_city_link"] = href
+
+        if not result["official_website"] and any(term in row_text for term in [
+            "official website", "official site", "department website"
+        ]):
             result["official_website"] = href
 
     return result
-
 
 def extract_links(soup, page_url):
     result = {
