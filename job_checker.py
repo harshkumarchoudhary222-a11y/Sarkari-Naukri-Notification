@@ -335,6 +335,24 @@ def process_category_updates():
             enriched = enrich_update(item)
             message = build_update_alert_message(enriched)
 
+            # Category alerts need the actual resource link in their
+            # fingerprint. Older versions fingerprinted only source URL +
+            # category, so a previously recorded generic alert could block
+            # the new direct-link alert even though the Telegram content
+            # has materially improved.
+            resource_fingerprint = [
+                {
+                    "label": "primary_link",
+                    "old": "",
+                    "new": enriched.get("primary_link", ""),
+                },
+                {
+                    "label": "official_website",
+                    "old": "",
+                    "new": enriched.get("official_website", ""),
+                },
+            ]
+
             if publish_alert_once(
                 {
                     "source_url": enriched["url"],
@@ -342,6 +360,7 @@ def process_category_updates():
                 },
                 enriched["category"],
                 message,
+                changes=resource_fingerprint,
             ):
                 counts[enriched["category"]] = counts.get(enriched["category"], 0) + 1
 
