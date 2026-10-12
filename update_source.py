@@ -105,6 +105,32 @@ def get_current_updates(max_age_days=2):
             if published >= cutoff:
                 updates.append(item)
 
+    # A single source page can appear in more than one category feed.
+    # Prefer the category that matches the actual update title so one event
+    # cannot produce duplicate/misclassified Telegram alerts.
+    def category_priority(item):
+        title = item.get("title", "").lower()
+        if re.search(r"\bresult\b|score\s*card|marks|merit\s*list|cut[- ]?off", title):
+            return 3  # RESULT
+        if re.search(r"answer\s*key", title):
+            return 2  # ANSWER_KEY
+        if re.search(r"admit\s*card|hall\s*ticket|exam\s*city|intimation", title):
+            return 1  # ADMIT_CARD
+        return 0
+
+    # De-duplicate by source URL. When the same page is listed under several
+    # categories, keep the category whose title best describes the page.
+    deduped = {}
+    for item in updates:
+        key = item.get("url", "").strip()
+        if not key:
+            continue
+        existing = deduped.get(key)
+        if existing is None or category_priority(item) > category_priority(existing):
+            deduped[key] = item
+
+    updates = list(deduped.values())
+
     # Newest first, then category.
     updates.sort(key=lambda item: (item["published"], item["category"]), reverse=True)
 
