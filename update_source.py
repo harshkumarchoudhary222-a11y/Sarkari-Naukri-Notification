@@ -163,18 +163,31 @@ def enrich_update(item):
     elif item["category"] == "ADMIT_CARD":
         title_lower = item.get("title", "").lower()
 
-        if re.search(r"exam\s*city|city\s*intimation|city\s*slip", title_lower):
+        if re.search(r"interview\s*(?:schedule|letter)|personality\s*test", title_lower):
+            item["primary_link"] = (
+                resources.get("exam_date_link", "")
+                or resources.get("admit_card_link", "")
+                or resources.get("exam_city_link", "")
+            )
+            item["primary_label"] = (
+                "📄 Download Interview Schedule"
+                if resources.get("exam_date_link")
+                else "🔗 Open Interview Update"
+            )
+            item["update_kind"] = "INTERVIEW"
+        elif re.search(r"exam\s*city|city\s*intimation|city\s*slip", title_lower):
             item["primary_link"] = (
                 resources.get("exam_city_link", "")
                 or resources.get("admit_card_link", "")
                 or resources.get("exam_date_link", "")
             )
             if resources.get("exam_city_link"):
-                item["primary_label"] = "Check Exam City / Intimation"
+                item["primary_label"] = "🏙️ Check Exam City / Intimation"
             elif resources.get("admit_card_link"):
-                item["primary_label"] = "Download Admit Card"
+                item["primary_label"] = "🎫 Download Admit Card"
             else:
-                item["primary_label"] = "Check Exam Date Notice"
+                item["primary_label"] = "📅 Check Exam Date Notice"
+            item["update_kind"] = "EXAM_CITY"
         elif re.search(r"exam\s*date|new\s+exam\s*date|schedule", title_lower):
             item["primary_link"] = (
                 resources.get("exam_date_link", "")
@@ -182,11 +195,19 @@ def enrich_update(item):
                 or resources.get("exam_city_link", "")
             )
             if resources.get("exam_date_link"):
-                item["primary_label"] = "Check Exam Date Notice"
+                item["primary_label"] = "📅 Check Exam Date Notice"
             elif resources.get("admit_card_link"):
-                item["primary_label"] = "Download Admit Card"
+                item["primary_label"] = "🎫 Download Admit Card"
             else:
-                item["primary_label"] = "Check Exam City / Intimation"
+                item["primary_label"] = "🏙️ Check Exam City / Intimation"
+            item["update_kind"] = "EXAM_DATE"
+        elif re.search(r"application\s*status|application\s*form\s*status", title_lower):
+            item["primary_link"] = (
+                resources.get("official_website", "")
+                or resources.get("exam_date_link", "")
+            )
+            item["primary_label"] = "🔎 Check Application Status"
+            item["update_kind"] = "APPLICATION_STATUS"
         else:
             item["primary_link"] = (
                 resources.get("admit_card_link", "")
@@ -194,15 +215,18 @@ def enrich_update(item):
                 or resources.get("exam_date_link", "")
             )
             if resources.get("admit_card_link"):
-                item["primary_label"] = "Download Admit Card"
+                item["primary_label"] = "🎫 Download Admit Card"
             elif resources.get("exam_city_link"):
-                item["primary_label"] = "Check Exam City / Intimation"
+                item["primary_label"] = "🏙️ Check Exam City / Intimation"
             else:
-                item["primary_label"] = "Check Exam Date Notice"
+                item["primary_label"] = "📅 Check Exam Date Notice"
+            item["update_kind"] = "ADMIT_CARD"
+
     else:
         item["primary_link"] = resources.get("answer_key_link", "")
         item["primary_label"] = "Download Answer Key"
 
     item["official_website"] = resources.get("official_website", "")
+    item["notification_link"] = resources.get("notification_link", "")
 
     return item
