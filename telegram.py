@@ -282,6 +282,14 @@ def build_update_alert_message(item):
         "",
     ]
 
+    summary = _summary(item)
+    if summary:
+        parts.extend([
+            "📌 <b>What's New?</b>",
+            _escape(summary),
+            "",
+        ])
+
     if primary:
         parts.extend([
             _link(item.get("primary_label", "Open Update"), primary),
