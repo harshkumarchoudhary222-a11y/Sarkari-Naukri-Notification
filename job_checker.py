@@ -402,7 +402,7 @@ def process_category_updates():
                 },
             ]
 
-            if publish_alert_once(
+            sent = publish_alert_once(
                 {
                     "source_url": enriched["url"],
                     "title": enriched["title"],
@@ -410,8 +410,29 @@ def process_category_updates():
                 enriched["category"],
                 message,
                 changes=resource_fingerprint,
-            ):
+            )
+
+            if sent:
                 counts[enriched["category"]] = counts.get(enriched["category"], 0) + 1
+
+                # For result/admit-card/answer-key updates, try to attach the
+                # actual primary document (PDF/image) directly after the alert.
+                # If the URL is an HTML/login page, send_telegram_document safely
+                # rejects it without breaking the workflow.
+                attachment_url = (
+                    enriched.get("primary_link", "")
+                    or enriched.get("notification_link", "")
+                )
+                if attachment_url:
+                    attached = send_telegram_document(
+                        attachment_url,
+                        title=enriched.get("title", "Official Update"),
+                    )
+                    if not attached:
+                        print(
+                            "No direct PDF/image attachment sent for "
+                            f"{enriched.get('title', '')}; link remains available."
+                        )
 
         except Exception as error:
             print(
