@@ -595,6 +595,41 @@ def extract_selection(lines):
     return found
 
 
+def extract_summary(soup, title=""):
+    """Extract the short introductory description from the recruitment page."""
+    title_clean = clean(title).lower()
+
+    for paragraph in soup.find_all("p"):
+        text = clean(paragraph.get_text(" ", strip=True))
+        if not text:
+            continue
+
+        lower = text.lower()
+
+        # Skip page/site promotions, social prompts, and navigation text.
+        if any(term in lower for term in [
+            "download sarkariresult app",
+            "join our whatsapp channel",
+            "join our telegram channel",
+            "follow now",
+            "connect with us",
+            "latest posts",
+            "related posts",
+        ]):
+            continue
+
+        if title_clean and lower == title_clean:
+            continue
+
+        # Introductory descriptions are normally a short paragraph directly
+        # below the post date/title. Avoid long FAQ/disclaimer paragraphs.
+        if 80 <= len(text) <= 900:
+            text = re.sub(r"\\s*[-–—]?\\s*SarkariResult(?:\\.com\\.cm)?\\s*", " ", text, flags=re.I)
+            text = clean(text)
+            return text
+
+    return ""
+
 def extract_important_links(soup, page_url):
     """Extract actual destination URLs from labelled rows in the important-links section."""
     result = {
@@ -719,129 +754,14 @@ def extract_important_links(soup, page_url):
     return result
 
 def extract_links(soup, page_url):
-    result = {
-        "apply_link": "",
-        "notification_link": "",
-        "official_website": ""
-    }
-
+    """Return only links extracted from the labelled important-links section."""
     important = extract_important_links(soup, page_url)
-    for key in ("apply_link", "notification_link", "official_website"):
-        if important.get(key):
-            result[key] = important[key]
 
-    page_parts = urlparse(page_url)
-    page_path = page_parts.path.rstrip("/") or "/"
-
-    def is_same_page(href):
-        parts = urlparse(href)
-        href_path = parts.path.rstrip("/") or "/"
-        return (
-            parts.netloc.lower() == page_parts.netloc.lower()
-            and href_path == page_path
-        )
-
-    def is_bad_link(href):
-        lower = href.lower()
-        if is_same_page(href):
-            return True
-        if any(domain in lower for domain in [
-            "play.google.com", "apps.apple.com", "whatsapp.com", "wa.me",
-            "t.me", "telegram.me", "facebook.com", "instagram.com",
-            "youtube.com", "twitter.com", "x.com"
-        ]):
-            return True
-        if lower.startswith(("javascript:", "mailto:")):
-            return True
-        return False
-
-    candidates = []
-
-    for link in soup.find_all("a", href=True):
-        text = clean(link.get_text(" ", strip=True))
-        href = urljoin(page_url, link["href"])
-
-        if not href.startswith(("http://", "https://")):
-            continue
-
-        # Use only the anchor itself for strong link detection. Broad parent
-        # context is intentionally avoided because it can contain unrelated
-        # words from the whole page (for example "registration" or
-        # "advertisement"), causing false links.
-        nearby_heading = ""
-        heading = link.find_previous(["h1", "h2", "h3", "h4", "h5", "h6"])
-        if heading:
-            nearby_heading = clean(heading.get_text(" ", strip=True)).lower()
-
-        candidates.append((text.lower(), href, nearby_heading))
-
-    for text, href, nearby_heading in candidates:
-        href_lower = href.lower()
-        generic_click = text.strip() in {"click here", "click here to download"}
-
-        if not result["apply_link"] and not is_bad_link(href):
-            strong_apply_text = any(
-                phrase in text
-                for phrase in [
-                    "apply online",
-                    "online application",
-                    "apply now",
-                    "registration link",
-                    "application link",
-                ]
-            )
-            # Never select an Apply link merely because its URL contains
-            # "apply"/"registration". Social and promotional URLs can contain
-            # those words. Require explicit anchor text or an Apply heading.
-            is_external = urlparse(href).netloc.lower() != page_parts.netloc.lower()
-            if is_external and strong_apply_text:
-                result["apply_link"] = href
-            elif is_external and generic_click and "apply" in nearby_heading:
-                result["apply_link"] = href
-
-        if not result["notification_link"] and not is_bad_link(href):
-            strong_notification_text = any(
-                phrase in text
-                for phrase in [
-                    "official notification",
-                    "download notification",
-                    "notification pdf",
-                    "detailed notification",
-                    "advertisement",
-                    "short notice",
-                ]
-            )
-            strong_notification_url = (
-                "notification" in href_lower
-                or "advertisement" in href_lower
-                or href_lower.endswith(".pdf")
-                or ".pdf?" in href_lower
-            )
-            if strong_notification_text or strong_notification_url:
-                result["notification_link"] = href
-            elif generic_click and (
-                "official notification" in nearby_heading
-                or "check official notification" in nearby_heading
-                or "check short notice" in nearby_heading
-            ):
-                result["notification_link"] = href
-
-        if (
-            not result["official_website"]
-            and not is_bad_link(href)
-            and any(
-                phrase in text
-                for phrase in [
-                    "official website",
-                    "official site",
-                    "department website",
-                ]
-            )
-        ):
-            result["official_website"] = href
-
-    return result
-
+    return {
+        "apply_link": important.get("apply_link", ""),
+        "notification_link": important.get("notification_link", ""),
+        "official_website": important.get("official_website", ""),
+    }
 
 
 def extract_job(url):
@@ -867,10 +787,12 @@ def extract_job(url):
     vacancies = extract_vacancies(tables)
     dates = extract_dates(lines)
     links = extract_links(soup, url)
+    summary = extract_summary(soup, title)
 
     data = {
         "title": title or (lines[0] if lines else "Untitled Recruitment"),
         "source_url": url,
+        "summary": summary,
         "organization": extract_organization(title, lines),
         "total_vacancies": vacancies.get("total_posts") or "Not specified",
         "post_wise_vacancies": vacancies.get("post_wise", []),
