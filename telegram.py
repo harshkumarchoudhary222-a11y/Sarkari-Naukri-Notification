@@ -82,7 +82,7 @@ def _summary(job):
 
     # Keep the Telegram post compact while preserving the useful introductory
     # context from the source page.
-    text = re.sub(r"\\s+", " ", text)
+    text = re.sub(r"\s+", " ", text)
     if len(text) > 420:
         text = text[:417].rsplit(" ", 1)[0] + "..."
     return text
@@ -263,40 +263,65 @@ def build_update_message(job, update):
 
 def build_update_alert_message(item):
     category = item.get("category", "")
-    labels = {
-        "RESULT": ("🏆", "RESULT DECLARED"),
-        "ADMIT_CARD": ("🎫", "ADMIT CARD / EXAM UPDATE"),
-        "ANSWER_KEY": ("📝", "ANSWER KEY RELEASED"),
-    }
-    icon, heading = labels.get(category, ("🔔", "IMPORTANT UPDATE"))
+    title = _display_title(item.get("title", "Government Exam Update"))
+    title_lower = title.lower()
+
+    if "interview" in title_lower or "personality test" in title_lower:
+        icon, heading = "🎤", "INTERVIEW SCHEDULE"
+    elif "exam city" in title_lower or "city intimation" in title_lower:
+        icon, heading = "🏙️", "EXAM CITY UPDATE"
+    elif "exam date" in title_lower or "schedule" in title_lower:
+        icon, heading = "📅", "EXAM DATE UPDATE"
+    elif "application status" in title_lower:
+        icon, heading = "🔎", "APPLICATION STATUS"
+    else:
+        labels = {
+            "RESULT": ("🏆", "RESULT DECLARED"),
+            "ADMIT_CARD": ("🎫", "ADMIT CARD UPDATE"),
+            "ANSWER_KEY": ("📝", "ANSWER KEY RELEASED"),
+        }
+        icon, heading = labels.get(category, ("🔔", "IMPORTANT UPDATE"))
 
     primary = item.get("primary_link")
-    source = item.get("url")
+    primary_label = item.get("primary_label", "Open Update")
+    official = item.get("official_website")
+
+    # Do not copy the source site's long historical paragraph into Telegram.
+    # The title and the action link already tell users what changed.
+    action_hint = ""
+    if "interview" in title_lower or "personality test" in title_lower:
+        action_hint = "UPSC has released the interview/personality-test schedule. Check your roll number and interview date in the official schedule."
+    elif "exam city" in title_lower or "city intimation" in title_lower:
+        action_hint = "Exam City / Intimation details are available. Check your allotted city using the official link."
+    elif "exam date" in title_lower or "schedule" in title_lower:
+        action_hint = "The exam schedule/date has been updated. Check the official notice for the latest date and instructions."
+    elif "application status" in title_lower:
+        action_hint = "Application status has been updated. Check your application using the official portal."
+    elif category == "RESULT":
+        action_hint = "The result has been released. Check your result using the official link."
+    elif category == "ANSWER_KEY":
+        action_hint = "The answer key has been released. Check the official link for the latest version."
+    else:
+        action_hint = "The latest exam update is available. Check the official link for details."
 
     parts = [
         f"{icon} <b>{heading}</b>",
         "",
-        f"🔥 <b>{_escape(_display_title(item.get('title', 'Government Exam Update')))}</b>",
+        f"🔥 <b>{_escape(title)}</b>",
         "",
         f"📅 <b>Updated:</b> {_escape(item.get('published', 'Today'))}",
         "",
+        "📌 <b>UPDATE</b>",
+        _escape(action_hint),
+        "",
     ]
-
-    summary = _summary(item)
-    if summary:
-        parts.extend([
-            "📌 <b>What's New?</b>",
-            _escape(summary),
-            "",
-        ])
 
     if primary:
         parts.extend([
-            _link(item.get("primary_label", "Open Update"), primary),
+            _link(primary_label, primary),
             "",
         ])
 
-    official = item.get("official_website")
     if official:
         parts.extend([
             _link("🌐 Official Website", official),
@@ -305,12 +330,12 @@ def build_update_alert_message(item):
 
     if not primary:
         parts.extend([
-            "ℹ️ Direct action link was not found in the source page. Please use the official website link above, if available.",
+            "⚠️ Direct action link was not found. Please use the official website above.",
             "",
         ])
 
     parts.extend([
-        "⚠️ Please verify important dates and instructions on the official authority website before taking action.",
+        "⚠️ Verify dates and instructions on the official authority website.",
         "",
         "📢 <b>Sarkari Naukri Notification</b>",
         "@sarkari_naukri_notification",
