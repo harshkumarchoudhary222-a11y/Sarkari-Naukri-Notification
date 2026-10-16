@@ -194,7 +194,7 @@ def build_new_job_message(job):
         "━━━━━━━━━━━━━━━━━━",
     ])
 
-    return "\n".join(part for part in parts if part != "")
+    return "\n".join(parts)
 
 
 def _safe_change_value(change, side):
@@ -258,7 +258,7 @@ def build_update_message(job, update):
         "━━━━━━━━━━━━━━━━━━",
     ]
 
-    return "\n".join(part for part in parts if part != "")
+    return "\n".join(parts)
 
 
 def build_update_alert_message(item):
@@ -348,7 +348,7 @@ def build_update_alert_message(item):
         "━━━━━━━━━━━━━━━━━━",
     ])
 
-    return "\n".join(part for part in parts if part != "")
+    return "\n".join(parts)
 
 
 def send_telegram_document(document_url, title="Official Notification"):
