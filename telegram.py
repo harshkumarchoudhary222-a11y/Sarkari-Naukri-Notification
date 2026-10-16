@@ -2,6 +2,7 @@ import html
 import os
 import re
 import requests
+from io import BytesIO
 from urllib.parse import urlparse
 
 
@@ -74,6 +75,18 @@ def _display_title(value):
     return text.strip() or "Government Recruitment"
 
 
+def _summary(job):
+    text = str(job.get("summary") or "").strip()
+    if not text:
+        return ""
+
+    # Keep the Telegram post compact while preserving the useful introductory
+    # context from the source page.
+    text = re.sub(r"\\s+", " ", text)
+    if len(text) > 420:
+        text = text[:417].rsplit(" ", 1)[0] + "..."
+    return text
+
 def _eligibility(job):
     value = job.get("qualification")
     text = _value(value)
@@ -119,18 +132,15 @@ def build_new_job_message(job):
 
     links = []
     apply = _apply_link(job)
-    notification = job.get("notification_link", "")
     official = job.get("official_website", "")
 
     if apply:
         links.append(_link("📝 Apply Online", apply))
-    if notification:
-        links.append(_link("📄 Official Notification", notification))
     if official:
         links.append(_link("🌐 Official Website", official))
 
-    # Keep Telegram readable: group related information into compact
-    # sections instead of putting a blank line after every single field.
+    summary = _summary(job)
+
     info_block = "\n".join([
         f"➡️ <b>Application Starts:</b> {start_date}",
         f"➡️ <b>Last Date:</b> {last_date}",
@@ -144,14 +154,35 @@ def build_new_job_message(job):
         "",
         f"🔥 <b>{title}</b>",
         "",
+    ]
+
+    if summary:
+        parts.extend([
+            "📌 <b>About:</b>",
+            _escape(summary),
+            "",
+        ])
+
+    parts.extend([
+        "📅 <b>Important Dates</b>",
         info_block,
         "",
         _escape(_hashtags(job)),
         "",
         "📌 <b>Important Links</b>",
         "",
-        "\n".join(links) if links else _link("🔎 View Recruitment Details", job.get("source_url")),
+        "\n".join(links) if links else _link("🌐 Official Website", job.get("official_website", "")),
         "",
+    ])
+
+    if job.get("notification_link"):
+        parts.extend([
+            "📄 <b>Official Notification</b>",
+            "👇 PDF/document attached below",
+            "",
+        ])
+
+    parts.extend([
         "📢 <b>Sarkari Naukri Notification</b>",
         "👉 @sarkari_naukri_notification",
         "",
@@ -161,7 +192,7 @@ def build_new_job_message(job):
         "📝 PYQs + Practice Questions",
         "👉 Join Now: @upsc_ssc_bpsc_bank",
         "━━━━━━━━━━━━━━━━━━",
-    ]
+    ])
 
     return "\n".join(part for part in parts if part != "")
 
@@ -286,6 +317,125 @@ def build_update_alert_message(item):
 
     return "\n".join(part for part in parts if part != "")
 
+
+def send_telegram_document(document_url, title="Official Notification"):
+    """Download a notification PDF/image and upload it directly to Telegram."""
+    token = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
+    chat_id = os.getenv("TELEGRAM_CHAT_ID", "@sarkari_naukri_notification").strip()
+
+    if not token or not document_url:
+        return False
+
+    max_size = 50 * 1024 * 1024
+
+    try:
+        response = requests.get(
+            document_url,
+            headers={
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/120.0 Safari/537.36"
+                )
+            },
+            timeout=45,
+            allow_redirects=True,
+            stream=True,
+        )
+        response.raise_for_status()
+
+        content_length = response.headers.get("Content-Length")
+        if content_length and int(content_length) > max_size:
+            print("Notification file is larger than Telegram's 50 MB limit.")
+            return False
+
+        chunks = []
+        total = 0
+        for chunk in response.iter_content(chunk_size=1024 * 256):
+            if not chunk:
+                continue
+            total += len(chunk)
+            if total > max_size:
+                print("Notification file exceeds Telegram's 50 MB limit.")
+                return False
+            chunks.append(chunk)
+
+        content = b"".join(chunks)
+        content_type = response.headers.get("Content-Type", "").lower()
+
+        # Reject HTML/login/error pages even when the URL ends in .pdf.
+        is_pdf = content.startswith(b"%PDF-")
+        is_image = (
+            content.startswith(b"\\xff\\xd8\\xff") or
+            content.startswith(b"\\x89PNG\\r\\n\\x1a\\n") or
+            content.startswith(b"GIF87a") or
+            content.startswith(b"GIF89a") or
+            content.startswith(b"RIFF") and b"WEBP" in content[:16]
+        )
+
+        if not (is_pdf or is_image):
+            print(
+                "Notification link did not return a PDF/image. "
+                f"Content-Type: {content_type}"
+            )
+            return False
+
+        path_name = urlparse(response.url).path.rsplit("/", 1)[-1]
+        filename = re.sub(r"[^A-Za-z0-9._-]+", "_", path_name).strip("._-")
+
+        if not filename:
+            filename = "official-notification.pdf" if is_pdf else "official-notification.jpg"
+
+        if is_pdf and not filename.lower().endswith(".pdf"):
+            filename += ".pdf"
+
+        if is_image and not re.search(r"\\.(?:jpg|jpeg|png|gif|webp)$", filename, re.I):
+            filename += ".jpg"
+
+        caption = (
+            f"📄 <b>{_escape(title)}</b>\\n"
+            "Official notification document"
+        )
+
+        api_url = TELEGRAM_API.format(token=token).replace(
+            "/sendMessage", "/sendDocument"
+        )
+
+        upload = requests.post(
+            api_url,
+            data={
+                "chat_id": chat_id,
+                "caption": caption,
+                "parse_mode": "HTML",
+            },
+            files={
+                "document": (
+                    filename,
+                    BytesIO(content),
+                    "application/pdf" if is_pdf else content_type.split(";")[0] or "application/octet-stream",
+                )
+            },
+            timeout=60,
+        )
+
+        if not upload.ok:
+            print(
+                f"Telegram document upload failed: "
+                f"{upload.status_code}: {upload.text[:500]}"
+            )
+            return False
+
+        payload = upload.json()
+        if not payload.get("ok"):
+            print(f"Telegram document rejected: {payload}")
+            return False
+
+        print("Official notification document sent successfully.")
+        return True
+
+    except Exception as error:
+        print(f"Official notification download/send failed: {error}")
+        return False
 
 def send_telegram_message(message):
     token = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
