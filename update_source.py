@@ -5,7 +5,7 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
-from extract_job import extract_important_links, clean
+from extract_job import extract_important_links, extract_summary, clean
 
 
 HEADERS = {
@@ -146,10 +146,12 @@ def enrich_update(item):
 
     item = dict(item)
     item["resources"] = resources
+    item["summary"] = extract_summary(soup, item.get("title", ""))
 
-    # Choose the action that matches the actual update. Some result pages
-    # label the resource Score Card/Marks, and some exam-update pages provide
-    # an exam-date notice rather than an admit-card link.
+    # Choose the action that matches the actual update. Exam-city updates
+    # should prefer the city/intimation resource; exam-date updates should
+    # prefer the date notice. This avoids showing a generic or mismatched
+    # action button.
     if item["category"] == "RESULT":
         item["primary_link"] = (
             resources.get("result_link", "")
@@ -159,17 +161,44 @@ def enrich_update(item):
             "Check Result" if resources.get("result_link") else "Check Score Card / Marks"
         )
     elif item["category"] == "ADMIT_CARD":
-        item["primary_link"] = (
-            resources.get("admit_card_link", "")
-            or resources.get("exam_date_link", "")
-            or resources.get("exam_city_link", "")
-        )
-        if resources.get("admit_card_link"):
-            item["primary_label"] = "Download Admit Card"
-        elif resources.get("exam_date_link"):
-            item["primary_label"] = "Check Exam Date Notice"
+        title_lower = item.get("title", "").lower()
+
+        if re.search(r"exam\s*city|city\s*intimation|city\s*slip", title_lower):
+            item["primary_link"] = (
+                resources.get("exam_city_link", "")
+                or resources.get("admit_card_link", "")
+                or resources.get("exam_date_link", "")
+            )
+            if resources.get("exam_city_link"):
+                item["primary_label"] = "Check Exam City / Intimation"
+            elif resources.get("admit_card_link"):
+                item["primary_label"] = "Download Admit Card"
+            else:
+                item["primary_label"] = "Check Exam Date Notice"
+        elif re.search(r"exam\s*date|new\s+exam\s*date|schedule", title_lower):
+            item["primary_link"] = (
+                resources.get("exam_date_link", "")
+                or resources.get("admit_card_link", "")
+                or resources.get("exam_city_link", "")
+            )
+            if resources.get("exam_date_link"):
+                item["primary_label"] = "Check Exam Date Notice"
+            elif resources.get("admit_card_link"):
+                item["primary_label"] = "Download Admit Card"
+            else:
+                item["primary_label"] = "Check Exam City / Intimation"
         else:
-            item["primary_label"] = "Check Exam City / Intimation"
+            item["primary_link"] = (
+                resources.get("admit_card_link", "")
+                or resources.get("exam_city_link", "")
+                or resources.get("exam_date_link", "")
+            )
+            if resources.get("admit_card_link"):
+                item["primary_label"] = "Download Admit Card"
+            elif resources.get("exam_city_link"):
+                item["primary_label"] = "Check Exam City / Intimation"
+            else:
+                item["primary_label"] = "Check Exam Date Notice"
     else:
         item["primary_link"] = resources.get("answer_key_link", "")
         item["primary_label"] = "Download Answer Key"
