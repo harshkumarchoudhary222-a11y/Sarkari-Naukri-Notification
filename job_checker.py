@@ -12,6 +12,7 @@ from update_detector import detect_update
 from telegram import (
     build_new_job_message,
     build_update_message,
+    send_telegram_document,
     send_telegram_message,
 )
 from facebook import (
@@ -217,11 +218,27 @@ def process_new_job(job):
     data["verification"] = verify_job(data)
 
     message = build_new_job_message(data)
-    publish_alert_once(
+    alert_sent = publish_alert_once(
         data,
         "NEW_JOB",
         message,
     )
+
+    # Send the real official notification as a Telegram document when the
+    # source provides a genuine PDF/image URL. The text alert no longer needs
+    # to expose the raw notification URL.
+    data["notification_attachment_sent"] = False
+    data["notification_attachment_pending"] = False
+
+    if alert_sent and data.get("notification_link"):
+        attached = send_telegram_document(
+            data["notification_link"],
+            title=data.get("title", "Official Notification"),
+        )
+        data["notification_attachment_sent"] = attached
+        data["notification_attachment_pending"] = not attached
+        if not attached:
+            print("Official notification attachment could not be sent; will retry on the next check.")
 
     try:
         facebook_message = build_new_facebook_post(
@@ -253,6 +270,21 @@ def process_existing_job(job, saved):
 
     print("\nCHECKING EXISTING JOB")
     print(job["title"])
+
+    # Retry a failed official-notification attachment without reposting the
+    # whole recruitment alert. Only jobs explicitly marked pending are retried.
+    if old_data.get("notification_attachment_pending") and old_data.get("notification_link"):
+        attached = send_telegram_document(
+            old_data["notification_link"],
+            title=old_data.get("title", "Official Notification"),
+        )
+        if attached:
+            old_data["notification_attachment_sent"] = True
+            old_data["notification_attachment_pending"] = False
+            save_job(old_data, existing_filepath=saved["filepath"])
+            print("Pending official notification attachment sent.")
+        else:
+            print("Pending official notification attachment is still unavailable.")
 
     current = extract_job(job["url"])
     update = detect_update(old_data, current)
