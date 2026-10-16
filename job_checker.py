@@ -287,6 +287,23 @@ def process_existing_job(job, saved):
             print("Pending official notification attachment is still unavailable.")
 
     current = extract_job(job["url"])
+
+    # Preserve notification-attachment state across normal recruitment updates.
+    # If the notification URL itself changed, require a fresh attachment.
+    same_notification = (
+        current.get("notification_link", "") == old_data.get("notification_link", "")
+    )
+    if same_notification:
+        current["notification_attachment_sent"] = old_data.get(
+            "notification_attachment_sent", False
+        )
+        current["notification_attachment_pending"] = old_data.get(
+            "notification_attachment_pending", False
+        )
+    else:
+        current["notification_attachment_sent"] = False
+        current["notification_attachment_pending"] = False
+
     update = detect_update(old_data, current)
 
     if not update["has_material_update"]:
