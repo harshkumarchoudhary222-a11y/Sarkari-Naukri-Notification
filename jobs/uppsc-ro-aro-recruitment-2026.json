@@ -1,6 +1,6 @@
 {
   "title": "UPPSC RO / ARO Recruitment 2026",
-  "source_url": "https://sarkariresult.com.cm/uppsc-ro-aro-2026-2/",
+  "source_url": "https://sarkariresult.com.cm/uppsc-ro-aro-oct26/",
   "summary": "Uttar Pradesh Public Service Commission (UPPSC) , has released a Notification for the recruitment of Review Officer / Assistant Review Officer Posts on its official website. This recruitment is being conducted for 501 vacancies. The UPPSC Application Form has started on 26 October 2026 & the candidates can apply until 26 November 2026 . The Minimum age required is 21 Years & The Maximum Age Is 40 Years as on 01 July 2026. Candidates must check the complete details for UPPSC RO / ARO Recruitment 2026 which are given below. ( Advt No : A-4/E-1/2026 )",
   "organization": "Not specified",
   "total_vacancies": "501",
@@ -32,9 +32,11 @@
     "result": "Not mentioned"
   },
   "selection_process": [
-    "Mains Exam Interview (Viva-Voce) Document Verification",
+    "Pre Exam Mains Exam Interview (Viva-Voce) Document Verification",
     "Interview (Viva-Voce)",
-    "Document Verification"
+    "Document Verification",
+    "Latest Posts UPSSSC PET Admit Card 2026 Railway RRB Station Master Online Form 2026",
+    "UPSSSC PET Admit Card 2026"
   ],
   "event_statuses": {
     "admit_card_status": "Admit Card: Before Exam",
@@ -48,8 +50,6 @@
   "result_link": "",
   "admit_card_link": "",
   "answer_key_link": "",
-  "notification_attachment_sent": false,
-  "notification_attachment_pending": false,
   "verification": {
     "verification_status": "NEEDS_REVIEW",
     "official_domains_expected": [],
@@ -60,107 +60,7 @@
       "Official domain is not known for this organization yet."
     ]
   },
-  "previous_version": {
-    "title": "UPPSC RO / ARO Recruitment 2026",
-    "source_url": "https://sarkariresult.com.cm/uppsc-ro-aro-2026-2/",
-    "summary": "Uttar Pradesh Public Service Commission (UPPSC) , has released a Short Notice for the recruitment of Review Officer / Assistant Review Officer Posts on its official website. This recruitment is being conducted for 501 vacancies. The UPPSC Application Form will start on 26 October 2026 & the candidates can apply until 26 November 2026 . The Minimum age required is 21 Years & The Maximum Age Is 40 Years as on 01 July 2026. Candidates must check the complete details for UPPSC RO / ARO Recruitment 2026 which are given below. ( Advt No : A-4/E-1/2026 )",
-    "organization": "Not specified",
-    "total_vacancies": "501",
-    "post_wise_vacancies": [
-      [
-        [
-          "Post Name",
-          "No. Of Posts"
-        ],
-        [
-          "UPPSC RO / ARO",
-          "501 posts"
-        ]
-      ]
-    ],
-    "category_wise_vacancies": [],
-    "qualification": "RO / ARO Post",
-    "age_limit": "Minimum: 21 years | Maximum: 40 years",
-    "age_relaxation": "As per government rules",
-    "salary": "Not specified",
-    "application_fee": "For General / OBC / EWS : ₹ 125/-",
-    "important_dates": {
-      "application_start": "26 October 2026",
-      "application_last_date": "26 November 2026",
-      "fee_payment_last_date": "26 November 2026",
-      "correction_date": "Not mentioned",
-      "exam_date": "Notify Later",
-      "admit_card": "Before Exam Result Date : Will be Updated Here Soon Candidates are advised to co",
-      "result": "Not mentioned"
-    },
-    "selection_process": [
-      "Mains Exam Interview (Viva-Voce) Document Verification",
-      "Interview (Viva-Voce)",
-      "Document Verification"
-    ],
-    "event_statuses": {
-      "admit_card_status": "Admit Card: Before Exam",
-      "exam_city_status": "Not mentioned",
-      "answer_key_status": "Not mentioned",
-      "result_status": "Not mentioned"
-    },
-    "apply_link": "",
-    "notification_link": "",
-    "official_website": "https://uppsc.up.nic.in/",
-    "result_link": "",
-    "admit_card_link": "",
-    "answer_key_link": "",
-    "verification": {
-      "verification_status": "NEEDS_REVIEW",
-      "official_domains_expected": [],
-      "official_source_checked": false,
-      "official_source_url": "",
-      "checks": [],
-      "verification_notes": [
-        "Official domain is not known for this organization yet."
-      ]
-    },
-    "notification_attachment_sent": false,
-    "notification_attachment_pending": false,
-    "processed_at": "2026-10-26T05:42:42.411160+00:00"
-  },
-  "change_history": [
-    {
-      "detected_at": "2026-10-26T09:08:27.748771+00:00",
-      "change_type": "MATERIAL_UPDATE",
-      "changes": [
-        {
-          "field": "apply_link",
-          "label": "Apply link",
-          "old": "Not mentioned",
-          "new": "https://uppsc.up.nic.in/CandidatePages/Notifications.aspx"
-        },
-        {
-          "field": "notification_link",
-          "label": "Official notification link",
-          "old": "Not mentioned",
-          "new": "https://uppsc.up.nic.in/OuterPages/View_Enclosure.aspx?ID=307&flag=H&FID=946"
-        }
-      ]
-    }
-  ],
-  "last_update": {
-    "has_material_update": true,
-    "change_type": "MATERIAL_UPDATE",
-    "changes": [
-      {
-        "field": "apply_link",
-        "label": "Apply link",
-        "old": "Not mentioned",
-        "new": "https://uppsc.up.nic.in/CandidatePages/Notifications.aspx"
-      },
-      {
-        "field": "notification_link",
-        "label": "Official notification link",
-        "old": "Not mentioned",
-        "new": "https://uppsc.up.nic.in/OuterPages/View_Enclosure.aspx?ID=307&flag=H&FID=946"
-      }
-    ]
-  },
-  "processed_at": "2026-10-26T09:08:27.748821+00:00"
+  "notification_attachment_sent": false,
+  "notification_attachment_pending": true,
+  "processed_at": "2026-10-27T05:36:52.766428+00:00"
 }

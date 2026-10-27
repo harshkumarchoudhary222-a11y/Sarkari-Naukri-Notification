@@ -1,13 +1,67 @@
 {
   "title": "Railway RRB Station Master Recruitment 2026",
   "source_url": "https://sarkariresult.com.cm/railway-rrb-station-master-2026/",
-  "summary": "Railway Recruitment Board RRB , has released a Notification on its official website for the Recruitment of Railway Station Master Posts. This recruitment is for 1215 positions. RRB Application Form will start on 27 October 2026 & the candidates can apply until 25 November 2026 . Candidates must check the complete details for Railway RRB Station Master Recruitment 2026. Link are given below. ( Advt. No. CEN 08/2026 )",
+  "summary": "Railway Recruitment Board RRB , has released a Notification on its official website for the Recruitment of Railway Station Master Posts. This recruitment is for 1265 positions. RRB Application Form has started on 27 October 2026 & the candidates can apply until 25 November 2026 . Candidates must check the complete details for Railway RRB Station Master Recruitment 2026. Link are given below. ( Advt. No. CEN 08/2026 )",
   "organization": "Indian Railways",
-  "total_vacancies": "Not specified",
-  "post_wise_vacancies": [],
-  "category_wise_vacancies": [],
+  "total_vacancies": "1265",
+  "post_wise_vacancies": [
+    [
+      [
+        "Category Name",
+        "No. Of Posts"
+      ],
+      [
+        "General",
+        "542"
+      ],
+      [
+        "OBC",
+        "296"
+      ],
+      [
+        "EWS",
+        "147"
+      ],
+      [
+        "SC",
+        "176"
+      ],
+      [
+        "ST",
+        "104"
+      ]
+    ]
+  ],
+  "category_wise_vacancies": [
+    [
+      [
+        "Category Name",
+        "No. Of Posts"
+      ],
+      [
+        "General",
+        "542"
+      ],
+      [
+        "OBC",
+        "296"
+      ],
+      [
+        "EWS",
+        "147"
+      ],
+      [
+        "SC",
+        "176"
+      ],
+      [
+        "ST",
+        "104"
+      ]
+    ]
+  ],
   "qualification": "Railway RRB Station Master",
-  "age_limit": "I Exam.",
+  "age_limit": "Minimum: 20 years | Maximum: 33 years",
   "age_relaxation": "As per government rules",
   "salary": "Not specified",
   "application_fee": "For General / OBC / EWS : ₹ 500/-",
@@ -15,7 +69,7 @@
     "application_start": "27 October 2026",
     "application_last_date": "25 November 2026",
     "fee_payment_last_date": "27 November 2026",
-    "correction_date": "Not mentioned",
+    "correction_date": "28 November – 07 December 2026",
     "exam_date": "Notify Later",
     "admit_card": "Before Exam Result Declared Date : Will Be Updated Here Soon Candidates are advi",
     "result": "Will Be Updated Here Soon Candidates are advised to confirm from the Railway RRB Station Master offi"
@@ -24,7 +78,7 @@
     "Online Examination Medical Examination Document Verification",
     "Medical Examination",
     "Document Verification",
-    "Latest Posts Railway RRB Station Master Online Form 2026 UPSSSC PET Admit Card 2026 SSC CGL Tier-I Admit Card 2026 UPSC Geo Scientist Exam Date 2027 RRB Section Controller Answer Key 2026",
+    "Latest Posts UPSSSC PET Admit Card 2026 Railway RRB Station Master Online Form 2026",
     "UPSSSC PET Admit Card 2026"
   ],
   "event_statuses": {
@@ -33,7 +87,7 @@
     "answer_key_status": "Not mentioned",
     "result_status": "Not mentioned"
   },
-  "apply_link": "",
+  "apply_link": "https://www.rrbapply.gov.in/#/auth/landing",
   "notification_link": "http://sarkariresult.com.cm/wp-content/uploads/2026/10/Railway-RRB-Station-Master-Short-Notice-2026.webp",
   "official_website": "https://rrb.indianrailways.gov.in/",
   "result_link": "",
@@ -52,6 +106,10 @@
     "official_source_url": "",
     "checks": [
       {
+        "url": "https://www.rrbapply.gov.in/#/auth/landing",
+        "status": "UNREACHABLE"
+      },
+      {
         "url": "https://rrb.indianrailways.gov.in/",
         "status": "UNREACHABLE"
       }
@@ -61,7 +119,7 @@
   "previous_version": {
     "title": "Railway RRB Station Master Recruitment 2026",
     "source_url": "https://sarkariresult.com.cm/railway-rrb-station-master-2026/",
-    "summary": "Railway Recruitment Board RRB , has released a short notice on its official website for the Recruitment of Railway Station Master Posts. This recruitment is for 1250 positions. RRB Application Form will start on 27 October 2026 & the candidates can apply until 25 November 2026 . Candidates must check the complete details for Railway RRB Station Master Recruitment 2026. Link are given below. ( Advt. No. CEN 08/2026 )",
+    "summary": "Railway Recruitment Board RRB , has released a Notification on its official website for the Recruitment of Railway Station Master Posts. This recruitment is for 1215 positions. RRB Application Form will start on 27 October 2026 & the candidates can apply until 25 November 2026 . Candidates must check the complete details for Railway RRB Station Master Recruitment 2026. Link are given below. ( Advt. No. CEN 08/2026 )",
     "organization": "Indian Railways",
     "total_vacancies": "Not specified",
     "post_wise_vacancies": [],
@@ -74,7 +132,7 @@
     "important_dates": {
       "application_start": "27 October 2026",
       "application_last_date": "25 November 2026",
-      "fee_payment_last_date": "25 November 2026",
+      "fee_payment_last_date": "27 November 2026",
       "correction_date": "Not mentioned",
       "exam_date": "Notify Later",
       "admit_card": "Before Exam Result Declared Date : Will Be Updated Here Soon Candidates are advi",
@@ -84,7 +142,7 @@
       "Online Examination Medical Examination Document Verification",
       "Medical Examination",
       "Document Verification",
-      "Latest Posts UPSSSC PET Admit Card 2026 Indian Coast Guard CGEPT 01/2027 & 02/2027 Online Form",
+      "Latest Posts Railway RRB Station Master Online Form 2026 UPSSSC PET Admit Card 2026 SSC CGL Tier-I Admit Card 2026 UPSC Geo Scientist Exam Date 2027 RRB Section Controller Answer Key 2026",
       "UPSSSC PET Admit Card 2026"
     ],
     "event_statuses": {
@@ -99,6 +157,8 @@
     "result_link": "",
     "admit_card_link": "",
     "answer_key_link": "",
+    "notification_attachment_sent": true,
+    "notification_attachment_pending": false,
     "verification": {
       "verification_status": "NEEDS_REVIEW",
       "official_domains_expected": [
@@ -116,13 +176,84 @@
       ],
       "verification_notes": []
     },
-    "notification_attachment_sent": true,
-    "notification_attachment_pending": false,
-    "processed_at": "2026-10-21T11:17:46.327640+00:00"
-  },
-  "change_history": [
-    {
-      "detected_at": "2026-10-26T13:42:11.739700+00:00",
+    "previous_version": {
+      "title": "Railway RRB Station Master Recruitment 2026",
+      "source_url": "https://sarkariresult.com.cm/railway-rrb-station-master-2026/",
+      "summary": "Railway Recruitment Board RRB , has released a short notice on its official website for the Recruitment of Railway Station Master Posts. This recruitment is for 1250 positions. RRB Application Form will start on 27 October 2026 & the candidates can apply until 25 November 2026 . Candidates must check the complete details for Railway RRB Station Master Recruitment 2026. Link are given below. ( Advt. No. CEN 08/2026 )",
+      "organization": "Indian Railways",
+      "total_vacancies": "Not specified",
+      "post_wise_vacancies": [],
+      "category_wise_vacancies": [],
+      "qualification": "Railway RRB Station Master",
+      "age_limit": "I Exam.",
+      "age_relaxation": "As per government rules",
+      "salary": "Not specified",
+      "application_fee": "For General / OBC / EWS : ₹ 500/-",
+      "important_dates": {
+        "application_start": "27 October 2026",
+        "application_last_date": "25 November 2026",
+        "fee_payment_last_date": "25 November 2026",
+        "correction_date": "Not mentioned",
+        "exam_date": "Notify Later",
+        "admit_card": "Before Exam Result Declared Date : Will Be Updated Here Soon Candidates are advi",
+        "result": "Will Be Updated Here Soon Candidates are advised to confirm from the Railway RRB Station Master offi"
+      },
+      "selection_process": [
+        "Online Examination Medical Examination Document Verification",
+        "Medical Examination",
+        "Document Verification",
+        "Latest Posts UPSSSC PET Admit Card 2026 Indian Coast Guard CGEPT 01/2027 & 02/2027 Online Form",
+        "UPSSSC PET Admit Card 2026"
+      ],
+      "event_statuses": {
+        "admit_card_status": "Admit Card: Before Exam",
+        "exam_city_status": "Not mentioned",
+        "answer_key_status": "Not mentioned",
+        "result_status": "Not mentioned"
+      },
+      "apply_link": "",
+      "notification_link": "http://sarkariresult.com.cm/wp-content/uploads/2026/10/Railway-RRB-Station-Master-Short-Notice-2026.webp",
+      "official_website": "https://rrb.indianrailways.gov.in/",
+      "result_link": "",
+      "admit_card_link": "",
+      "answer_key_link": "",
+      "verification": {
+        "verification_status": "NEEDS_REVIEW",
+        "official_domains_expected": [
+          "indianrailways.gov.in",
+          "rrbapply.gov.in",
+          "rrbcdg.gov.in"
+        ],
+        "official_source_checked": false,
+        "official_source_url": "",
+        "checks": [
+          {
+            "url": "https://rrb.indianrailways.gov.in/",
+            "status": "UNREACHABLE"
+          }
+        ],
+        "verification_notes": []
+      },
+      "notification_attachment_sent": true,
+      "notification_attachment_pending": false,
+      "processed_at": "2026-10-21T11:17:46.327640+00:00"
+    },
+    "change_history": [
+      {
+        "detected_at": "2026-10-26T13:42:11.739700+00:00",
+        "change_type": "UPDATE",
+        "changes": [
+          {
+            "field": "important_dates.fee_payment_last_date",
+            "label": "Fee payment last date",
+            "old": "25 November 2026",
+            "new": "27 November 2026"
+          }
+        ]
+      }
+    ],
+    "last_update": {
+      "has_material_update": true,
       "change_type": "UPDATE",
       "changes": [
         {
@@ -132,19 +263,70 @@
           "new": "27 November 2026"
         }
       ]
+    },
+    "processed_at": "2026-10-26T13:42:11.739790+00:00"
+  },
+  "change_history": [
+    {
+      "detected_at": "2026-10-27T05:36:48.261241+00:00",
+      "change_type": "MATERIAL_UPDATE",
+      "changes": [
+        {
+          "field": "total_vacancies",
+          "label": "Vacancy",
+          "old": "Not specified",
+          "new": "1265"
+        },
+        {
+          "field": "age_limit",
+          "label": "Age limit",
+          "old": "I Exam.",
+          "new": "Minimum: 20 years | Maximum: 33 years"
+        },
+        {
+          "field": "apply_link",
+          "label": "Apply link",
+          "old": "Not mentioned",
+          "new": "https://www.rrbapply.gov.in/#/auth/landing"
+        },
+        {
+          "field": "important_dates.correction_date",
+          "label": "Correction window",
+          "old": "Not mentioned",
+          "new": "28 November – 07 December 2026"
+        }
+      ]
     }
   ],
   "last_update": {
     "has_material_update": true,
-    "change_type": "UPDATE",
+    "change_type": "MATERIAL_UPDATE",
     "changes": [
       {
-        "field": "important_dates.fee_payment_last_date",
-        "label": "Fee payment last date",
-        "old": "25 November 2026",
-        "new": "27 November 2026"
+        "field": "total_vacancies",
+        "label": "Vacancy",
+        "old": "Not specified",
+        "new": "1265"
+      },
+      {
+        "field": "age_limit",
+        "label": "Age limit",
+        "old": "I Exam.",
+        "new": "Minimum: 20 years | Maximum: 33 years"
+      },
+      {
+        "field": "apply_link",
+        "label": "Apply link",
+        "old": "Not mentioned",
+        "new": "https://www.rrbapply.gov.in/#/auth/landing"
+      },
+      {
+        "field": "important_dates.correction_date",
+        "label": "Correction window",
+        "old": "Not mentioned",
+        "new": "28 November – 07 December 2026"
       }
     ]
   },
-  "processed_at": "2026-10-26T13:42:11.739790+00:00"
+  "processed_at": "2026-10-27T05:36:48.261300+00:00"
 }
