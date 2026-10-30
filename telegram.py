@@ -120,7 +120,220 @@ def _hashtags(job):
     return " ".join(tags)
 
 
+
+def is_engineering_job(job):
+    """High-recall detector for engineering-specific vacancies.
+
+    Only the new-job formatter uses this detector. Existing formats for
+    non-engineering vacancies remain unchanged.
+    """
+    fields = [
+        job.get("title", ""),
+        job.get("qualification", ""),
+        job.get("summary", ""),
+        job.get("organization", ""),
+        job.get("salary", ""),
+        job.get("selection_process", ""),
+    ]
+
+    for rows_key in ("post_wise_vacancies", "category_wise_vacancies"):
+        rows = job.get(rows_key, [])
+        if isinstance(rows, list):
+            for row in rows:
+                if isinstance(row, list):
+                    fields.extend(row)
+                else:
+                    fields.append(row)
+
+    text = " ".join(str(value or "") for value in fields)
+    text = re.sub(r"\s+", " ", text).lower()
+
+    # Explicit engineering qualifications. These are the strongest signals.
+    qualification_patterns = [
+        r"\bb\.?\s*e\.?\b",
+        r"\bb\.?\s*tech\b",
+        r"\bbachelor(?:s)?\s+of\s+(?:engineering|technology)\b",
+        r"\bm\.?\s*e\.?\b",
+        r"\bm\.?\s*tech\b",
+        r"\bmaster(?:s)?\s+of\s+(?:engineering|technology)\b",
+        r"\bdiploma\s+(?:in\s+)?engineering\b",
+        r"\bengineering\s+diploma\b",
+        r"\bpolytechnic\b",
+        r"\bengineering\s+(?:graduate|graduates|degree|qualification|discipline|stream)\b",
+        r"\bgraduate\s+engineer(?:ing)?\b",
+    ]
+
+    if any(re.search(pattern, text, re.I) for pattern in qualification_patterns):
+        return True
+
+    # Engineering branches/disciplines.
+    branch_patterns = [
+        r"\bcivil\s+engineering\b", r"\bmechanical\s+engineering\b",
+        r"\belectrical\s+engineering\b", r"\belectronics?\s+(?:and|&)?\s*(?:communication|telecommunication)?\s*engineering\b",
+        r"\belectronics?\s+(?:and|&)\s+communication\b",
+        r"\bcomputer\s+science\s+(?:and|&)\s+engineering\b",
+        r"\binformation\s+technology\b", r"\bchemical\s+engineering\b",
+        r"\bautomobile\s+engineering\b", r"\bautomotive\s+engineering\b",
+        r"\baerospace\s+engineering\b", r"\baeronautical\s+engineering\b",
+        r"\bbiomedical\s+engineering\b", r"\bbiotechnology\b",
+        r"\binstrumentation\s+(?:and|&)?\s*(?:control)?\s*engineering\b",
+        r"\bproduction\s+engineering\b", r"\bindustrial\s+engineering\b",
+        r"\bmetallurgical?\s+engineering\b", r"\bmining\s+engineering\b",
+        r"\benvironmental\s+engineering\b", r"\bmechatronics?\b",
+        r"\brobotics?\s+engineering\b", r"\bpetroleum\s+engineering\b",
+        r"\bmarine\s+engineering\b", r"\btelecommunication\s+engineering\b",
+        r"\bagricultural\s+engineering\b", r"\bfood\s+technology\b",
+        r"\btextile\s+engineering\b", r"\bceramic\s+engineering\b",
+        r"\bpower\s+engineering\b", r"\benergy\s+engineering\b",
+        r"\bengineering\s+(?:mechanics|physics|mathematics)\b",
+    ]
+
+    if any(re.search(pattern, text, re.I) for pattern in branch_patterns):
+        return True
+
+    # Engineering/technical job titles.
+    title = str(job.get("title") or "").lower()
+    role_patterns = [
+        r"\bjunior\s+engineer\b", r"\bassistant\s+engineer\b",
+        r"\bexecutive\s+engineer\b", r"\bassistant\s+executive\s+engineer\b",
+        r"\bchief\s+engineer\b", r"\bsite\s+engineer\b",
+        r"\bfield\s+engineer\b", r"\bproject\s+engineer\b",
+        r"\bdesign\s+engineer\b", r"\bmaintenance\s+engineer\b",
+        r"\bquality\s+engineer\b", r"\bproduction\s+engineer\b",
+        r"\bsafety\s+engineer\b", r"\btest\s+engineer\b",
+        r"\bsoftware\s+engineer\b", r"\bsystems?\s+engineer\b",
+        r"\bnetwork\s+engineer\b", r"\bapplication\s+engineer\b",
+        r"\bgraduate\s+engineer\s+trainee\b", r"\b(GET)\b",
+        r"\bmanagement\s+trainee\s+engineer\b",
+        r"\bengineering\s+(?:officer|assistant|executive|trainee|apprentice)\b",
+        r"\bapprentice\s+engineer\b", r"\bgraduate\s+apprentice\b",
+        r"\btechnical\s+(?:officer|assistant|supervisor|executive)\b",
+        r"\bjunior\s+technical\s+(?:officer|assistant)\b",
+        r"\bengineering\s+officer\b",
+        r"\b(?:civil|mechanical|electrical|electronics?|computer|chemical|automobile|instrumentation)\s+(?:engineer|officer|assistant)\b",
+    ]
+
+    if any(re.search(pattern, title, re.I) for pattern in role_patterns):
+        # A generic "technical" role is included only when engineering
+        # evidence also appears elsewhere in the recruitment.
+        if any(re.search(pattern, title, re.I) for pattern in role_patterns[:25]):
+            return True
+
+        supporting_patterns = qualification_patterns + branch_patterns
+        return any(re.search(pattern, text, re.I) for pattern in supporting_patterns)
+
+    return False
+
+
+def build_engineering_job_message(job):
+    """Special high-attention Telegram format for engineering vacancies."""
+    dates = job.get("important_dates", {})
+    title = _escape(_display_title(job.get("title")))
+    start_date = _escape(_short_date(dates.get("application_start")))
+    last_date = _escape(_short_date(dates.get("application_last_date")))
+    exam_date = _escape(_short_date(dates.get("exam_date")))
+    eligibility = _escape(_eligibility(job))
+    total = _escape(_value(job.get("total_vacancies")))
+    organization = _escape(_value(job.get("organization")))
+
+    links = []
+    apply = _apply_link(job)
+    official = job.get("official_website", "")
+    if apply:
+        links.append(_link("📝 Apply Online", apply))
+    if official:
+        links.append(_link("🌐 Official Website", official))
+
+    branch_hint = ""
+    combined = " ".join([
+        str(job.get("title") or ""),
+        str(job.get("qualification") or ""),
+        str(job.get("summary") or ""),
+    ]).lower()
+
+    branch_map = [
+        ("civil", "Civil"),
+        ("mechanical", "Mechanical"),
+        ("electrical", "Electrical"),
+        ("electronics", "Electronics"),
+        ("computer science", "CSE"),
+        ("information technology", "IT"),
+        ("chemical", "Chemical"),
+        ("automobile", "Automobile"),
+        ("aerospace", "Aerospace"),
+        ("aeronautical", "Aeronautical"),
+        ("instrumentation", "Instrumentation"),
+        ("mining", "Mining"),
+        ("metallurgical", "Metallurgy"),
+        ("environmental", "Environmental"),
+        ("mechatronics", "Mechatronics"),
+        ("robotics", "Robotics"),
+    ]
+    branches = [label for needle, label in branch_map if needle in combined]
+    if branches:
+        branch_hint = " • ".join(dict.fromkeys(branches))[:180]
+
+    parts = [
+        "🚨 <b>ENGINEERING JOB ALERT</b> 🚨",
+        "",
+        "🎓 <b>B.E. / B.Tech / Diploma candidates — check this!</b>",
+        "",
+        f"🔥 <b>{title}</b>",
+        "",
+        f"🏢 <b>Organization:</b> {organization}",
+        f"💼 <b>Eligibility:</b> {eligibility}",
+        f"📌 <b>Total Posts:</b> {total}",
+    ]
+
+    if branch_hint:
+        parts.extend([
+            f"🔧 <b>Engineering Branch:</b> { _escape(branch_hint) }",
+        ])
+
+    parts.extend([
+        "",
+        "📅 <b>Important Dates</b>",
+        f"➡️ Application Starts: {start_date}",
+        f"➡️ Last Date: {last_date}",
+        f"➡️ Exam Date: {exam_date}",
+        "",
+        "⚡ <b>Why check this?</b>",
+        "✅ Engineering candidates eligible",
+        "✅ Government/technical opportunity",
+        "✅ Check the official notice for complete eligibility",
+        "",
+        "📌 <b>Important Links</b>",
+        "",
+        "\n".join(links) if links else "",
+        "",
+    ])
+
+    if job.get("notification_link"):
+        parts.extend([
+            "📄 <b>Official Notification</b>",
+            "👇 PDF/document attached below",
+            "",
+        ])
+
+    parts.extend([
+        "📢 <b>Sarkari Naukri Notification</b>",
+        "👉 @sarkari_naukri_notification",
+        "",
+        "━━━━━━━━━━━━━━━━━━",
+        "📚 <b>DAILY EXAM QUIZ</b>",
+        "SSC • UPSC • BPSC • BANKING",
+        "📝 PYQs + Practice Questions",
+        "👉 Join Now: @upsc_ssc_bpsc_bank",
+        "━━━━━━━━━━━━━━━━━━",
+    ])
+
+    return "\n".join(parts)
+
+
 def build_new_job_message(job):
+    if is_engineering_job(job):
+        return build_engineering_job_message(job)
+
     dates = job.get("important_dates", {})
 
     title = _escape(_display_title(job.get("title")))
