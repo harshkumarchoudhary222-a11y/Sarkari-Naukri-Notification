@@ -7,6 +7,14 @@ from urllib.parse import urlparse
 
 
 TELEGRAM_API = "https://api.telegram.org/bot{token}/sendMessage"
+TELEGRAM_CHAT_IDS = [
+    item.strip()
+    for item in os.getenv(
+        "TELEGRAM_CHAT_IDS",
+        "@sarkari_naukri_notification,@government_job_alert_daily",
+    ).split(",")
+    if item.strip()
+]
 
 
 def _value(value, default="Not specified"):
@@ -567,9 +575,9 @@ def build_update_alert_message(item):
 def send_telegram_document(document_url, title="Official Notification"):
     """Download a notification PDF/image and upload it directly to Telegram."""
     token = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
-    chat_id = os.getenv("TELEGRAM_CHAT_ID", "@sarkari_naukri_notification").strip()
+    chat_ids = TELEGRAM_CHAT_IDS
 
-    if not token or not document_url:
+    if not token or not document_url or not chat_ids:
         return False
 
     max_size = 50 * 1024 * 1024
@@ -647,37 +655,38 @@ def send_telegram_document(document_url, title="Official Notification"):
             "/sendMessage", "/sendDocument"
         )
 
-        upload = requests.post(
-            api_url,
-            data={
-                "chat_id": chat_id,
-                "caption": caption,
-                "parse_mode": "HTML",
-            },
-            files={
-                "document": (
-                    filename,
-                    BytesIO(content),
-                    "application/pdf" if is_pdf else content_type.split(";")[0] or "application/octet-stream",
-                )
-            },
-            timeout=60,
-        )
-
-        if not upload.ok:
-            print(
-                f"Telegram document upload failed: "
-                f"{upload.status_code}: {upload.text[:500]}"
+        all_sent = True
+        for chat_id in chat_ids:
+            upload = requests.post(
+                api_url,
+                data={
+                    "chat_id": chat_id,
+                    "caption": caption,
+                    "parse_mode": "HTML",
+                },
+                files={
+                    "document": (
+                        filename,
+                        BytesIO(content),
+                        "application/pdf" if is_pdf else content_type.split(";")[0] or "application/octet-stream",
+                    )
+                },
+                timeout=60,
             )
-            return False
 
-        payload = upload.json()
-        if not payload.get("ok"):
-            print(f"Telegram document rejected: {payload}")
-            return False
+            if not upload.ok:
+                print(f"Telegram document upload failed for {chat_id}: {upload.status_code}: {upload.text[:500]}")
+                all_sent = False
+                continue
 
-        print("Official notification document sent successfully.")
-        return True
+            payload = upload.json()
+            if not payload.get("ok"):
+                print(f"Telegram document rejected for {chat_id}: {payload}")
+                all_sent = False
+
+        if all_sent:
+            print("Official notification document sent to all Telegram channels.")
+        return all_sent
 
     except Exception as error:
         print(f"Official notification download/send failed: {error}")
@@ -685,31 +694,35 @@ def send_telegram_document(document_url, title="Official Notification"):
 
 def send_telegram_message(message):
     token = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
-    chat_id = os.getenv("TELEGRAM_CHAT_ID", "@sarkari_naukri_notification").strip()
+    chat_ids = TELEGRAM_CHAT_IDS
 
-    if not token:
+    if not token or not chat_ids:
         print("Telegram not configured: TELEGRAM_BOT_TOKEN is missing.")
         return False
 
-    response = requests.post(
-        TELEGRAM_API.format(token=token),
-        data={
-            "chat_id": chat_id,
-            "text": message,
-            "parse_mode": "HTML",
-            "disable_web_page_preview": True,
-        },
-        timeout=20,
-    )
-
-    if not response.ok:
-        raise RuntimeError(
-            f"Telegram API error {response.status_code}: {response.text[:500]}"
+    failures = []
+    for chat_id in chat_ids:
+        response = requests.post(
+            TELEGRAM_API.format(token=token),
+            data={
+                "chat_id": chat_id,
+                "text": message,
+                "parse_mode": "HTML",
+                "disable_web_page_preview": True,
+            },
+            timeout=20,
         )
 
-    payload = response.json()
-    if not payload.get("ok"):
-        raise RuntimeError(f"Telegram API rejected message: {payload}")
+        if not response.ok:
+            failures.append(f"{chat_id}: HTTP {response.status_code}")
+            continue
 
-    print("Telegram message sent successfully.")
+        payload = response.json()
+        if not payload.get("ok"):
+            failures.append(f"{chat_id}: {payload}")
+
+    if failures:
+        raise RuntimeError("Telegram delivery failed: " + " | ".join(failures))
+
+    print(f"Telegram message sent successfully to {len(chat_ids)} channels.")
     return True
