@@ -1,7 +1,7 @@
 {
   "title": "PGCIL Diploma Trainee Admit Card 2026 Out",
   "source_url": "https://sarkariresult.com.cm/pgcil-engineer-trainee-online-form-2026/",
-  "summary": "Power Grid Corporation of India Limited (PGCIL) has released a short notice on its official website for the recruitment of Engineer Trainee (Electrical, Civil & Computer Science) posts. This recruitment is for 319 positions. The PGCIL application form will start on 03 November 2026, and candidates can apply until 18 November 2026. The minimum age is N/A & the maximum age is 28 years as on 11 May 2026. Candidates must check the complete details for the PGCIL Engineer Trainee Recruitment 2026 provided below. ( Advt. No. CC/04/2026 )",
+  "summary": "Power Grid Corporation of India Limited (PGCIL) has released a notification on its official website for the recruitment of Engineer Trainee (Electrical, Civil & Computer Science) posts. This recruitment is for 319 positions. The PGCIL application form has started on 03 November 2026, and candidates can apply until 18 November 2026. The minimum age is N/A & the maximum age is 28 years as on 11 May 2026. Candidates must check the complete details for the PGCIL Engineer Trainee Recruitment 2026 provided below. ( Advt. No. CC/04/2026 )",
   "organization": "Not specified",
   "total_vacancies": "319",
   "post_wise_vacancies": [
@@ -43,7 +43,9 @@
     "Online Exam Interview (Viva-Voce) Document Verification Medical Examination",
     "Interview (Viva-Voce)",
     "Document Verification",
-    "Medical Examination"
+    "Medical Examination",
+    "Latest Posts UPSSSC Junior Assistant Typing Test Admit Card 2026 BPSC School Teacher TRE 4.0 Online Form 2026 (33,320 Posts)",
+    "UPSSSC Junior Assistant Typing Test Admit Card 2026"
   ],
   "event_statuses": {
     "admit_card_status": "Admit Card: Before Exam",
@@ -51,12 +53,14 @@
     "answer_key_status": "Not mentioned",
     "result_status": "Not mentioned"
   },
-  "apply_link": "",
-  "notification_link": "",
+  "apply_link": "https://careers.powergrid.in/recruitment-nextgen/h/login.aspx",
+  "notification_link": "https://www.powergrid.in/sites/default/files/job_opportunities_document/Notice_2_2.pdf",
   "official_website": "https://www.powergrid.in/en/job-opportunities#nolinks",
   "result_link": "",
   "admit_card_link": "",
   "answer_key_link": "",
+  "notification_attachment_sent": false,
+  "notification_attachment_pending": false,
   "verification": {
     "verification_status": "NEEDS_REVIEW",
     "official_domains_expected": [],
@@ -67,7 +71,116 @@
       "Official domain is not known for this organization yet."
     ]
   },
-  "notification_attachment_sent": false,
-  "notification_attachment_pending": false,
-  "processed_at": "2026-11-03T11:38:00.092983+00:00"
+  "previous_version": {
+    "title": "PGCIL Diploma Trainee Admit Card 2026 Out",
+    "source_url": "https://sarkariresult.com.cm/pgcil-engineer-trainee-online-form-2026/",
+    "summary": "Power Grid Corporation of India Limited (PGCIL) has released a short notice on its official website for the recruitment of Engineer Trainee (Electrical, Civil & Computer Science) posts. This recruitment is for 319 positions. The PGCIL application form will start on 03 November 2026, and candidates can apply until 18 November 2026. The minimum age is N/A & the maximum age is 28 years as on 11 May 2026. Candidates must check the complete details for the PGCIL Engineer Trainee Recruitment 2026 provided below. ( Advt. No. CC/04/2026 )",
+    "organization": "Not specified",
+    "total_vacancies": "319",
+    "post_wise_vacancies": [
+      [
+        [
+          "Post Name",
+          "No. Of Post"
+        ],
+        [
+          "Engineer Trainee (Electrical)",
+          "250"
+        ],
+        [
+          "Engineer Trainee (Civil)",
+          "48"
+        ],
+        [
+          "Engineer Trainee (Computer Science)",
+          "21"
+        ]
+      ]
+    ],
+    "category_wise_vacancies": [],
+    "qualification": "Candidates must have a full-time B.E./B.Tech/B.Sc. (Engineering) degree in Electrical, Electrical (Power), Electrical and Electronics, Power Systems Engineering, or Power Engineering (Electrical) with at least 60% marks or equivalent CGPA from a recognized university/institute. A GATE 2027 Score Card is also required.",
+    "age_limit": "Maximum: 28 years",
+    "age_relaxation": "As per government rules",
+    "salary": "Not specified",
+    "application_fee": "For General/ OBC/ EWS : ₹ 500/-",
+    "important_dates": {
+      "application_start": "03 November 2026",
+      "application_last_date": "18 November 2026",
+      "fee_payment_last_date": "18 November 2026",
+      "correction_date": "Not mentioned",
+      "exam_date": "Notify Later",
+      "admit_card": "Before Exam Result Date : Will Be Updated Here Soon Candidates are advised to co",
+      "result": "Not mentioned"
+    },
+    "selection_process": [
+      "Online Exam Interview (Viva-Voce) Document Verification Medical Examination",
+      "Interview (Viva-Voce)",
+      "Document Verification",
+      "Medical Examination"
+    ],
+    "event_statuses": {
+      "admit_card_status": "Admit Card: Before Exam",
+      "exam_city_status": "Not mentioned",
+      "answer_key_status": "Not mentioned",
+      "result_status": "Not mentioned"
+    },
+    "apply_link": "",
+    "notification_link": "",
+    "official_website": "https://www.powergrid.in/en/job-opportunities#nolinks",
+    "result_link": "",
+    "admit_card_link": "",
+    "answer_key_link": "",
+    "verification": {
+      "verification_status": "NEEDS_REVIEW",
+      "official_domains_expected": [],
+      "official_source_checked": false,
+      "official_source_url": "",
+      "checks": [],
+      "verification_notes": [
+        "Official domain is not known for this organization yet."
+      ]
+    },
+    "notification_attachment_sent": false,
+    "notification_attachment_pending": false,
+    "processed_at": "2026-11-03T11:38:00.092983+00:00"
+  },
+  "change_history": [
+    {
+      "detected_at": "2026-11-03T12:41:08.055547+00:00",
+      "change_type": "MATERIAL_UPDATE",
+      "changes": [
+        {
+          "field": "apply_link",
+          "label": "Apply link",
+          "old": "Not mentioned",
+          "new": "https://careers.powergrid.in/recruitment-nextgen/h/login.aspx"
+        },
+        {
+          "field": "notification_link",
+          "label": "Official notification link",
+          "old": "Not mentioned",
+          "new": "https://www.powergrid.in/sites/default/files/job_opportunities_document/Notice_2_2.pdf"
+        }
+      ]
+    }
+  ],
+  "last_update": {
+    "has_material_update": true,
+    "change_type": "MATERIAL_UPDATE",
+    "changes": [
+      {
+        "field": "apply_link",
+        "label": "Apply link",
+        "old": "Not mentioned",
+        "new": "https://careers.powergrid.in/recruitment-nextgen/h/login.aspx"
+      },
+      {
+        "field": "notification_link",
+        "label": "Official notification link",
+        "old": "Not mentioned",
+        "new": "https://www.powergrid.in/sites/default/files/job_opportunities_document/Notice_2_2.pdf"
+      }
+    ]
+  },
+  "processed_at": "2026-11-03T12:41:08.055617+00:00"
 }
