@@ -1,7 +1,7 @@
 {
   "title": "Bihar Vidhan Sabha Office Attendant Recruitment 2026",
   "source_url": "https://sarkariresult.com.cm/bihar-vidhan-sabha-office-attendant-2026/",
-  "summary": "Bihar Vidhan Sabha, Government of Bihar has released a notification on its official website for the recruitment of Office Attendant posts. This recruitment is for 05 positions. The Bihar Vidhan Sabha application form will start on 07 November 2026, and candidates can apply until 06 December 2026. The minimum age is 18 Years & the maximum age is 37 – 42 years as on 01 August 2026. Candidates must check the complete details for the Bihar Vidhan Sabha Office Attendant Recruitment 2026 provided below. ( Advt. No. 01/2026 )",
+  "summary": "Bihar Vidhan Sabha, Government of Bihar has released a notification on its official website for the recruitment of Office Attendant posts. This recruitment is for 05 positions. The Bihar Vidhan Sabha application form has started on 07 November 2026, and candidates can apply until 06 December 2026. The minimum age is 18 Years & the maximum age is 37 – 42 years as on 01 August 2026. Candidates must check the complete details for the Bihar Vidhan Sabha Office Attendant Recruitment 2026 provided below. ( Advt. No. 01/2026 )",
   "organization": "India Post",
   "total_vacancies": "5",
   "post_wise_vacancies": [
@@ -43,12 +43,14 @@
     "answer_key_status": "Not mentioned",
     "result_status": "Not mentioned"
   },
-  "apply_link": "",
+  "apply_link": "https://blasrecruit.in/",
   "notification_link": "https://vidhansabha.bihar.gov.in/pdf/recruitment/2026/Advertisment/Advertisemnt%20No-02-2026%20(Office%20Attendent).pdf",
   "official_website": "https://vidhansabha.bihar.gov.in/",
   "result_link": "",
   "admit_card_link": "",
   "answer_key_link": "",
+  "notification_attachment_sent": true,
+  "notification_attachment_pending": false,
   "verification": {
     "verification_status": "NEEDS_REVIEW",
     "official_domains_expected": [
@@ -61,7 +63,98 @@
       "No known official-domain link was found on the source page."
     ]
   },
-  "notification_attachment_sent": true,
-  "notification_attachment_pending": false,
-  "processed_at": "2026-11-05T10:47:32.549285+00:00"
+  "previous_version": {
+    "title": "Bihar Vidhan Sabha Office Attendant Recruitment 2026",
+    "source_url": "https://sarkariresult.com.cm/bihar-vidhan-sabha-office-attendant-2026/",
+    "summary": "Bihar Vidhan Sabha, Government of Bihar has released a notification on its official website for the recruitment of Office Attendant posts. This recruitment is for 05 positions. The Bihar Vidhan Sabha application form will start on 07 November 2026, and candidates can apply until 06 December 2026. The minimum age is 18 Years & the maximum age is 37 – 42 years as on 01 August 2026. Candidates must check the complete details for the Bihar Vidhan Sabha Office Attendant Recruitment 2026 provided below. ( Advt. No. 01/2026 )",
+    "organization": "India Post",
+    "total_vacancies": "5",
+    "post_wise_vacancies": [
+      [
+        [
+          "Post Name",
+          "No. Of Post"
+        ],
+        [
+          "Office Attendant",
+          "05"
+        ]
+      ]
+    ],
+    "category_wise_vacancies": [],
+    "qualification": "Candidates must have passed the Intermediate (Class 12th) examination in any subject from a board/council recognized by the State or Central Government, or an equivalent examination, by the last date of online application.",
+    "age_limit": "Minimum: 18 years | Maximum: 37 years",
+    "age_relaxation": "As per government rules",
+    "salary": "Not specified",
+    "application_fee": "For General/ OBC/ EWS : ₹ 600/-",
+    "important_dates": {
+      "application_start": "07 November 2026",
+      "application_last_date": "06 December 2026",
+      "fee_payment_last_date": "06 December 2026",
+      "correction_date": "Not mentioned",
+      "exam_date": "Notify Later",
+      "admit_card": "Before Exam Result Date : Will Be Updated Here Soon Candidates are advised to co",
+      "result": "Not mentioned"
+    },
+    "selection_process": [
+      "Pre Exam Mains Exam Interview (Viva-Voce) Document Verification Medical Examination",
+      "Interview (Viva-Voce)",
+      "Document Verification",
+      "Medical Examination"
+    ],
+    "event_statuses": {
+      "admit_card_status": "Admit Card: Before Exam",
+      "exam_city_status": "Not mentioned",
+      "answer_key_status": "Not mentioned",
+      "result_status": "Not mentioned"
+    },
+    "apply_link": "",
+    "notification_link": "https://vidhansabha.bihar.gov.in/pdf/recruitment/2026/Advertisment/Advertisemnt%20No-02-2026%20(Office%20Attendent).pdf",
+    "official_website": "https://vidhansabha.bihar.gov.in/",
+    "result_link": "",
+    "admit_card_link": "",
+    "answer_key_link": "",
+    "verification": {
+      "verification_status": "NEEDS_REVIEW",
+      "official_domains_expected": [
+        "indiapost.gov.in"
+      ],
+      "official_source_checked": false,
+      "official_source_url": "",
+      "checks": [],
+      "verification_notes": [
+        "No known official-domain link was found on the source page."
+      ]
+    },
+    "notification_attachment_sent": true,
+    "notification_attachment_pending": false,
+    "processed_at": "2026-11-05T10:47:32.549285+00:00"
+  },
+  "change_history": [
+    {
+      "detected_at": "2026-11-07T10:32:26.197793+00:00",
+      "change_type": "MATERIAL_UPDATE",
+      "changes": [
+        {
+          "field": "apply_link",
+          "label": "Apply link",
+          "old": "Not mentioned",
+          "new": "https://blasrecruit.in/"
+        }
+      ]
+    }
+  ],
+  "last_update": {
+    "has_material_update": true,
+    "change_type": "MATERIAL_UPDATE",
+    "changes": [
+      {
+        "field": "apply_link",
+        "label": "Apply link",
+        "old": "Not mentioned",
+        "new": "https://blasrecruit.in/"
+      }
+    ]
+  },
+  "processed_at": "2026-11-07T10:32:26.197840+00:00"
 }
