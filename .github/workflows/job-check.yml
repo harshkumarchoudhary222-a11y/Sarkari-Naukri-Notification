@@ -14,9 +14,14 @@ on:
 permissions:
   contents: write
 
+# Prevent overlapping scheduled/manual runs from racing to push job data.
+concurrency:
+  group: sarkari-naukri-job-checker
+  cancel-in-progress: false
+
 jobs:
   check-jobs:
-    timeout-minutes: 20
+    timeout-minutes: 25
     runs-on: ubuntu-24.04
 
     env:
@@ -27,6 +32,8 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -56,7 +63,25 @@ jobs:
 
           if git diff --cached --quiet; then
             echo "No changes to save."
-          else
-            git commit -m "Update job data"
-            git push
+            exit 0
           fi
+
+          git commit -m "Update job data"
+
+          # The source checker can take several minutes. Another run or a
+          # manual code change may push to main while this run is processing.
+          # Rebase onto the latest main before pushing so a harmless race does
+          # not turn an otherwise successful job check red.
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then
+              echo "Job data pushed successfully."
+              exit 0
+            fi
+
+            echo "Push failed because main changed. Fetching latest main and rebasing (attempt $attempt/3)..."
+            git fetch origin main
+            git rebase origin/main
+          done
+
+          echo "ERROR: Could not push job data after 3 attempts."
+          exit 1
