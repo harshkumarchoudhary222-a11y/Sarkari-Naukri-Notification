@@ -1,7 +1,7 @@
 {
   "title": "Railway RRC NR Apprentice Recruitment 2026",
   "source_url": "https://sarkariresult.com.cm/railway-rrc-nr-apprentice-2026/",
-  "summary": "Railway Recruitment Cell (RRC-NR) , has released a Notification on its official website for the recruitment of RRC NR Apprentice Posts. This recruitment is for 4651 positions. RRC Application Form will start on 11 November 2026 & the candidates can apply until 11 December 2026 . Candidates must check the complete details for RRC NR Apprentice Recruitment 2026. which has given below.",
+  "summary": "Railway Recruitment Cell (RRC-NR) , has released a Notification on its official website for the recruitment of RRC NR Apprentice Posts. This recruitment is for 4651 positions. RRC Application Form has started on 11 November 2026 & the candidates can apply until 11 December 2026 . Candidates must check the complete details for RRC NR Apprentice Recruitment 2026. which has given below.",
   "organization": "Indian Railways",
   "total_vacancies": "4651",
   "post_wise_vacancies": [
@@ -32,7 +32,9 @@
     "result": "Not mentioned"
   },
   "selection_process": [
-    "Based On Merit List"
+    "Based On Merit List",
+    "Related Posts CISCE ICSE Board Class 10th & 12th Date Sheet 2027 UPSC Engineering Services Pre Exam Schedule 2027 RRB ALP CEN 01/2026 Vacancy Increased 2026 BSF Constable Tradesman Written Exam / Admit Card Notice 2026 NICL Administrative Officer Pre Admit Card 2026",
+    "BSF Constable Tradesman Written Exam / Admit Card Notice 2026"
   ],
   "event_statuses": {
     "admit_card_status": "Not mentioned",
@@ -40,12 +42,14 @@
     "answer_key_status": "Not mentioned",
     "result_status": "Not mentioned"
   },
-  "apply_link": "",
+  "apply_link": "https://app.rrcnr.org/",
   "notification_link": "https://rrcnr.org/downloads/Notification_Act_Appretice_2026.pdf",
   "official_website": "https://rrcnr.org/",
   "result_link": "",
   "admit_card_link": "",
   "answer_key_link": "",
+  "notification_attachment_sent": true,
+  "notification_attachment_pending": false,
   "verification": {
     "verification_status": "NEEDS_REVIEW",
     "official_domains_expected": [
@@ -60,7 +64,97 @@
       "No known official-domain link was found on the source page."
     ]
   },
-  "notification_attachment_sent": true,
-  "notification_attachment_pending": false,
-  "processed_at": "2026-11-08T13:15:44.742870+00:00"
+  "previous_version": {
+    "title": "Railway RRC NR Apprentice Recruitment 2026",
+    "source_url": "https://sarkariresult.com.cm/railway-rrc-nr-apprentice-2026/",
+    "summary": "Railway Recruitment Cell (RRC-NR) , has released a Notification on its official website for the recruitment of RRC NR Apprentice Posts. This recruitment is for 4651 positions. RRC Application Form will start on 11 November 2026 & the candidates can apply until 11 December 2026 . Candidates must check the complete details for RRC NR Apprentice Recruitment 2026. which has given below.",
+    "organization": "Indian Railways",
+    "total_vacancies": "4651",
+    "post_wise_vacancies": [
+      [
+        [
+          "Post Name",
+          "No. Of Post"
+        ],
+        [
+          "RRC NR Apprentice",
+          "4651 Posts"
+        ]
+      ]
+    ],
+    "category_wise_vacancies": [],
+    "qualification": "All candidates who have passed Class 10th with 50% marks from any recognized board in India are eligible to apply for this recruitment. Candidates must also possess an ITI Certificate in the relevant trade/branch .",
+    "age_limit": "Minimum: 15 years | Maximum: 24 years",
+    "age_relaxation": "As per government rules",
+    "salary": "Not specified",
+    "application_fee": "For General/ OBC/ EWS : ₹ 100/-",
+    "important_dates": {
+      "application_start": "11 November 2026",
+      "application_last_date": "11 December 2026",
+      "fee_payment_last_date": "Not mentioned",
+      "correction_date": "Not mentioned",
+      "exam_date": "Not mentioned",
+      "admit_card": "Not mentioned",
+      "result": "Not mentioned"
+    },
+    "selection_process": [
+      "Based On Merit List"
+    ],
+    "event_statuses": {
+      "admit_card_status": "Not mentioned",
+      "exam_city_status": "Not mentioned",
+      "answer_key_status": "Not mentioned",
+      "result_status": "Not mentioned"
+    },
+    "apply_link": "",
+    "notification_link": "https://rrcnr.org/downloads/Notification_Act_Appretice_2026.pdf",
+    "official_website": "https://rrcnr.org/",
+    "result_link": "",
+    "admit_card_link": "",
+    "answer_key_link": "",
+    "verification": {
+      "verification_status": "NEEDS_REVIEW",
+      "official_domains_expected": [
+        "indianrailways.gov.in",
+        "rrbapply.gov.in",
+        "rrbcdg.gov.in"
+      ],
+      "official_source_checked": false,
+      "official_source_url": "",
+      "checks": [],
+      "verification_notes": [
+        "No known official-domain link was found on the source page."
+      ]
+    },
+    "notification_attachment_sent": true,
+    "notification_attachment_pending": false,
+    "processed_at": "2026-11-08T13:15:44.742870+00:00"
+  },
+  "change_history": [
+    {
+      "detected_at": "2026-11-11T18:09:17.510174+00:00",
+      "change_type": "MATERIAL_UPDATE",
+      "changes": [
+        {
+          "field": "apply_link",
+          "label": "Apply link",
+          "old": "Not mentioned",
+          "new": "https://app.rrcnr.org/"
+        }
+      ]
+    }
+  ],
+  "last_update": {
+    "has_material_update": true,
+    "change_type": "MATERIAL_UPDATE",
+    "changes": [
+      {
+        "field": "apply_link",
+        "label": "Apply link",
+        "old": "Not mentioned",
+        "new": "https://app.rrcnr.org/"
+      }
+    ]
+  },
+  "processed_at": "2026-11-11T18:09:17.510217+00:00"
 }
