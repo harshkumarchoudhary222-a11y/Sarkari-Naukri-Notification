@@ -1,5 +1,6 @@
 import os
 import re
+import time
 import requests
 from datetime import datetime
 
@@ -25,13 +26,38 @@ HEADERS = {
 
 def get_latest_jobs_source():
 
-    response = requests.get(
-        SOURCE_URL,
-        headers=HEADERS,
-        timeout=30
-    )
+    # GitHub-hosted runners can occasionally have a temporary DNS/network
+    # failure. Retry a few times before giving up. If the source is still
+    # unavailable, return an empty list so the scheduled workflow stays
+    # healthy and the next run can try again.
+    max_attempts = 4
 
-    response.raise_for_status()
+    for attempt in range(1, max_attempts + 1):
+        try:
+            response = requests.get(
+                SOURCE_URL,
+                headers=HEADERS,
+                timeout=(10, 30)
+            )
+            response.raise_for_status()
+            break
+
+        except requests.RequestException as exc:
+            if attempt == max_attempts:
+                print(
+                    "WARNING: Could not reach the source site after "
+                    f"{max_attempts} attempts. Skipping this run safely. "
+                    f"Reason: {exc}"
+                )
+                return []
+
+            wait_seconds = attempt * 5
+            print(
+                f"WARNING: Source request failed "
+                f"(attempt {attempt}/{max_attempts}): {exc}"
+            )
+            print(f"Retrying in {wait_seconds} seconds...")
+            time.sleep(wait_seconds)
 
     soup = BeautifulSoup(
         response.text,
