@@ -1,7 +1,7 @@
 {
   "title": "AFCAT 01/2027 Recruitment",
   "source_url": "https://sarkariresult.com.cm/afcat-01-2027-nov26/",
-  "summary": "Join Indian Airforce , has released a short notice on the official website for the recruitment of AFCAT 01/2027 Batch (January 2028 Course) Posts. This recruitment is for 379 positions. The AFCAT application form will start on 12 November 2026, and candidates can apply until 11 December 2026. The minimum age is 20 Years & the maximum age is 26 years as on 01 January 2028. Candidates must check the complete details for the AFCAT 01/2027 Recruitment 2026 provided below.",
+  "summary": "Join Indian Airforce , has released a Notification on its official website for the recruitment of AFCAT 01/2027 Batch (January 2028 Course) Posts. This recruitment is for 284 positions. The AFCAT application form has started on 12 November 2026, and candidates can apply until 11 December 2026. The minimum age is 20 Years & the maximum age is 26 years as on 01 January 2028. Candidates must check the complete details for the AFCAT 01/2027 Recruitment 2026 provided below.",
   "organization": "Staff Selection Commission (SSC)",
   "total_vacancies": "Not specified",
   "post_wise_vacancies": [],
@@ -32,12 +32,14 @@
     "answer_key_status": "Not mentioned",
     "result_status": "Not mentioned"
   },
-  "apply_link": "",
+  "apply_link": "https://cdn.digialm.com/EForms/configuredHtml/33192/103253/NGfDzQxPB76GkSLNkx/login.html",
   "notification_link": "http://sarkariresult.com.cm/wp-content/uploads/2026/11/Air-Force-AFCAT-01_2027-Short-Notice.pdf",
   "official_website": "https://afcat.cdac.in/AFCAT/",
   "result_link": "",
   "admit_card_link": "",
   "answer_key_link": "",
+  "notification_attachment_sent": true,
+  "notification_attachment_pending": false,
   "verification": {
     "verification_status": "NEEDS_REVIEW",
     "official_domains_expected": [
@@ -50,7 +52,87 @@
       "No known official-domain link was found on the source page."
     ]
   },
-  "notification_attachment_sent": true,
-  "notification_attachment_pending": false,
-  "processed_at": "2026-11-02T12:29:10.189127+00:00"
+  "previous_version": {
+    "title": "AFCAT 01/2027 Recruitment",
+    "source_url": "https://sarkariresult.com.cm/afcat-01-2027-nov26/",
+    "summary": "Join Indian Airforce , has released a short notice on the official website for the recruitment of AFCAT 01/2027 Batch (January 2028 Course) Posts. This recruitment is for 379 positions. The AFCAT application form will start on 12 November 2026, and candidates can apply until 11 December 2026. The minimum age is 20 Years & the maximum age is 26 years as on 01 January 2028. Candidates must check the complete details for the AFCAT 01/2027 Recruitment 2026 provided below.",
+    "organization": "Staff Selection Commission (SSC)",
+    "total_vacancies": "Not specified",
+    "post_wise_vacancies": [],
+    "category_wise_vacancies": [],
+    "qualification": "Branch Name",
+    "age_limit": "Minimum: 20 years | Maximum: 26 years",
+    "age_relaxation": "As per government rules",
+    "salary": "Not specified",
+    "application_fee": "For All Candidates : ₹ 550/-",
+    "important_dates": {
+      "application_start": "12 November 2026",
+      "application_last_date": "11 December 2026",
+      "fee_payment_last_date": "11 December 2026",
+      "correction_date": "Not mentioned",
+      "exam_date": "Notify Later",
+      "admit_card": "Before Exam Result Date : Will Be Updated Here Soon Candidates are advised to co",
+      "result": "Not mentioned"
+    },
+    "selection_process": [
+      "Written Exam Air Force Selection Board (AFSB) Document Verification Medical Examination",
+      "Written Exam",
+      "Document Verification",
+      "Medical Examination"
+    ],
+    "event_statuses": {
+      "admit_card_status": "Admit Card: Before Exam",
+      "exam_city_status": "Not mentioned",
+      "answer_key_status": "Not mentioned",
+      "result_status": "Not mentioned"
+    },
+    "apply_link": "",
+    "notification_link": "http://sarkariresult.com.cm/wp-content/uploads/2026/11/Air-Force-AFCAT-01_2027-Short-Notice.pdf",
+    "official_website": "https://afcat.cdac.in/AFCAT/",
+    "result_link": "",
+    "admit_card_link": "",
+    "answer_key_link": "",
+    "verification": {
+      "verification_status": "NEEDS_REVIEW",
+      "official_domains_expected": [
+        "ssc.gov.in"
+      ],
+      "official_source_checked": false,
+      "official_source_url": "",
+      "checks": [],
+      "verification_notes": [
+        "No known official-domain link was found on the source page."
+      ]
+    },
+    "notification_attachment_sent": true,
+    "notification_attachment_pending": false,
+    "processed_at": "2026-11-02T12:29:10.189127+00:00"
+  },
+  "change_history": [
+    {
+      "detected_at": "2026-11-12T07:54:37.897905+00:00",
+      "change_type": "MATERIAL_UPDATE",
+      "changes": [
+        {
+          "field": "apply_link",
+          "label": "Apply link",
+          "old": "Not mentioned",
+          "new": "https://cdn.digialm.com/EForms/configuredHtml/33192/103253/NGfDzQxPB76GkSLNkx/login.html"
+        }
+      ]
+    }
+  ],
+  "last_update": {
+    "has_material_update": true,
+    "change_type": "MATERIAL_UPDATE",
+    "changes": [
+      {
+        "field": "apply_link",
+        "label": "Apply link",
+        "old": "Not mentioned",
+        "new": "https://cdn.digialm.com/EForms/configuredHtml/33192/103253/NGfDzQxPB76GkSLNkx/login.html"
+      }
+    ]
+  },
+  "processed_at": "2026-11-12T07:54:37.897942+00:00"
 }
