@@ -1,0 +1,83 @@
+{
+  "title": "BPSC AEDO Recruitment 2026",
+  "source_url": "https://sarkariresult.com.cm/bpsc-aedo-nov26/",
+  "summary": "Bihar Public Service Commission (BPSC) has released a Notification on its official website for the recruitment of Assistant Education Development Officer (AEDO) posts. This recruitment is for 935 positions. The BPSC application process will start on 01 December 2026 , and candidates were able to submit their applications until 31 December 2026 . The minimum age is 21 Years & the maximum age is 37 – 42 years as on 01 August 2026. Candidates must check the complete details for the BPSC AEDO Recruitment 2026 provided below. (Advt. No. 16/2026)",
+  "organization": "Bihar Public Service Commission (BPSC)",
+  "total_vacancies": "935",
+  "post_wise_vacancies": [
+    [
+      [
+        "Post Name",
+        "No. Of Post"
+      ],
+      [
+        "Assistant District Education Officer (AEDO)",
+        "935 Post"
+      ]
+    ]
+  ],
+  "category_wise_vacancies": [],
+  "qualification": "Candidates must have a graduate degree from a recognized university or an equivalent qualification. For complete details, please check the official notification.",
+  "age_limit": "Minimum: 21 years | Maximum: 37 years",
+  "age_relaxation": "As per government rules",
+  "salary": "Not specified",
+  "application_fee": "For All Candidates : ₹ 100/-",
+  "important_dates": {
+    "application_start": "01 December 2026",
+    "application_last_date": "31 December 2026",
+    "fee_payment_last_date": "31 December 2026",
+    "correction_date": "Not mentioned",
+    "exam_date": "Notify Later",
+    "admit_card": "Before Exam Result Date : Will Be Updated Here Soon Candidates are advised to co",
+    "result": "Not mentioned"
+  },
+  "selection_process": [
+    "Written Exam Document Verification Medical Examination",
+    "Written Exam",
+    "Document Verification",
+    "Medical Examination"
+  ],
+  "event_statuses": {
+    "admit_card_status": "Admit Card: Before Exam",
+    "exam_city_status": "Not mentioned",
+    "answer_key_status": "Not mentioned",
+    "result_status": "Not mentioned"
+  },
+  "apply_link": "",
+  "notification_link": "https://bpsc.bihar.gov.in/wp-content/uploads/BPSC_content/Notices/Important-Notice_BPSC-20261126-zjoft8.pdf",
+  "official_website": "https://bpsc.bihar.gov.in/",
+  "result_link": "",
+  "admit_card_link": "",
+  "answer_key_link": "",
+  "verification": {
+    "verification_status": "NEEDS_REVIEW",
+    "official_domains_expected": [
+      "bpsc.bihar.gov.in",
+      "licindia.in"
+    ],
+    "official_source_checked": true,
+    "official_source_url": "https://bpsc.bihar.gov.in/",
+    "checks": [
+      {
+        "url": "https://bpsc.bihar.gov.in/wp-content/uploads/BPSC_content/Notices/Important-Notice_BPSC-20261126-zjoft8.pdf",
+        "status": "REACHABLE",
+        "title_match": false,
+        "vacancy_match": false,
+        "last_date_match": true
+      },
+      {
+        "url": "https://bpsc.bihar.gov.in/",
+        "status": "REACHABLE",
+        "title_match": false,
+        "vacancy_match": false,
+        "last_date_match": true
+      }
+    ],
+    "verification_notes": [
+      "Official source was reachable, but the available page did not provide enough matching evidence."
+    ]
+  },
+  "notification_attachment_sent": true,
+  "notification_attachment_pending": false,
+  "processed_at": "2026-11-26T14:26:43.183273+00:00"
+}
