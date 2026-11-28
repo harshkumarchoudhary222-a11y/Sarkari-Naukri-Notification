@@ -47,7 +47,7 @@
   "important_dates": {
     "application_start": "15 December 2026",
     "application_last_date": "12 January 2027",
-    "fee_payment_last_date": "12 January 2027",
+    "fee_payment_last_date": "11January 2027",
     "correction_date": "Not mentioned",
     "exam_date": "Notify Later",
     "admit_card": "Before Exam Result Date : Will Be Updated Here Soon Candidates are advised to co",
@@ -58,9 +58,7 @@
     "Written Exam",
     "Interview",
     "Document Verification",
-    "Medical Examination",
-    "Out NTA CSIR UGC NET December Exam City Details 2026 UPPSC Pre Exam City Details 2026 SSC CHSL 10+2 Tier-I Exam City Details 2026 BSF Constable Tradesman Written Exam Admit Card 2026",
-    "BSF Constable Tradesman Written Exam Admit Card 2026"
+    "Medical Examination"
   ],
   "event_statuses": {
     "admit_card_status": "Admit Card: Before Exam",
@@ -74,6 +72,8 @@
   "result_link": "",
   "admit_card_link": "",
   "answer_key_link": "",
+  "notification_attachment_sent": true,
+  "notification_attachment_pending": false,
   "verification": {
     "verification_status": "VERIFIED",
     "official_domains_expected": [
@@ -102,7 +102,139 @@
       "Official-domain source is reachable and supports the job identity plus key details."
     ]
   },
-  "notification_attachment_sent": true,
-  "notification_attachment_pending": false,
-  "processed_at": "2026-11-28T04:59:37.281212+00:00"
+  "previous_version": {
+    "title": "BPSC Agriculture Various Post Recruitment 2026",
+    "source_url": "https://sarkariresult.com.cm/bpsc-agriculture-various-post-2026/",
+    "summary": "Bihar Public Service Commission (BPSC) has released a Notification on its official website for the recruitment of Agriculture Department Various posts. This recruitment is for 147 positions. The BPSC application process will start on 15 December 2026 , and candidates were able to submit their applications until 12 January 2027 . The minimum age is 21 Years & the maximum age is 37 – 42 years as on 01 August 2026. Candidates must check the complete details for the BPSC Agriculture Various Post Recruitment 2026 provided below. (Advt. No. 17 – 21/2026)",
+    "organization": "Various posts. This recruitment is for 147 positions. The BPSC application process will start on 15 December 2026 , and candidates were able to submit their applications until 12 January 2027 . The minimum age is 21 Years & the maximum age is 37 – 42 years as on 01 August 2026. Candidates must check the complete details for the BPSC Agriculture Various Post Recruitment 2026 provided below. (Advt. No. 17 – 21/2026)",
+    "total_vacancies": "147",
+    "post_wise_vacancies": [
+      [
+        [
+          "Advertisement No.",
+          "Post Name",
+          "No. of Post"
+        ],
+        [
+          "17/2026",
+          "Assistant Director (Agricultural Engineering)",
+          "50"
+        ],
+        [
+          "18/2026",
+          "Assistant Director (Statistics)",
+          "36"
+        ],
+        [
+          "19/2026",
+          "Assistant Controller (Weights and Measures)",
+          "26"
+        ],
+        [
+          "20/2026",
+          "Assistant Director (Chemicals)",
+          "21"
+        ],
+        [
+          "21/2026",
+          "Assistant Director (Plant Protection)",
+          "14"
+        ]
+      ]
+    ],
+    "category_wise_vacancies": [],
+    "qualification": "Candidates must have a Bachelor’s degree in Agricultural Engineering from a recognized Agricultural from a recognized university / Institute or Central University.",
+    "age_limit": "Minimum: 21 years | Maximum: 37 years",
+    "age_relaxation": "As per government rules",
+    "salary": "Not specified",
+    "application_fee": "For All Candidates : ₹ 100/-",
+    "important_dates": {
+      "application_start": "15 December 2026",
+      "application_last_date": "12 January 2027",
+      "fee_payment_last_date": "12 January 2027",
+      "correction_date": "Not mentioned",
+      "exam_date": "Notify Later",
+      "admit_card": "Before Exam Result Date : Will Be Updated Here Soon Candidates are advised to co",
+      "result": "Not mentioned"
+    },
+    "selection_process": [
+      "Written Exam Interview Document Verification Medical Examination",
+      "Written Exam",
+      "Interview",
+      "Document Verification",
+      "Medical Examination",
+      "Out NTA CSIR UGC NET December Exam City Details 2026 UPPSC Pre Exam City Details 2026 SSC CHSL 10+2 Tier-I Exam City Details 2026 BSF Constable Tradesman Written Exam Admit Card 2026",
+      "BSF Constable Tradesman Written Exam Admit Card 2026"
+    ],
+    "event_statuses": {
+      "admit_card_status": "Admit Card: Before Exam",
+      "exam_city_status": "Not mentioned",
+      "answer_key_status": "Not mentioned",
+      "result_status": "Not mentioned"
+    },
+    "apply_link": "",
+    "notification_link": "https://bpsc.bihar.gov.in/wp-content/uploads/BPSC_content/Notices/Important-Notice_BPSC-20261126-8n7etp.pdf",
+    "official_website": "https://bpsc.bihar.gov.in/",
+    "result_link": "",
+    "admit_card_link": "",
+    "answer_key_link": "",
+    "verification": {
+      "verification_status": "VERIFIED",
+      "official_domains_expected": [
+        "bpsc.bihar.gov.in",
+        "licindia.in"
+      ],
+      "official_source_checked": true,
+      "official_source_url": "https://bpsc.bihar.gov.in/",
+      "checks": [
+        {
+          "url": "https://bpsc.bihar.gov.in/wp-content/uploads/BPSC_content/Notices/Important-Notice_BPSC-20261126-8n7etp.pdf",
+          "status": "REACHABLE",
+          "title_match": false,
+          "vacancy_match": false,
+          "last_date_match": false
+        },
+        {
+          "url": "https://bpsc.bihar.gov.in/",
+          "status": "REACHABLE",
+          "title_match": true,
+          "vacancy_match": true,
+          "last_date_match": true
+        }
+      ],
+      "verification_notes": [
+        "Official-domain source is reachable and supports the job identity plus key details."
+      ]
+    },
+    "notification_attachment_sent": true,
+    "notification_attachment_pending": false,
+    "processed_at": "2026-11-28T04:59:37.281212+00:00"
+  },
+  "change_history": [
+    {
+      "detected_at": "2026-11-28T14:08:15.150751+00:00",
+      "change_type": "UPDATE",
+      "changes": [
+        {
+          "field": "important_dates.fee_payment_last_date",
+          "label": "Fee payment last date",
+          "old": "12 January 2027",
+          "new": "11January 2027"
+        }
+      ]
+    }
+  ],
+  "last_update": {
+    "has_material_update": true,
+    "change_type": "UPDATE",
+    "changes": [
+      {
+        "field": "important_dates.fee_payment_last_date",
+        "label": "Fee payment last date",
+        "old": "12 January 2027",
+        "new": "11January 2027"
+      }
+    ]
+  },
+  "processed_at": "2026-11-28T14:08:15.150809+00:00"
 }
